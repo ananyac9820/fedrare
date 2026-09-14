@@ -1,0 +1,72 @@
+# Configuration for Class-Conditional Federated Learning on Fed-ISIC2019
+
+dataset:
+  name: fed_isic2019
+  # "hf"     -> Hugging Face mirror flwrlabs/fed-isic2019 (144 MB, no registration)
+  # "flamby" -> local FLamby install (~9 GB raw download + local preprocessing)
+  source: hf
+  hf_repo: "flwrlabs/fed-isic2019"
+  # Only used when source is "flamby".
+  root: "./data/fed_isic2019"
+  n_centers: 6          # real data centres in Fed-ISIC2019
+  n_classes: 8
+  image_size: 224
+
+  # Class index -> name. Order follows the FLamby Fed-ISIC2019 convention.
+  # VERIFY these against the actual loaded labels before trusting them
+  # (scripts/02_explore_data.py prints the real counts).
+  class_names:
+    0: "Melanoma"
+    1: "Melanocytic nevus"
+    2: "Basal cell carcinoma"
+    3: "Actinic keratosis"
+    4: "Benign keratosis"
+    5: "Dermatofibroma"
+    6: "Vascular lesion"
+    7: "Squamous cell carcinoma"
+
+  # Populated by scripts/02_explore_data.py based on measured frequency.
+  # Do NOT hardcode from memory - the whole project depends on these being correct.
+  rare_class_ids: []
+  # Rare (tail) classes are those whose share of all samples is under 1/25th
+  # of the head (most common) class's share. The head class is Melanocytic
+  # nevus at 48.72%, giving a cutoff of 1.95%.
+  head_ratio_divisor: 25
+
+model:
+  architecture: densenet121
+  pretrained: true          # ImageNet weights
+  freeze_backbone: false
+
+training:
+  local_epochs: 1           # epochs each client runs per federated round
+  batch_size: 32
+  lr: 0.0005
+  optimizer: adam
+  weight_decay: 0.0001
+  class_balanced_loss: true # inverse-frequency class weights
+
+federated:
+  n_rounds: 50
+  clients_per_round: 6      # all 6 centres participate each round
+  method: fedavg            # fedavg | scalar | classcond
+
+reputation:
+  # Shared by the scalar and classcond methods
+  momentum: 0.7             # how much of the previous round's score to retain
+  min_weight: 0.05          # floor, so a client is never fully silenced
+  warmup_rounds: 3          # rounds of plain FedAvg before reputation kicks in
+
+attack:
+  enabled: false
+  type: label_flip          # label_flip | gaussian_noise | sign_flip
+  malicious_fraction: 0.2   # fraction of clients behaving maliciously
+
+evaluation:
+  # Primary metric is rare-class macro-F1, NOT overall accuracy.
+  primary_metric: rare_macro_f1
+  eval_every: 1
+
+seed: 42
+device: cuda                # falls back to cpu automatically if unavailable
+output_dir: "./results"
