@@ -1,5 +1,5 @@
 # Data - never commit the dataset
-data/
+/data/
 *.jpg
 *.jpeg
 *.png
