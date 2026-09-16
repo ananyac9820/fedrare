@@ -4,17 +4,20 @@ Pre-registered re-test of the Byzantine conflict hypothesis, with a model that l
 
 scripts/03_byzantine_conflict.py returned NO CONFLICT, but its small CNN barely learned
 (balanced accuracy 0.15-0.22 against chance 0.125), so the robust rules were comparing
-near-noise updates. This is a single re-test with three changes from script 03, and only
-these three:
+near-noise updates. This is a single re-test, with these changes from script 03:
 
   1. DenseNet-121 pretrained on ImageNet (src/models/densenet.py)
   2. Class-balanced loss (src/data/loader.py: class_balanced_weights), computed per centre
      from that centre's own label counts
-  3. 40 rounds instead of 15, repeated for 3 seeds
+  3. 40 rounds instead of 15, repeated for 2 seeds
+  4. Learning rate 0.0005 from configs/default.yaml, not script 03's 0.001, which is
+     aggressive for a pretrained backbone
+  5. Only krum and multi_krum are run. They are the rules the verdict uses, and the other
+     three would triple the GPU time without affecting it.
 
 Everything else is taken from script 03 itself (imported, not copied): the 6 real centres,
-the five aggregation rules and their settings (f, trim), local steps, batch size, learning
-rate, and the rejection definition.
+the aggregation rules and their settings (f, trim), local steps, batch size, and the
+rejection definition.
 
 Consequences of change 1 that are not additional experimental changes:
   - Images at the dataset's stored 224px. Script 03's 32px downsample was a CPU-speed
@@ -30,28 +33,39 @@ Consequences of change 1 that are not additional experimental changes:
 PRE-REGISTERED - fixed before any run. Do not change after seeing results.
 
   Gate (checked first): balanced accuracy of the final global model on the pooled test
-  split, averaged across seeds, must be >= 0.35 for both krum and multi_krum (the rules the
-  verdict uses). Otherwise print "GATE FAILED - model still not learning, result is
-  uninformative" and report no verdict.
+  split, averaged across seeds, must be >= 0.35 for both krum and multi_krum. Otherwise
+  print "GATE FAILED - model still not learning, result is uninformative" and report no
+  verdict.
 
-  Verdict: a centre's rejection rate is the fraction of rounds it was not selected. For krum
-  and multi_krum, average across seeds (a) centre 2's rejection rate and (b) the mean
-  rejection rate of the other five centres. Pool the two rules by averaging (a) across them
-  and (b) across them, then ratio = (a) / (b).
-      CONFLICT CONFIRMED   ratio >= 1.5
-      WEAK CONFLICT        1.1 <= ratio < 1.5
-      NO CONFLICT          ratio < 1.1
-  If the other five are never rejected, the ratio is infinite when centre 2 is rejected at
-  all and 1.0 when it is not. Per-rule ratios are also reported, but only the pooled ratio
-  sets the verdict. Krum on its own cannot exceed 1.25: it rejects 5 of 6 centres every
-  round, so even a centre rejected every round leaves the other five at 80%.
+  Two measures, reported separately, both averaged across seeds:
+
+    krum - SELECTION rate, not rejection rate. Krum picks 1 of 6 centres per round, so a
+      fair share is 1/6 = 16.7%. Measure = centre 2's selection rate / (1/6). Below 1.0
+      means krum picks centre 2 less often than its fair share, i.e. avoids it.
+
+    multi_krum - rejection ratio = centre 2's rejection rate / the mean rejection rate of
+      the other five centres. If the other five are never rejected and centre 2 is never
+      rejected either, this is reported as "no separation" rather than a ratio.
+
+  Verdict requires BOTH measures to agree - deliberately strict, as the second attempt at
+  this hypothesis:
+      CONFLICT CONFIRMED   krum selection ratio <= 0.67 AND multi_krum ratio >= 1.5
+      WEAK CONFLICT        krum selection ratio <= 0.85 AND multi_krum ratio >= 1.1
+      NO CONFLICT          anything else, including "no separation"
+
+  These criteria replace an earlier draft that applied one rejection-rate ratio to both
+  rules. That draft was unusable for krum: krum rejects 5 of 6 centres every round, so even
+  a centre rejected in every single round leaves the other five at 80% and the ratio cannot
+  exceed 1.25, below the 1.5 bar. The criteria were rewritten before any run existed, not
+  after seeing a result.
 
 Outputs to --out-dir (default results/):
     byzantine_conflict_strong.csv    seed, round, rule, client_id, selected, weight
     byzantine_conflict_strong.md     gate, per-seed and mean rejection tables, verdict
     strong_checkpoints/              per-run state, so a disconnected session resumes
 
-Needs a GPU and runs for many hours. On Google Colab (Runtime > Change runtime type > GPU):
+Needs a GPU: 4 runs x 40 rounds x 6 centres x 50 steps, roughly 2-4 hours on a Colab T4.
+On Google Colab (Runtime > Change runtime type > GPU):
 
     !git clone https://github.com/ananyac9820/fedrare.git
     %cd fedrare
@@ -100,21 +114,24 @@ def _load_script(filename: str):
 
 
 # Everything not listed as a change is read from the earlier scripts, so it cannot drift:
-# rules, f, trim, local steps, batch size and learning rate from 03; the rare-class and
-# specialist definitions from 02.
+# rules, f, trim, local steps and batch size from 03; the rare-class and specialist
+# definitions from 02.
 s02 = _load_script("02_explore_data.py")
 s03 = _load_script("03_byzantine_conflict.py")
 
 # --- Changes from script 03 ---
-SEEDS = (42, 43, 44)
+SEEDS = (42, 43)
 N_ROUNDS = 40
+LR = 0.0005            # configs/default.yaml; script 03 used 0.001
+RUN_RULES = ("krum", "multi_krum")
 
 # --- Pre-registered hypothesis, gate and verdict. Fixed before any run. ---
 TARGET_CENTRE = 2
-VERDICT_RULES = ("krum", "multi_krum")
 GATE_BALANCED_ACC = 0.35
-CONFIRMED_RATIO = 1.5
-WEAK_RATIO = 1.1
+KRUM_CONFIRMED_SELECTION = 0.67   # centre 2's selection rate / its 1/6 fair share
+KRUM_WEAK_SELECTION = 0.85
+MK_CONFIRMED_RATIO = 1.5          # centre 2's rejection rate / other five centres' mean
+MK_WEAK_RATIO = 1.1
 
 EVAL_BATCH = 128
 _MEAN = torch.tensor(IMAGENET_MEAN).view(1, 3, 1, 1)
@@ -187,7 +204,7 @@ def local_update(model: nn.Module, global_params: torch.Tensor, global_buffers: 
             buf.copy_(global_buffers[name])
 
     model.train()
-    opt = torch.optim.Adam(model.parameters(), lr=s03.LR)
+    opt = torch.optim.Adam(model.parameters(), lr=LR)
     n = len(idx)
     perm, pos = rng.permutation(n), 0
     loss_sum = torch.zeros((), device=device)
@@ -283,11 +300,11 @@ def run_one(seed: int, rule: str, data: dict, n_classes: int, rare_ids: list[int
             "global_params": global_params.cpu(),
             "global_buffers": {n: b.cpu() for n, b in global_buffers.items()},
         })
-        rejected = [k for k in range(n_centers) if not res.selected[k]]
+        selected = [k for k in range(n_centers) if res.selected[k]]
         done_here = rnd - start + 1
         eta = (time.time() - run_t0) / done_here * (N_ROUNDS - rnd) / 60
-        print(f"  seed {seed} | {rule:<22} | round {rnd:>2}/{N_ROUNDS} | "
-              f"loss {np.mean(losses):.3f} | rejected {rejected} | "
+        print(f"  seed {seed} | {rule:<10} | round {rnd:>2}/{N_ROUNDS} | "
+              f"loss {np.mean(losses):.3f} | selected {selected} | "
               f"{time.time() - t0:4.0f}s | run ETA {eta:5.1f} min")
 
     vector_to_parameters(global_params.clone(), model.parameters())
@@ -302,66 +319,68 @@ def run_one(seed: int, rule: str, data: dict, n_classes: int, rare_ids: list[int
 
 # ---------------------------------------------------------------------- analysis
 
-def rejection_ratio(r_target: float, r_others: float) -> float:
-    if r_others == 0:
-        return float("inf") if r_target > 0 else 1.0
-    return r_target / r_others
-
-
-def verdict_for(ratio: float) -> str:
-    if ratio >= CONFIRMED_RATIO:
-        return "CONFLICT CONFIRMED"
-    if ratio >= WEAK_RATIO:
-        return "WEAK CONFLICT"
-    return "NO CONFLICT"
-
-
-def fmt_ratio(ratio: float) -> str:
-    return "inf" if ratio == float("inf") else f"{ratio:.2f}x"
-
-
 def check_gate(evals: dict) -> dict:
     """evals: {(seed, rule): metrics}. Returns balanced-accuracy table and pass/fail."""
-    rules = list(dict.fromkeys(r for _, r in evals))
-    bal = pd.DataFrame({s: {r: evals[(s, r)]["balanced_accuracy"] for r in rules} for s in SEEDS})
-    means = {r: float(bal.loc[r].mean()) for r in VERDICT_RULES}
+    bal = pd.DataFrame({s: {r: evals[(s, r)]["balanced_accuracy"] for r in RUN_RULES}
+                        for s in SEEDS})
+    means = {r: float(bal.loc[r].mean()) for r in RUN_RULES}
     return {"table": bal, "means": means,
             "passed": all(v >= GATE_BALANCED_ACC for v in means.values())}
 
 
-def analyse_rejections(log: pd.DataFrame, n_centers: int) -> dict:
+def combined_verdict(krum_ratio: float, mk_ratio: float | None) -> str:
+    """Both measures must agree. "No separation" (mk_ratio None) can never confirm."""
+    if mk_ratio is None:
+        return "NO CONFLICT"
+    if krum_ratio <= KRUM_CONFIRMED_SELECTION and mk_ratio >= MK_CONFIRMED_RATIO:
+        return "CONFLICT CONFIRMED"
+    if krum_ratio <= KRUM_WEAK_SELECTION and mk_ratio >= MK_WEAK_RATIO:
+        return "WEAK CONFLICT"
+    return "NO CONFLICT"
+
+
+def analyse(log: pd.DataFrame, n_centers: int) -> dict:
     rules = list(dict.fromkeys(log["rule"]))
     rej = 1.0 - log.groupby(["seed", "rule", "client_id"])["selected"].mean()
     per_seed = {s: rej.loc[s].unstack().loc[rules] for s in SEEDS}
     mean_rej = sum(per_seed.values()) / len(SEEDS)
     mean_weight = log.groupby(["rule", "client_id"])["weight"].mean().unstack().loc[rules]
 
+    # krum: selection rate against a 1/6 fair share. Below 1.0 means krum avoids centre 2.
+    fair_share = 1.0 / n_centers
+    krum_sel = float(np.mean([1.0 - per_seed[s].at["krum", TARGET_CENTRE] for s in SEEDS]))
+    krum_ratio = krum_sel / fair_share
+
+    # multi_krum: rejection rate against the other five centres' mean.
     others = [k for k in range(n_centers) if k != TARGET_CENTRE]
-    by_rule = {}
-    for rule in VERDICT_RULES:
-        r_t = float(np.mean([per_seed[s].at[rule, TARGET_CENTRE] for s in SEEDS]))
-        r_o = float(np.mean([per_seed[s].loc[rule, others].mean() for s in SEEDS]))
-        by_rule[rule] = {"r_t": r_t, "r_o": r_o, "ratio": rejection_ratio(r_t, r_o)}
+    mk_t = float(np.mean([per_seed[s].at["multi_krum", TARGET_CENTRE] for s in SEEDS]))
+    mk_o = float(np.mean([per_seed[s].loc["multi_krum", others].mean() for s in SEEDS]))
+    if mk_o == 0.0 and mk_t == 0.0:
+        mk_ratio, mk_label = None, "no separation"
+    elif mk_o == 0.0:
+        mk_ratio, mk_label = float("inf"), "inf"
+    else:
+        mk_ratio = mk_t / mk_o
+        mk_label = f"{mk_ratio:.2f}x"
 
-    pooled_t = float(np.mean([v["r_t"] for v in by_rule.values()]))
-    pooled_o = float(np.mean([v["r_o"] for v in by_rule.values()]))
-    pooled_ratio = rejection_ratio(pooled_t, pooled_o)
     return {"per_seed": per_seed, "mean": mean_rej, "mean_weight": mean_weight,
-            "by_rule": by_rule, "pooled_t": pooled_t, "pooled_o": pooled_o,
-            "ratio": pooled_ratio, "verdict": verdict_for(pooled_ratio)}
+            "fair_share": fair_share, "krum_selection": krum_sel, "krum_ratio": krum_ratio,
+            "mk_t": mk_t, "mk_o": mk_o, "mk_ratio": mk_ratio, "mk_label": mk_label,
+            "verdict": combined_verdict(krum_ratio, mk_ratio)}
 
 
-def fedavg_vs_rare(log: pd.DataFrame, client_counts: np.ndarray, rare_ids: list[int],
-                   class_names: dict) -> dict:
+def fedavg_vs_rare(client_counts: np.ndarray, rare_ids: list[int], class_names: dict) -> dict:
+    """Arithmetic, no training run: FedAvg's weight for a centre is its sample-count share."""
     t = TARGET_CENTRE
-    fedavg_w = float(log[(log["rule"] == "fedavg") & (log["client_id"] == t)]["weight"].mean())
+    per_centre = client_counts.sum(axis=1)
+    fedavg_w = float(per_centre[t] / per_centre.sum())
     per_class = [(class_names[c], int(client_counts[t, c]), int(client_counts[:, c].sum()))
                  for c in rare_ids]
     rare_t = int(client_counts[t, rare_ids].sum())
     rare_all = int(client_counts[:, rare_ids].sum())
     return {"fedavg_weight": fedavg_w, "per_class": per_class,
             "rare_t": rare_t, "rare_all": rare_all, "rare_share": rare_t / rare_all,
-            "image_share": client_counts[t].sum() / client_counts.sum()}
+            "n_images": int(per_centre[t]), "n_all": int(per_centre.sum())}
 
 
 # ------------------------------------------------------------------------ report
@@ -374,11 +393,10 @@ def rejection_md(table: pd.DataFrame, n_samples: list[int] | None = None) -> str
 
 
 def write_report(path: Path, gate: dict, analysis: dict | None, rare: dict,
-                 evals: dict, n_samples: list[int]) -> None:
+                 evals: dict, n_samples: list[int], n_centers: int) -> None:
     t = TARGET_CENTRE
     headline = (analysis["verdict"] if gate["passed"]
                 else "GATE FAILED - model still not learning, result is uninformative")
-    rules = list(gate["table"].index)
     md = [
         "# Byzantine conflict: pre-registered re-test (DenseNet-121)",
         "",
@@ -390,17 +408,17 @@ def write_report(path: Path, gate: dict, analysis: dict | None, rare: dict,
         "",
         "## Setup",
         "",
-        "Changes from `scripts/03_byzantine_conflict.py`, and only these:",
+        "Changes from `scripts/03_byzantine_conflict.py`:",
         "",
         "1. DenseNet-121 pretrained on ImageNet",
         "2. Class-balanced loss (effective-number weights from each centre's own label counts)",
         f"3. {N_ROUNDS} rounds instead of 15, seeds {', '.join(map(str, SEEDS))}",
+        f"4. Learning rate {LR} from the project config, not script 03's {s03.LR}",
+        f"5. Only {' and '.join(RUN_RULES)} are run - the rules the verdict uses",
         "",
-        "Taken unchanged from script 03: 6 clients = the 6 real centres; rules "
-        f"{', '.join(s03.RULES)}; f = {s03.F_BYZANTINE}, trim = {s03.TRIM}; "
-        f"{s03.LOCAL_STEPS} local Adam steps per centre per round (batch {s03.BATCH_SIZE}, "
-        f"lr {s03.LR}); rejection = not selected (krum, multi_krum) or effective weight below "
-        f"{robust.NEAR_ZERO_FRACTION} x 1/6 (trimmed mean, median).",
+        "Taken unchanged from script 03: 6 clients = the 6 real centres; "
+        f"f = {s03.F_BYZANTINE}; {s03.LOCAL_STEPS} local Adam steps per centre per round "
+        f"(batch {s03.BATCH_SIZE}); rejection = not selected.",
         "",
         "Consequences of using DenseNet, not further changes: images at the stored 224px "
         "(script 03 downsampled to 32px for CPU speed), no augmentation; BatchNorm running "
@@ -410,21 +428,29 @@ def write_report(path: Path, gate: dict, analysis: dict | None, rare: dict,
         "## Pre-registered criteria (fixed before running)",
         "",
         f"- **Gate:** balanced accuracy on the pooled test split, averaged across seeds, "
-        f">= {GATE_BALANCED_ACC} for both {' and '.join(VERDICT_RULES)}.",
-        f"- **Verdict:** for {' and '.join(VERDICT_RULES)}, average across seeds centre {t}'s "
-        "rejection rate and the mean rejection rate of the other five centres; average each "
-        f"across the two rules; ratio = centre {t} / other five. CONFLICT CONFIRMED if ratio "
-        f">= {CONFIRMED_RATIO}, WEAK CONFLICT if >= {WEAK_RATIO}, otherwise NO CONFLICT.",
-        "- Krum alone cannot exceed 1.25x (it rejects 5 of 6 centres every round).",
+        f">= {GATE_BALANCED_ACC} for both {' and '.join(RUN_RULES)}.",
+        f"- **krum:** selection rate, not rejection rate. Krum picks 1 of {n_centers} centres "
+        f"per round, so a fair share is {1 / n_centers:.3f}. Measure = centre {t}'s selection "
+        "rate / that fair share; below 1.0 means krum avoids it.",
+        f"- **multi_krum:** centre {t}'s rejection rate / the other five centres' mean "
+        "rejection rate. Reported as \"no separation\" if nobody is ever rejected.",
+        f"- **Verdict needs both to agree:** CONFLICT CONFIRMED if krum <= "
+        f"{KRUM_CONFIRMED_SELECTION} and multi_krum >= {MK_CONFIRMED_RATIO}; WEAK CONFLICT if "
+        f"krum <= {KRUM_WEAK_SELECTION} and multi_krum >= {MK_WEAK_RATIO}; otherwise NO "
+        "CONFLICT. Deliberately strict: this is the second attempt at this hypothesis.",
+        "",
+        "These criteria replaced an earlier draft that applied a single rejection-rate ratio to "
+        "both rules, which krum could never satisfy: krum rejects 5 of 6 centres every round, so "
+        "even a centre rejected in every round leaves the other five at 80% and the ratio cannot "
+        "exceed 1.25x. The rewrite happened before any run existed, not after seeing a result.",
         "",
         "## Gate",
         "",
         "Balanced accuracy of the final global model (chance = 0.125):",
         "",
-        s03.md_table(["rule"] + [f"seed {s}" for s in SEEDS] + ["mean", "gate rule?"],
+        s03.md_table(["rule"] + [f"seed {s}" for s in SEEDS] + ["mean"],
                      [[r] + [f"{gate['table'].at[r, s]:.3f}" for s in SEEDS]
-                      + [f"{gate['table'].loc[r].mean():.3f}",
-                         "yes" if r in VERDICT_RULES else "no"] for r in rules]),
+                      + [f"{gate['table'].loc[r].mean():.3f}"] for r in gate["table"].index]),
         "",
         f"Gate {'PASSED' if gate['passed'] else 'FAILED'}: "
         + ", ".join(f"{r} mean {v:.3f}" for r, v in gate["means"].items())
@@ -439,20 +465,24 @@ def write_report(path: Path, gate: dict, analysis: dict | None, rare: dict,
         md += [
             "## Mean across seeds", "",
             rejection_md(analysis["mean"], n_samples), "",
-            "Mean effective weight per round, across seeds (uniform share = 0.167):", "",
+            f"Mean effective weight per round, across seeds (uniform share = "
+            f"{1 / n_centers:.3f}):", "",
             s03.md_table(["rule"] + [f"centre {k}" for k in analysis["mean_weight"].columns],
                          [[r] + [f"{analysis['mean_weight'].at[r, k]:.3f}"
                                  for k in analysis["mean_weight"].columns]
                           for r in analysis["mean_weight"].index]), "",
             "## Verdict", "",
             s03.md_table(
-                ["", f"centre {t} rejection", "other five (mean)", "ratio", "role"],
-                [[r, s03.pct(v["r_t"]), s03.pct(v["r_o"]), fmt_ratio(v["ratio"]),
-                  "reported only"] for r, v in analysis["by_rule"].items()]
-                + [["**pooled (krum + multi_krum)**", s03.pct(analysis["pooled_t"]),
-                    s03.pct(analysis["pooled_o"]), f"**{fmt_ratio(analysis['ratio'])}**",
-                    "**sets verdict**"]]), "",
-            f"**{analysis['verdict']}**", "",
+                ["measure", f"centre {t}", "reference", "ratio", "confirms at", "weak at"],
+                [["krum selection rate", s03.pct(analysis["krum_selection"]),
+                  f"fair share {analysis['fair_share']:.3f}",
+                  f"**{analysis['krum_ratio']:.2f}x**", f"<= {KRUM_CONFIRMED_SELECTION}",
+                  f"<= {KRUM_WEAK_SELECTION}"],
+                 ["multi_krum rejection rate", s03.pct(analysis["mk_t"]),
+                  f"other five {s03.pct(analysis['mk_o'])}",
+                  f"**{analysis['mk_label']}**", f">= {MK_CONFIRMED_RATIO}",
+                  f">= {MK_WEAK_RATIO}"]]), "",
+            f"**{analysis['verdict']}** (both measures must agree).", "",
         ]
     else:
         md += ["Per the pre-registration, no rejection tables or verdict are reported. "
@@ -461,17 +491,19 @@ def write_report(path: Path, gate: dict, analysis: dict | None, rare: dict,
     md += [
         f"## Separate from the verdict: centre {t}'s FedAvg weight vs its rare-class share",
         "",
-        "Train split, which is what FedAvg's sample-count weights are based on. This does not "
-        "depend on whether the model learned.",
+        "Computed arithmetically from sample counts on the train split - FedAvg weights a centre "
+        "by its share of images, so this needs no training run and does not depend on the gate.",
         "",
         s03.md_table(["", f"centre {t}", "all centres", f"centre {t} share"],
-                     [[name, n_t, n_all, s03.pct(n_t / n_all)] for name, n_t, n_all in rare["per_class"]]
+                     [[name, n_t, n_all, s03.pct(n_t / n_all)]
+                      for name, n_t, n_all in rare["per_class"]]
                      + [["all rare classes", rare["rare_t"], rare["rare_all"],
                          s03.pct(rare["rare_share"])],
-                        ["all images", n_samples[t], sum(n_samples), s03.pct(rare["image_share"])]]),
+                        ["all images", rare["n_images"], rare["n_all"],
+                         s03.pct(rare["fedavg_weight"])]]),
         "",
-        f"Mean FedAvg aggregation weight of centre {t}: **{rare['fedavg_weight']:.3f}**, against "
-        f"a **{rare['rare_share']:.3f}** share of rare-class training images "
+        f"FedAvg aggregation weight of centre {t}: **{rare['fedavg_weight']:.3f}**, against a "
+        f"**{rare['rare_share']:.3f}** share of rare-class training images "
         f"({rare['rare_share'] / rare['fedavg_weight']:.2f}x its weight).",
         "",
         "## Test metrics per run",
@@ -482,13 +514,15 @@ def write_report(path: Path, gate: dict, analysis: dict | None, rare: dict,
         "",
         "## Limitations",
         "",
-        f"- Learning rate, local steps and batch size are script 03's, chosen for a small CNN, "
-        "not re-tuned for DenseNet (re-tuning would have been a fourth change).",
-        "- Krum's rejection ratio is capped at 1.25x by construction, so the pooled verdict "
-        "relies more heavily on multi-Krum.",
+        "- Local steps and batch size are script 03's, chosen for a small CNN, not re-tuned for "
+        "DenseNet.",
+        f"- Two seeds and {N_ROUNDS} rounds, so each centre's krum selection rate rests on "
+        f"{N_ROUNDS} binary outcomes per seed.",
+        "- Trimmed mean and coordinate-wise median were not run, so this says nothing about "
+        "them.",
         "- BatchNorm statistics follow the rule's parameter decisions rather than being "
         "robustly aggregated themselves.",
-        "- A higher rejection rate for centre 2 would not by itself show that its rare-class "
+        f"- A higher rejection rate for centre {t} would not by itself show that its rare-class "
         "content is the cause; size and other distribution differences are not controlled.",
         "",
     ]
@@ -545,7 +579,12 @@ def main() -> int:
         print(f"  centre {k} class-balanced loss weights: "
               f"{np.round(data['client_w'][k].cpu().numpy(), 2)}")
 
-    runs = list(itertools.product(SEEDS, s03.RULES))
+    # Needs no training run, so report it even if the gate later fails.
+    rare = fedavg_vs_rare(client_counts, rare_ids, cfg["dataset"]["class_names"])
+    print(f"\n  centre {TARGET_CENTRE} FedAvg weight (sample share) {rare['fedavg_weight']:.3f} "
+          f"vs rare-class image share {rare['rare_share']:.3f}")
+
+    runs = list(itertools.product(SEEDS, RUN_RULES))
     rows, evals = [], {}
     for i, (seed, rule) in enumerate(runs, 1):
         print(f"\n=== run {i}/{len(runs)}: seed {seed}, rule {rule} ===")
@@ -553,49 +592,49 @@ def main() -> int:
         rows += run_rows
         evals[(seed, rule)] = metrics
         print(f"  seed {seed} {rule}: test accuracy {metrics['accuracy']:.3f}, balanced accuracy "
-              f"{metrics['balanced_accuracy']:.3f} (gate: {'/'.join(VERDICT_RULES)} mean across "
-              f"seeds >= {GATE_BALANCED_ACC})")
+              f"{metrics['balanced_accuracy']:.3f} (gate needs both rules' means across seeds "
+              f">= {GATE_BALANCED_ACC})")
 
     log = pd.DataFrame(rows)[["seed", "round", "rule", "client_id", "selected", "weight"]]
     log.to_csv(out_dir / "byzantine_conflict_strong.csv", index=False)
 
     # Gate first: no verdict from a model that did not learn.
     gate = check_gate(evals)
-    rare = fedavg_vs_rare(log, client_counts, rare_ids, cfg["dataset"]["class_names"])
     report = out_dir / "byzantine_conflict_strong.md"
 
     print("\n" + "=" * 78)
     print("GATE: balanced accuracy of the final global model")
     print("=" * 78)
-    print(f"  {'rule':<24}" + "".join(f"{f'seed {s}':>10}" for s in SEEDS) + f"{'mean':>10}")
+    print(f"  {'rule':<16}" + "".join(f"{f'seed {s}':>10}" for s in SEEDS) + f"{'mean':>10}")
     for r in gate["table"].index:
-        print(f"  {r:<24}" + "".join(f"{gate['table'].at[r, s]:>10.3f}" for s in SEEDS)
+        print(f"  {r:<16}" + "".join(f"{gate['table'].at[r, s]:>10.3f}" for s in SEEDS)
               + f"{gate['table'].loc[r].mean():>10.3f}")
 
     if not gate["passed"]:
         print("\nGATE FAILED - model still not learning, result is uninformative")
-        write_report(report, gate, None, rare, evals, data["n_samples"])
+        write_report(report, gate, None, rare, evals, data["n_samples"], n_centers)
         print(f"  wrote {report}")
         return 2
     print(f"  gate passed ({', '.join(f'{r} {v:.3f}' for r, v in gate['means'].items())})")
 
-    analysis = analyse_rejections(log, n_centers)
+    analysis = analyse(log, n_centers)
     print("\n" + "=" * 78)
     print("REJECTION RATE PER CENTRE, MEAN ACROSS SEEDS")
     print("=" * 78)
     table = analysis["mean"]
-    print(f"  {'rule':<24}" + "".join(f"{f'centre {k}':>9}" for k in table.columns))
+    print(f"  {'rule':<16}" + "".join(f"{f'centre {k}':>9}" for k in table.columns))
     for r in table.index:
-        print(f"  {r:<24}" + "".join(f"{s03.pct(table.at[r, k]):>9}" for k in table.columns))
+        print(f"  {r:<16}" + "".join(f"{s03.pct(table.at[r, k]):>9}" for k in table.columns))
 
     print("\n" + "=" * 78)
-    print(f"CENTRE {TARGET_CENTRE} VS OTHER FIVE (mean across seeds)")
+    print("PRE-REGISTERED MEASURES (mean across seeds)")
     print("=" * 78)
-    for r, v in analysis["by_rule"].items():
-        print(f"  {r:<24} {s03.pct(v['r_t']):>7} vs {s03.pct(v['r_o']):>7}   "
-              f"ratio {fmt_ratio(v['ratio'])}   (reported only)")
-    print(f"  {'pooled':<24} {s03.pct(analysis['pooled_t']):>7} vs "
-          f"{s03.pct(analysis['pooled_o']):>7}   ratio {fmt_ratio(analysis['ratio'])}   (sets verdict)")
+    print(f"  krum       selection rate {s03.pct(analysis['krum_selection'])} vs fair share "
+          f"{analysis['fair_share']:.3f}  ->  {analysis['krum_ratio']:.2f}x "
+          f"(confirms <= {KRUM_CONFIRMED_SELECTION}, weak <= {KRUM_WEAK_SELECTION})")
+    print(f"  multi_krum rejection rate {s03.pct(analysis['mk_t'])} vs other five "
+          f"{s03.pct(analysis['mk_o'])}  ->  {analysis['mk_label']} "
+          f"(confirms >= {MK_CONFIRMED_RATIO}, weak >= {MK_WEAK_RATIO})")
 
     print("\n" + "=" * 78)
     print(f"VERDICT: {analysis['verdict']}")
@@ -603,7 +642,7 @@ def main() -> int:
     print(f"\n  Separately: centre {TARGET_CENTRE} FedAvg weight {rare['fedavg_weight']:.3f} vs "
           f"rare-class image share {rare['rare_share']:.3f}")
 
-    write_report(report, gate, analysis, rare, evals, data["n_samples"])
+    write_report(report, gate, analysis, rare, evals, data["n_samples"], n_centers)
     print(f"  wrote {out_dir / 'byzantine_conflict_strong.csv'}")
     print(f"  wrote {report}")
     return 0
