@@ -1,10 +1,12 @@
 {
   "_meta": {
-    "status": "sample",
-    "sources": [],
-    "note": "PLACEHOLDER VALUES FOR LAYOUT ONLY - not results. No Tier A run has produced these numbers yet: G0b and the S1 baselines were not run because G0a failed.",
-    "wouldComeFrom": "results/tier_a_s1_metrics.csv (scripts/07_tier_a_s1_baselines.py on feature/pipeline)",
-    "syncedAt": "2026-09-19"
+    "status": "verified",
+    "sources": [
+      "results/tier_a_s1_fedavg.csv"
+    ],
+    "producedBy": "scripts/07_tier_a_s1_baselines.py",
+    "syncedAt": "2026-09-19",
+    "note": "Tier A, natural split S1. Final-round values, mean over seeds."
   },
   "split": "S1",
   "rules": [
@@ -12,19 +14,249 @@
       "id": "fedavg",
       "label": "FedAvg",
       "status": "baseline",
-      "seeds": 0,
-      "balancedAccuracy": 0.4,
-      "rareMacroF1": 0.3,
-      "rareF1": { "Dermatofibroma": 0.2, "Vascular lesion": 0.4 }
-    },
-    {
-      "id": "camp_a",
-      "label": "Camp A (evidence weighting)",
-      "status": "baseline",
-      "seeds": 0,
-      "balancedAccuracy": 0.4,
-      "rareMacroF1": 0.4,
-      "rareF1": { "Dermatofibroma": 0.3, "Vascular lesion": 0.5 }
+      "seeds": 3,
+      "rounds": 40,
+      "balancedAccuracy": 0.4152655907542953,
+      "accuracy": 0.5906810035842294,
+      "rareMacroF1": 0.33180906338348715,
+      "rareF1": {
+        "Dermatofibroma": 0.19246279456035664,
+        "Vascular lesion": 0.47115533220661776
+      },
+      "perSeed": [
+        {
+          "seed": 42,
+          "balancedAccuracy": 0.41662727668059885,
+          "accuracy": 0.5920430107526882,
+          "rareMacroF1": 0.33185095343979515,
+          "rareF1": {
+            "Dermatofibroma": 0.20618556701030927,
+            "Vascular lesion": 0.45751633986928103
+          }
+        },
+        {
+          "seed": 43,
+          "balancedAccuracy": 0.42048233021866555,
+          "accuracy": 0.5823655913978495,
+          "rareMacroF1": 0.30608831400535236,
+          "rareF1": {
+            "Dermatofibroma": 0.17796610169491525,
+            "Vascular lesion": 0.4342105263157895
+          }
+        },
+        {
+          "seed": 44,
+          "balancedAccuracy": 0.4086871653636216,
+          "accuracy": 0.5976344086021506,
+          "rareMacroF1": 0.357487922705314,
+          "rareF1": {
+            "Dermatofibroma": 0.1932367149758454,
+            "Vascular lesion": 0.5217391304347826
+          }
+        }
+      ],
+      "curve": [
+        {
+          "round": 1,
+          "balancedAccuracy": 0.15040685023415737,
+          "rareMacroF1": 0
+        },
+        {
+          "round": 2,
+          "balancedAccuracy": 0.1853562648034536,
+          "rareMacroF1": 0.04733445566778901
+        },
+        {
+          "round": 3,
+          "balancedAccuracy": 0.2184911596854889,
+          "rareMacroF1": 0.08976771265092753
+        },
+        {
+          "round": 4,
+          "balancedAccuracy": 0.24587588740683586,
+          "rareMacroF1": 0.1757031001405059
+        },
+        {
+          "round": 5,
+          "balancedAccuracy": 0.27420392528107823,
+          "rareMacroF1": 0.2475545900519128
+        },
+        {
+          "round": 6,
+          "balancedAccuracy": 0.2802281597452822,
+          "rareMacroF1": 0.21553254721668394
+        },
+        {
+          "round": 7,
+          "balancedAccuracy": 0.2885664270737645,
+          "rareMacroF1": 0.19805800275982047
+        },
+        {
+          "round": 8,
+          "balancedAccuracy": 0.3037758970285705,
+          "rareMacroF1": 0.20204184353958854
+        },
+        {
+          "round": 9,
+          "balancedAccuracy": 0.3154033998498973,
+          "rareMacroF1": 0.2384504702624534
+        },
+        {
+          "round": 10,
+          "balancedAccuracy": 0.3222722361504106,
+          "rareMacroF1": 0.2398657433329956
+        },
+        {
+          "round": 11,
+          "balancedAccuracy": 0.324358018062667,
+          "rareMacroF1": 0.2459790045710086
+        },
+        {
+          "round": 12,
+          "balancedAccuracy": 0.3402216490046406,
+          "rareMacroF1": 0.23476437614803958
+        },
+        {
+          "round": 13,
+          "balancedAccuracy": 0.3486244982352884,
+          "rareMacroF1": 0.2354880263373115
+        },
+        {
+          "round": 14,
+          "balancedAccuracy": 0.3566693078788606,
+          "rareMacroF1": 0.25094867008580424
+        },
+        {
+          "round": 15,
+          "balancedAccuracy": 0.35850989440971254,
+          "rareMacroF1": 0.2525368579901952
+        },
+        {
+          "round": 16,
+          "balancedAccuracy": 0.3600515907767951,
+          "rareMacroF1": 0.2530973132097469
+        },
+        {
+          "round": 17,
+          "balancedAccuracy": 0.37285853925806717,
+          "rareMacroF1": 0.2507173169365215
+        },
+        {
+          "round": 18,
+          "balancedAccuracy": 0.3689163337864956,
+          "rareMacroF1": 0.2451726666929578
+        },
+        {
+          "round": 19,
+          "balancedAccuracy": 0.3658910320492832,
+          "rareMacroF1": 0.26558048113419436
+        },
+        {
+          "round": 20,
+          "balancedAccuracy": 0.3665797044039847,
+          "rareMacroF1": 0.27654158336324564
+        },
+        {
+          "round": 21,
+          "balancedAccuracy": 0.3753962217409162,
+          "rareMacroF1": 0.28413517064726435
+        },
+        {
+          "round": 22,
+          "balancedAccuracy": 0.38232437222169585,
+          "rareMacroF1": 0.26825232023510265
+        },
+        {
+          "round": 23,
+          "balancedAccuracy": 0.38266200367094977,
+          "rareMacroF1": 0.2821186682381229
+        },
+        {
+          "round": 24,
+          "balancedAccuracy": 0.38703530953510895,
+          "rareMacroF1": 0.30261127549982
+        },
+        {
+          "round": 25,
+          "balancedAccuracy": 0.38858239970848446,
+          "rareMacroF1": 0.27911303235008483
+        },
+        {
+          "round": 26,
+          "balancedAccuracy": 0.38455846649260633,
+          "rareMacroF1": 0.3094815629595236
+        },
+        {
+          "round": 27,
+          "balancedAccuracy": 0.3896852748865425,
+          "rareMacroF1": 0.29332853259515174
+        },
+        {
+          "round": 28,
+          "balancedAccuracy": 0.38779555364313506,
+          "rareMacroF1": 0.32901984546274243
+        },
+        {
+          "round": 29,
+          "balancedAccuracy": 0.40221608077893106,
+          "rareMacroF1": 0.2799027242496178
+        },
+        {
+          "round": 30,
+          "balancedAccuracy": 0.39737303543709296,
+          "rareMacroF1": 0.2894438684778085
+        },
+        {
+          "round": 31,
+          "balancedAccuracy": 0.39263442213107275,
+          "rareMacroF1": 0.296339615060681
+        },
+        {
+          "round": 32,
+          "balancedAccuracy": 0.39959626746634785,
+          "rareMacroF1": 0.3138282884942092
+        },
+        {
+          "round": 33,
+          "balancedAccuracy": 0.4060097173642454,
+          "rareMacroF1": 0.2933360345439805
+        },
+        {
+          "round": 34,
+          "balancedAccuracy": 0.4046971050901702,
+          "rareMacroF1": 0.30507401309587706
+        },
+        {
+          "round": 35,
+          "balancedAccuracy": 0.407750590235379,
+          "rareMacroF1": 0.2905095626633198
+        },
+        {
+          "round": 36,
+          "balancedAccuracy": 0.4135319049010055,
+          "rareMacroF1": 0.29961133240850263
+        },
+        {
+          "round": 37,
+          "balancedAccuracy": 0.41420407793152764,
+          "rareMacroF1": 0.2915157660610184
+        },
+        {
+          "round": 38,
+          "balancedAccuracy": 0.4229799246361439,
+          "rareMacroF1": 0.29993496062040187
+        },
+        {
+          "round": 39,
+          "balancedAccuracy": 0.4171174804489511,
+          "rareMacroF1": 0.30195087577523455
+        },
+        {
+          "round": 40,
+          "balancedAccuracy": 0.4152655907542953,
+          "rareMacroF1": 0.33180906338348715
+        }
+      ]
     }
   ]
 }

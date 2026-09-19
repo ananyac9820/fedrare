@@ -1,98 +1,43 @@
 "use client";
 
-import {
-  animate,
-  motion,
-  useInView,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { animate, motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef } from "react";
+import { Pill } from "@/components/ui/Status";
 
 /** true when the visitor asked for reduced motion (false while unknown on first render). */
 export function useReducedMotionSafe(): boolean {
   return useReducedMotion() ?? false;
 }
 
-/** Fade / slide / 3D tilt-in when scrolled into view. Under reduced motion MotionConfig
- *  strips the transforms, leaving a plain fade. */
+/** Quiet fade-and-rise when scrolled into view. Under reduced motion MotionConfig strips the
+ *  transform, leaving a plain fade. */
 export function Reveal({
   children,
   delay = 0,
-  tilt = false,
-  from = "below",
   as = "div",
   className = "",
 }: {
   children: React.ReactNode;
   delay?: number;
-  tilt?: boolean;
-  from?: "below" | "left" | "right";
-  as?: "div" | "li";
+  as?: "div" | "li" | "section";
   className?: string;
 }) {
-  const offset = from === "below" ? { y: 40 } : { x: from === "left" ? -48 : 48 };
-  const Comp = as === "li" ? motion.li : motion.div;
+  const Comp = as === "li" ? motion.li : as === "section" ? motion.section : motion.div;
   return (
     <Comp
       className={className}
-      initial={{ opacity: 0, ...offset, rotateX: tilt ? 16 : 0 }}
-      whileInView={{ opacity: 1, x: 0, y: 0, rotateX: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay }}
-      style={{ transformPerspective: 1100, transformOrigin: "50% 100%" }}
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.7, ease: [0.25, 0.8, 0.3, 1], delay }}
     >
       {children}
     </Comp>
   );
 }
 
-/** A page section whose background layer scrolls slower than its content (parallax). */
-export function ParallaxSection({
-  id,
-  children,
-  glow = "teal",
-  className = "",
-}: {
-  id: string;
-  children: React.ReactNode;
-  glow?: "teal" | "amber" | "blue" | "rose";
-  className?: string;
-}) {
-  const ref = useRef<HTMLElement>(null);
-  const reduced = useReducedMotionSafe();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const far = useTransform(scrollYProgress, [0, 1], [-120, 120]);
-  const near = useTransform(scrollYProgress, [0, 1], [-50, 50]);
-  const glowColor = {
-    teal: "rgb(45 212 191 / 0.13)",
-    amber: "rgb(251 191 36 / 0.10)",
-    blue: "rgb(96 165 250 / 0.12)",
-    rose: "rgb(251 113 133 / 0.10)",
-  }[glow];
-
-  return (
-    <section id={id} ref={ref} className={`relative scroll-mt-16 overflow-hidden ${className}`}>
-      <motion.div
-        aria-hidden
-        className="grid-bg pointer-events-none absolute inset-[-15%_0]"
-        style={{ y: reduced ? 0 : far }}
-      />
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          y: reduced ? 0 : near,
-          background: `radial-gradient(600px 400px at 15% 20%, ${glowColor}, transparent 70%), radial-gradient(500px 360px at 85% 80%, ${glowColor}, transparent 70%)`,
-        }}
-      />
-      <div className="relative z-10">{children}</div>
-    </section>
-  );
-}
-
-export function SectionHeading({
+/** Page-top header: big serif headline over a gently parallaxed graph-paper layer. */
+export function PageHeader({
   eyebrow,
   title,
   children,
@@ -103,15 +48,73 @@ export function SectionHeading({
   children?: React.ReactNode;
   tags?: React.ReactNode;
 }) {
+  const ref = useRef<HTMLElement>(null);
+  const reduced = useReducedMotionSafe();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const gridY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+
   return (
-    <Reveal tilt className="mb-12 max-w-3xl">
-      <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-accent">{eyebrow}</p>
-      <h2 className="text-balance font-display text-4xl font-semibold tracking-tight text-white md:text-5xl">
-        {title}
-      </h2>
-      {tags && <div className="mt-4 flex flex-wrap gap-2">{tags}</div>}
-      {children && <div className="mt-5 text-lg leading-relaxed text-slate-400">{children}</div>}
-    </Reveal>
+    <section ref={ref} className="relative overflow-hidden border-b border-line">
+      <motion.div aria-hidden className="paper-grid absolute inset-0" style={{ y: reduced ? 0 : gridY }} />
+      <div aria-hidden className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-cream to-transparent" />
+      <div className="relative mx-auto max-w-6xl px-6 pb-24 pt-40 md:pb-32 md:pt-52">
+        <Reveal>
+          <div className="flex flex-wrap items-center gap-3">
+            <Pill tone="accent">{eyebrow}</Pill>
+            {tags}
+          </div>
+          <h1 className="mt-8 max-w-4xl text-balance font-display text-5xl font-medium leading-[1.02] tracking-tight text-ink md:text-7xl">
+            {title}
+          </h1>
+          {children && (
+            <div className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-muted md:text-xl">
+              {children}
+            </div>
+          )}
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/** A generously spaced content section with a heading row. */
+export function Section({
+  id,
+  label,
+  title,
+  intro,
+  tags,
+  children,
+  tone = "cream",
+}: {
+  id?: string;
+  label?: string;
+  title?: React.ReactNode;
+  intro?: React.ReactNode;
+  tags?: React.ReactNode;
+  children: React.ReactNode;
+  tone?: "cream" | "sand";
+}) {
+  return (
+    <section id={id} className={`scroll-mt-28 py-24 md:py-36 ${tone === "sand" ? "bg-sand/60" : ""}`}>
+      <div className="mx-auto max-w-6xl px-6">
+        {(title || label) && (
+          <Reveal className="mb-14 max-w-3xl md:mb-20">
+            <div className="flex flex-wrap items-center gap-3">
+              {label && <Pill>{label}</Pill>}
+              {tags}
+            </div>
+            {title && (
+              <h2 className="mt-6 text-balance font-display text-4xl font-medium leading-[1.08] tracking-tight text-ink md:text-6xl">
+                {title}
+              </h2>
+            )}
+            {intro && <div className="mt-6 text-pretty text-lg leading-relaxed text-muted">{intro}</div>}
+          </Reveal>
+        )}
+        {children}
+      </div>
+    </section>
   );
 }
 
@@ -128,8 +131,7 @@ export function CountUp({ to, decimals = 0, suffix = "", className = "" }: {
   const inView = useInView(ref, { once: true, amount: 0.6 });
   const reduced = useReducedMotionSafe();
   const armed = useRef(false);
-  const format = (v: number) => `${v.toFixed(decimals)}${suffix}`;
-  const final = format(to);
+  const final = `${to.toFixed(decimals)}${suffix}`;
 
   useEffect(() => {
     const el = text.current;
@@ -151,7 +153,7 @@ export function CountUp({ to, decimals = 0, suffix = "", className = "" }: {
       return;
     }
     if (!armed.current) return;
-    const controls = animate(0, to, { duration: 1.6, ease: [0.16, 1, 0.3, 1], onUpdate: show });
+    const controls = animate(0, to, { duration: 1.4, ease: [0.16, 1, 0.3, 1], onUpdate: show });
     return () => controls.stop();
   }, [inView, reduced, to, decimals, suffix]);
 

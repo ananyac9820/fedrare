@@ -6,6 +6,7 @@
 import baselineJson from "../../data/baseline_results.json";
 import datasetJson from "../../data/dataset.json";
 import g0aJson from "../../data/g0a.json";
+import g0bJson from "../../data/g0b.json";
 import ledgerJson from "../../data/ledger.json";
 import missingJson from "../../data/missing.json";
 import roadmapJson from "../../data/roadmap.json";
@@ -13,7 +14,7 @@ import roadmapJson from "../../data/roadmap.json";
 /** Where a number came from. "sample" is always shown with a SAMPLE DATA badge. */
 export type DataStatus = "verified" | "sample";
 /** What a thing is, in the project. */
-export type ProjectStatus = "verified" | "baseline" | "in-progress";
+export type ProjectStatus = "verified" | "baseline" | "in-progress" | "failed" | "not-run" | "blocked";
 
 export interface Meta {
   status: DataStatus;
@@ -68,14 +69,37 @@ export interface G0a {
   trainCounts: number[][];
 }
 
+export interface G0b {
+  _meta: Meta;
+  gate: string;
+  passed: boolean;
+  statistic: number;
+  threshold: number;
+  definition: string;
+  perSeed: { seed: number; value: number }[];
+  config: { rounds: number; local_steps: number; lr: number; class_balanced_loss: boolean };
+}
+
+export interface SeedResult {
+  seed: number;
+  balancedAccuracy: number;
+  accuracy: number;
+  rareMacroF1: number;
+  rareF1: Record<string, number>;
+}
+
 export interface BaselineRule {
   id: string;
   label: string;
   status: ProjectStatus;
   seeds: number;
+  rounds?: number;
   balancedAccuracy: number;
+  accuracy?: number;
   rareMacroF1: number;
   rareF1: Record<string, number>;
+  perSeed?: SeedResult[];
+  curve?: { round: number; balancedAccuracy: number; rareMacroF1: number }[];
 }
 
 export interface BaselineResults {
@@ -98,12 +122,14 @@ export interface Gate {
   note?: string;
 }
 
+export type ProgressState = "done" | "failed" | "blocked" | "pending" | "in-progress";
+
 export interface Week {
   week: number;
   dates: string;
   work: string;
   deliverable: string;
-  progress?: { item: string; state: "done" | "failed" | "blocked" | "pending" }[];
+  progress?: { item: string; state: ProgressState }[];
 }
 
 export interface Roadmap {
@@ -130,8 +156,9 @@ export interface Ledger {
   rounds: LedgerRound[];
 }
 
-export interface MissingItem {
+export interface PendingItem {
   what: string;
+  status: "not-run" | "blocked" | "in-progress";
   owner: string;
   track: string;
   branch: string;
@@ -142,10 +169,20 @@ export interface MissingItem {
 
 export const dataset = datasetJson as Dataset;
 export const g0a = g0aJson as G0a;
+export const g0b = g0bJson as G0b;
 export const baselines = baselineJson as BaselineResults;
 export const roadmap = roadmapJson as Roadmap;
 export const ledger = ledgerJson as Ledger;
-export const missing = missingJson as { _meta: Meta; items: MissingItem[] };
+export const pending = missingJson as { _meta: Meta; items: PendingItem[] };
+
+// ------------------------------------------------------------------ small stats helpers
+
+export const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
+/** Population standard deviation over seeds (matches the research scripts). */
+export const sd = (xs: number[]) => {
+  const m = mean(xs);
+  return Math.sqrt(mean(xs.map((x) => (x - m) ** 2)));
+};
 
 // ------------------------------------------------------------------ derived, never hard-coded
 
@@ -180,6 +217,8 @@ export const mismatch: CentreMismatch[] = (() => {
   }));
 })();
 
+export const rareTrainTotal = mismatch.reduce((a, m) => a + m.rareTrainImages, 0);
+
 /** The centre whose rare-data share most exceeds its FedAvg weight (the hero stat). */
 export const specialist = mismatch.reduce((best, m) =>
   m.rareShare / m.fedavgWeight > best.rareShare / best.fedavgWeight ? m : best,
@@ -192,8 +231,36 @@ export const coverage = dataset.classes.map(
     dataset.centres.filter((c) => c.trainCounts[cls.id] >= dataset.rareRule.holderMinImages).length,
 );
 
+/** Centres holding no image of any rare class. */
+export const zeroRareCentres = dataset.centres
+  .filter((c) => rareClasses.every((cls) => c.totalCounts[cls.id] === 0))
+  .map((c) => c.id);
+
 /** EARN's proposed peer confidence p(c) = clip((n(c) - 1) / 4, 0, 1). Design, not a result. */
 export const peerConfidence = (n: number) => Math.min(1, Math.max(0, (n - 1) / 4));
 
+/** For each class, the centre with the highest G0a evidence, and whether it holds zero images. */
+export const g0aTopCentres = g0a.classNames.map((name, c) => {
+  const col = g0a.evidence.map((row) => row[c]);
+  const top = col.indexOf(Math.max(...col));
+  return { name, centre: top, images: g0a.trainCounts[top][c], rare: g0a.rareIds.includes(c) };
+});
+
+export const failedGates = roadmap.gates.filter((g) => g.state === "failed");
+export const gate = (id: string) => roadmap.gates.find((g) => g.id === id);
+
 export const pct = (x: number, digits = 1) => `${(100 * x).toFixed(digits)}%`;
 export const fmt = (n: number) => n.toLocaleString("en-US");
+
+export const REPO = "https://github.com/ananyac9820/fedrare";
+
+export const SHORT: Record<string, string> = {
+  Melanoma: "MEL",
+  "Melanocytic nevus": "NV",
+  "Basal cell carcinoma": "BCC",
+  "Actinic keratosis": "AK",
+  "Benign keratosis": "BKL",
+  Dermatofibroma: "DF",
+  "Vascular lesion": "VASC",
+  "Squamous cell carcinoma": "SCC",
+};

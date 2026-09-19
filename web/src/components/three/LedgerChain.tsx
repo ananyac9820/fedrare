@@ -11,10 +11,11 @@ const LABELLED = 9; // only the most recent blocks get a DOM label
 
 type BlockState = "ok" | "edited" | "broken";
 
-const COLORS: Record<BlockState, { edge: string; emissive: string }> = {
-  ok: { edge: "#2dd4bf", emissive: "#0f766e" },
-  edited: { edge: "#fb7185", emissive: "#9f1239" },
-  broken: { edge: "#fda4af", emissive: "#4c0519" },
+// Light theme: paper-coloured blocks with teal edges; tampered blocks turn red.
+const COLORS: Record<BlockState, { body: string; edge: string; link: string }> = {
+  ok: { body: "#fffdf9", edge: "#2c6a64", link: "#2c6a64" },
+  edited: { body: "#f6d5d5", edge: "#ae2330", link: "#ae2330" },
+  broken: { body: "#fbecec", edge: "#d58c93", link: "#d58c93" },
 };
 
 function Block({ index, round, state, selected, animate, isNewest, onSelect }: {
@@ -33,13 +34,14 @@ function Block({ index, round, state, selected, animate, isNewest, onSelect }: {
 
   useFrame((s, delta) => {
     if (!mesh.current) return;
+    const lift = hovered || selected ? 1.06 : 1;
     if (animate) {
-      born.current = Math.min(1, born.current + delta * 2.2);
+      born.current = Math.min(1, born.current + delta * 1.8);
       const eased = 1 - Math.pow(1 - born.current, 3);
-      mesh.current.scale.setScalar(eased * (hovered || selected ? 1.08 : 1));
-      mesh.current.position.y = Math.sin(s.clock.elapsedTime * 0.9 + index * 0.6) * 0.06;
+      mesh.current.scale.setScalar(eased * lift);
+      mesh.current.position.y = Math.sin(s.clock.elapsedTime * 0.7 + index * 0.6) * 0.04;
     } else {
-      mesh.current.scale.setScalar(hovered || selected ? 1.08 : 1);
+      mesh.current.scale.setScalar(lift);
     }
   });
 
@@ -66,18 +68,16 @@ function Block({ index, round, state, selected, animate, isNewest, onSelect }: {
         }}
       >
         <meshStandardMaterial
-          color="#0c1628"
-          emissive={c.emissive}
-          emissiveIntensity={selected ? 1.1 : hovered ? 0.8 : 0.45}
-          metalness={0.4}
-          roughness={0.35}
+          color={selected && state === "ok" ? "#dcebe7" : c.body}
+          roughness={0.55}
+          metalness={0.02}
         />
-        <Edges color={selected ? "#ffffff" : c.edge} threshold={20} />
+        <Edges color={selected ? "#1d2929" : c.edge} threshold={20} />
       </RoundedBox>
       {index > 0 && (
         <mesh position={[-SPACING / 2, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.035, 0.035, SPACING - BLOCK[0], 10]} />
-          <meshBasicMaterial color={state === "ok" ? "#2dd4bf" : "#fb7185"} transparent opacity={state === "ok" ? 0.7 : 0.35} />
+          <cylinderGeometry args={[0.03, 0.03, SPACING - BLOCK[0], 10]} />
+          <meshBasicMaterial color={c.link} transparent opacity={state === "ok" ? 0.75 : 0.45} />
         </mesh>
       )}
     </group>
@@ -99,7 +99,7 @@ function Chain({ rounds, visible, tamperedFrom, selected, onSelect, animate }: {
   useFrame((_, delta) => {
     if (!group.current) return;
     if (animate) {
-      group.current.position.x += (targetX - group.current.position.x) * Math.min(1, delta * 3);
+      group.current.position.x += (targetX - group.current.position.x) * Math.min(1, delta * 2.5);
     } else {
       group.current.position.x = targetX;
     }
@@ -113,30 +113,30 @@ function Chain({ rounds, visible, tamperedFrom, selected, onSelect, animate }: {
   // block and swing the newest ones out of frame as the chain grows.
   return (
     <group rotation={[0.1, -0.5, 0]} position={[0.2, -0.2, 0]}>
-    <group ref={group} position={[targetX, 0, 0]}>
-      {shown.map((round, i) => (
-        <group key={round}>
-          <Block
-            index={i}
-            round={round}
-            state={stateOf(round)}
-            selected={selected === round}
-            animate={animate}
-            isNewest={i === visible - 1}
-            onSelect={onSelect}
-          />
-          {i >= visible - LABELLED && (
-            <Html position={[i * SPACING, -0.85, 0]} center distanceFactor={9} style={{ pointerEvents: "none" }}>
-              <div className={`whitespace-nowrap font-mono text-[12px] ${stateOf(round) === "ok" ? "text-slate-300" : "text-rose-300"}`}>
-                R{round}
-                {stateOf(round) === "edited" && " - edited"}
-                {stateOf(round) === "broken" && " - link broken"}
-              </div>
-            </Html>
-          )}
-        </group>
-      ))}
-    </group>
+      <group ref={group} position={[targetX, 0, 0]}>
+        {shown.map((round, i) => (
+          <group key={round}>
+            <Block
+              index={i}
+              round={round}
+              state={stateOf(round)}
+              selected={selected === round}
+              animate={animate}
+              isNewest={i === visible - 1}
+              onSelect={onSelect}
+            />
+            {i >= visible - LABELLED && (
+              <Html position={[i * SPACING, -0.85, 0]} center distanceFactor={9} style={{ pointerEvents: "none" }}>
+                <div className={`whitespace-nowrap font-mono text-[12px] ${stateOf(round) === "ok" ? "text-muted" : "text-failed"}`}>
+                  R{round}
+                  {stateOf(round) === "edited" && " - edited"}
+                  {stateOf(round) === "broken" && " - link broken"}
+                </div>
+              </Html>
+            )}
+          </group>
+        ))}
+      </group>
     </group>
   );
 }
@@ -159,15 +159,15 @@ export default function LedgerChain(props: {
       frameloop={animate ? "always" : "demand"}
       gl={{ antialias: true, alpha: true }}
       fallback={
-        <div className="flex h-full items-center justify-center font-mono text-sm text-slate-500">
+        <div className="flex h-full items-center justify-center p-6 text-center font-mono text-sm text-faint">
           3D view needs WebGL - the ledger is a chain of committed rounds.
         </div>
       }
       aria-label="3D view: a chain of ledger blocks, one per training round, each linked to the previous one by its hash."
     >
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[4, 6, 5]} intensity={1.1} />
-      <pointLight position={[2, 2, 3]} color="#2dd4bf" intensity={12} distance={12} />
+      <ambientLight intensity={1.0} />
+      <directionalLight position={[4, 6, 5]} intensity={1.5} />
+      <directionalLight position={[-5, 2, -3]} intensity={0.4} />
       <Chain {...props} animate={animate} />
     </Canvas>
   );

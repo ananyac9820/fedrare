@@ -34,6 +34,7 @@ const writeData = (f, obj) => {
   console.log(`  wrote data/${f} (${obj._meta.status})`);
 };
 const sha256 = (s) => crypto.createHash("sha256").update(s).digest("hex");
+const mean = (xs) => xs.reduce((a, b) => a + b, 0) / xs.length;
 
 function parseCsv(text) {
   const [header, ...rows] = text.trim().split(/\r?\n/).map((l) => l.split(","));
@@ -43,13 +44,15 @@ function parseCsv(text) {
 fs.mkdirSync(DATA, { recursive: true });
 console.log(`Syncing from ${RESULTS}`);
 
+// Rare classes (ids + names) - needed to find the per-class F1 columns below.
+const rareYaml = exists("rare_classes.yaml") ? loadYaml(readText("rare_classes.yaml")) : null;
+
 // ------------------------------------------------------------------ dataset.json
-if (exists("class_distribution.csv") && exists("rare_classes.yaml") && exists("gate_g0a.json")) {
+if (exists("class_distribution.csv") && rareYaml && exists("gate_g0a.json")) {
   const dist = parseCsv(readText("class_distribution.csv"));
-  const rare = loadYaml(readText("rare_classes.yaml"));
   const g0a = readJson("gate_g0a.json");
   const names = Object.keys(dist[0]).filter((k) => k !== "");
-  const shares = rare.class_share_pct;
+  const shares = rareYaml.class_share_pct;
   const headShare = Math.max(...Object.values(shares));
 
   writeData("dataset.json", {
@@ -63,14 +66,14 @@ if (exists("class_distribution.csv") && exists("rare_classes.yaml") && exists("g
     name: "Fed-ISIC2019",
     source: "huggingface.co/datasets/flwrlabs/fed-isic2019",
     classes: names.map((name, id) => ({
-      id, name, sharePct: shares[name], rare: rare.rare_class_ids.includes(id),
+      id, name, sharePct: shares[name], rare: rareYaml.rare_class_ids.includes(id),
     })),
     rareRule: {
-      headRatioDivisor: rare.head_ratio_divisor,
-      cutoffPct: rare.rare_cutoff_pct,
+      headRatioDivisor: rareYaml.head_ratio_divisor,
+      cutoffPct: rareYaml.rare_cutoff_pct,
       headClass: names.find((n) => shares[n] === headShare),
       headSharePct: headShare,
-      holderMinImages: rare.specialist_min_images,
+      holderMinImages: rareYaml.specialist_min_images,
     },
     centres: dist.map((row, k) => {
       const total = names.map((n) => Number(row[n]));
@@ -100,31 +103,69 @@ if (exists("gate_g0a.json")) {
   });
 }
 
+// ------------------------------------------------------------------ g0b.json
+if (exists("gate_g0b.json")) {
+  const g = readJson("gate_g0b.json");
+  writeData("g0b.json", {
+    _meta: { status: "verified", sources: ["results/gate_g0b.json"],
+      producedBy: "scripts/07_tier_a_s1_baselines.py (feature/pipeline)", syncedAt: today },
+    gate: "G0b", passed: g.passed, statistic: g.statistic, threshold: g.threshold,
+    definition: g.definition,
+    perSeed: Object.entries(g.per_seed).map(([seed, value]) => ({ seed: Number(seed), value })),
+    config: g.tier_a_config,
+  });
+}
+
 // ------------------------------------------------------------------ baseline_results.json
-if (exists("tier_a_s1_metrics.csv")) {
-  const rows = parseCsv(readText("tier_a_s1_metrics.csv"));
-  const lastRound = Math.max(...rows.map((r) => Number(r.round)));
-  const final = rows.filter((r) => Number(r.round) === lastRound);
-  const mean = (rs, key) => rs.reduce((a, r) => a + Number(r[key]), 0) / rs.length;
+// One metrics file per rule (scripts/07 writes tier_a_s1_<rule>.csv); the older combined
+// tier_a_s1_metrics.csv is used only if no per-rule file exists.
+const perRule = ["tier_a_s1_fedavg.csv", "tier_a_s1_camp_a.csv"].filter(exists);
+const baselineFiles = perRule.length ? perRule : ["tier_a_s1_metrics.csv"].filter(exists);
+if (baselineFiles.length && rareYaml) {
+  const rows = baselineFiles.flatMap((f) => parseCsv(readText(f)));
+  const rare = rareYaml.rare_class_ids.map((id, i) => ({
+    name: rareYaml.rare_class_names[i],
+    column: `f1_${id}_${rareYaml.rare_class_names[i].replaceAll(" ", "_")}`,
+  }));
   const labels = { fedavg: "FedAvg", camp_a: "Camp A (evidence weighting)" };
-  const rules = [...new Set(final.map((r) => r.rule))].map((id) => {
-    const rs = final.filter((r) => r.rule === id);
+  const num = (r, k) => Number(r[k]);
+
+  const rules = [...new Set(rows.map((r) => r.rule))].map((id) => {
+    const rs = rows.filter((r) => r.rule === id);
+    const lastRound = Math.max(...rs.map((r) => Number(r.round)));
+    const final = rs.filter((r) => Number(r.round) === lastRound);
+    const perSeed = final.map((r) => ({
+      seed: Number(r.seed),
+      balancedAccuracy: num(r, "balanced_accuracy"),
+      accuracy: num(r, "accuracy"),
+      rareMacroF1: num(r, "rare_macro_f1"),
+      rareF1: Object.fromEntries(rare.map((c) => [c.name, num(r, c.column)])),
+    }));
+    const rounds = [...new Set(rs.map((r) => Number(r.round)))].sort((a, b) => a - b);
     return {
-      id, label: labels[id] ?? id, status: "baseline", seeds: rs.length,
-      balancedAccuracy: mean(rs, "balanced_accuracy"),
-      rareMacroF1: mean(rs, "rare_macro_f1"),
-      rareF1: { Dermatofibroma: mean(rs, "f1_5_Dermatofibroma"),
-        "Vascular lesion": mean(rs, "f1_6_Vascular_lesion") },
+      id, label: labels[id] ?? id, status: "baseline", seeds: perSeed.length, rounds: lastRound,
+      // means over seeds, final round
+      balancedAccuracy: mean(perSeed.map((s) => s.balancedAccuracy)),
+      accuracy: mean(perSeed.map((s) => s.accuracy)),
+      rareMacroF1: mean(perSeed.map((s) => s.rareMacroF1)),
+      rareF1: Object.fromEntries(rare.map((c) => [c.name, mean(perSeed.map((s) => s.rareF1[c.name]))])),
+      perSeed,
+      // mean over seeds after every round - shows whether the run had finished improving
+      curve: rounds.map((round) => {
+        const at = rs.filter((r) => Number(r.round) === round);
+        return { round, balancedAccuracy: mean(at.map((r) => num(r, "balanced_accuracy"))),
+          rareMacroF1: mean(at.map((r) => num(r, "rare_macro_f1"))) };
+      }),
     };
   });
   writeData("baseline_results.json", {
-    _meta: { status: "verified", sources: ["results/tier_a_s1_metrics.csv"],
+    _meta: { status: "verified", sources: baselineFiles.map((f) => `results/${f}`),
       producedBy: "scripts/07_tier_a_s1_baselines.py", syncedAt: today,
-      note: `Tier A, natural split S1, final round (${lastRound}), mean over seeds.` },
+      note: "Tier A, natural split S1. Final-round values, mean over seeds." },
     split: "S1", rules,
   });
 } else {
-  console.log("  baseline_results.json: results/tier_a_s1_metrics.csv missing, sample kept");
+  console.log("  baseline_results.json: no results/tier_a_s1_<rule>.csv yet, sample kept");
 }
 
 // ------------------------------------------------------------------ roadmap.json gates

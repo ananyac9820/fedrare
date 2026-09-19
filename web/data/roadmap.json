@@ -31,7 +31,19 @@
           "state": "done"
         },
         {
-          "item": "FedAvg / Camp A run on S1",
+          "item": "FedAvg run on S1 (3 seeds)",
+          "state": "done"
+        },
+        {
+          "item": "Gate G0b run",
+          "state": "failed"
+        },
+        {
+          "item": "G0b retry: more rounds, unfrozen last block",
+          "state": "in-progress"
+        },
+        {
+          "item": "Camp A run on S1",
           "state": "blocked"
         },
         {
@@ -89,8 +101,10 @@
       "when": "End of Week 1",
       "condition": "Tier A FedAvg reaches balanced accuracy >= 0.45",
       "ifFails": "Unfreeze the last dense block and re-extract features. One retry.",
-      "state": "not-run",
-      "note": "Blocked: work stopped after G0a failed, per the gate rule."
+      "state": "failed",
+      "note": "Balanced accuracy was still rising at round 40. A retry with more rounds and an unfrozen last dense block is in progress.",
+      "result": "FedAvg balanced accuracy 0.415 (needs >= 0.45)",
+      "resultStatus": "verified"
     },
     {
       "id": "G1",
