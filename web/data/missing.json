@@ -1,0 +1,51 @@
+{
+  "_meta": {
+    "status": "verified",
+    "sources": [],
+    "note": "What the prototype shows as sample data today, and where the real numbers will come from. Update this file as data lands.",
+    "syncedAt": "2026-09-19"
+  },
+  "items": [
+    {
+      "what": "FedAvg vs Camp A rare-class F1 and balanced accuracy on S1 (Results chart)",
+      "owner": "Ananya",
+      "track": "Pipeline & EARN",
+      "branch": "feature/pipeline",
+      "file": "results/tier_a_s1_metrics.csv",
+      "producedBy": "scripts/07_tier_a_s1_baselines.py",
+      "blockedBy": "Team decision on the G0a retry"
+    },
+    {
+      "what": "Attack results A1-A3 and Gate G1 (attacker's captured weight, rare-class F1 drop)",
+      "owner": "Arya",
+      "track": "Attacks & Eval",
+      "branch": "feature/attacks",
+      "file": "results/ (G1 attack table - format to agree)",
+      "producedBy": "Week 2 attack runs"
+    },
+    {
+      "what": "Real ledger rounds: trust-table and history hashes per round",
+      "owner": "Aditya",
+      "track": "Blockchain",
+      "branch": "Hardhat contract repo/branch (not in this repo yet)",
+      "file": "results/ledger_rounds.json",
+      "producedBy": "Week 5 integration"
+    },
+    {
+      "what": "Gas cost and latency per round on the local chain",
+      "owner": "Aditya",
+      "track": "Blockchain",
+      "branch": "Hardhat contract repo/branch (not in this repo yet)",
+      "file": "to agree",
+      "producedBy": "Week 5 measurements"
+    },
+    {
+      "what": "EARN trust evolution per centre and class",
+      "owner": "Ananya",
+      "track": "Pipeline & EARN",
+      "branch": "feature/pipeline",
+      "file": "round_info trust arrays from src/federated/earn.py",
+      "producedBy": "Week 3-4, only if the evidence signal is fixed"
+    }
+  ]
+}

@@ -1,0 +1,735 @@
+{
+  "_meta": {
+    "status": "sample",
+    "sources": [],
+    "note": "Sample chain. Hash links are real SHA-256, contents are made up. Real rounds come from EARN (Week 3) committed through the Hardhat contract (Week 5).",
+    "wouldComeFrom": "results/ledger_rounds.json",
+    "syncedAt": "2026-09-19"
+  },
+  "rules": {
+    "maxTrustStep": 0.1,
+    "halvingFactor": 0.5
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "trustTableHash": "3acdad857d9322d2a9faca49197bf32f41883399c92d210e75e39a7c876c8d15",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "2c3f3a2d9e0253f9969e6957fb4d373a1a61c043ab4e71db1113f12f7332d1b8",
+      "maxTrustRise": 0.098,
+      "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "blockHash": "0a447cf9c32ba9d20dc75d84ff220ffc46e6f7ec387b201f3769931fb5fc6880"
+    },
+    {
+      "round": 2,
+      "trustTableHash": "14b216237987b0f315535c7be8e4675618e5be02b2b2053ce92a304fabce4355",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "978ba6265966e82e64b6476cc6b8f61aadc0eebd6ac95ae8c7b82ee7e4b7970c",
+      "maxTrustRise": 0.095,
+      "prevHash": "0a447cf9c32ba9d20dc75d84ff220ffc46e6f7ec387b201f3769931fb5fc6880",
+      "blockHash": "155cf7aee0968cb20bd5df3e167237258404764cac68065c6c150f9f1758258e"
+    },
+    {
+      "round": 3,
+      "trustTableHash": "df3f1e307abae945d140940b93371de776a74ad56c8b5a795056684ccbb88337",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "99f1800cec43f0acc1267e021cadfc92c19a264774760ef13a715f0411d7ca17",
+      "maxTrustRise": 0.093,
+      "prevHash": "155cf7aee0968cb20bd5df3e167237258404764cac68065c6c150f9f1758258e",
+      "blockHash": "0267d227daabe5883fbc773676ca1cc4616c3e846444630c63040277892f1273"
+    },
+    {
+      "round": 4,
+      "trustTableHash": "112384391a418cca951c288d7f81e3c9eba69fb8ea2d1576bf0fda5f24515367",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "d311358f506bf0c7465d746ab90ddb7d9495bc58eb7db8f9d396862aa7b671ca",
+      "maxTrustRise": 0.09,
+      "prevHash": "0267d227daabe5883fbc773676ca1cc4616c3e846444630c63040277892f1273",
+      "blockHash": "6425471ed5a3136cfbf8b6ce6f905482755ce313be84915a55df5f7cc6a50d0e"
+    },
+    {
+      "round": 5,
+      "trustTableHash": "08874a13d89d408287234c56ae0ce36cd3d933d7f8bbcb1aeaaf9a639fc60e5a",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "72f72c86b564f6fd33a48fd4e79754a5d0283d20f65aac98803ac485da9913f4",
+      "maxTrustRise": 0.088,
+      "prevHash": "6425471ed5a3136cfbf8b6ce6f905482755ce313be84915a55df5f7cc6a50d0e",
+      "blockHash": "925ecb7969e19d604f07ea4a4bd530951049a7ab9cc0f796e1975250de403800"
+    },
+    {
+      "round": 6,
+      "trustTableHash": "ea85b49552468d644228ba663e9b44c3c75ffe19ff0dc3a63827f9ea35c504db",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "a899173c12f07118fb70ab45dd254eab07f393cafc0a22043910179815da96a6",
+      "maxTrustRise": 0.085,
+      "prevHash": "925ecb7969e19d604f07ea4a4bd530951049a7ab9cc0f796e1975250de403800",
+      "blockHash": "3b42239302310fb980008e24daac7a03630da9bea224bee7cd3d558cdabbe6eb"
+    },
+    {
+      "round": 7,
+      "trustTableHash": "90dd95836be59d2bf1ed1b65967d911023aa3bf2cfdf4b1f402acae1514f4890",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "09d45bf20829baf4c2d5d4ef36b131adc95793bd4e73c65ccb2363e3880dd4fd",
+      "maxTrustRise": 0.1,
+      "prevHash": "3b42239302310fb980008e24daac7a03630da9bea224bee7cd3d558cdabbe6eb",
+      "blockHash": "3df7237de7d732e4ea37d27d08ac4364e479f045c5e76aa6258f8c8f6a8ce442"
+    },
+    {
+      "round": 8,
+      "trustTableHash": "8a2aa2d3bd4ab8cef4a36cd28976ef6f906a355817ad0d8f9081d74d16892585",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "d6d36e03be3b4f21a767145053ca29ffaa07892e265b6720b08ac7d452a75a7f",
+      "maxTrustRise": 0.098,
+      "prevHash": "3df7237de7d732e4ea37d27d08ac4364e479f045c5e76aa6258f8c8f6a8ce442",
+      "blockHash": "62db0d27ba6cfbe99be2d889f005076b63293794c47f4c6172086b248ddad39e"
+    },
+    {
+      "round": 9,
+      "trustTableHash": "c380cd5f623aa44ebd047d27619e68ec4ea9cceb70d6972b7b7ba513d001fef2",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "f3132e4c51d83779c58a0f8b5f77add1e9137ec2751e12157dae497ce92ef624",
+      "maxTrustRise": 0.095,
+      "prevHash": "62db0d27ba6cfbe99be2d889f005076b63293794c47f4c6172086b248ddad39e",
+      "blockHash": "a266f3f851a11114e3a89484fe9c1b5e056c307aad8633fcf24491d5eaef83e8"
+    },
+    {
+      "round": 10,
+      "trustTableHash": "012d4b9f431ee6235abe889fb64fde8aea515f17468e7cc5599c953b1030ae13",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "eb6ab3b150adcf356b6dee5c98a74b6eae66b820f24a25f84b3a3c89e3d7e8b5",
+      "maxTrustRise": 0.093,
+      "prevHash": "a266f3f851a11114e3a89484fe9c1b5e056c307aad8633fcf24491d5eaef83e8",
+      "blockHash": "9b7840db293bb4ceabe275d8f6e3d6ff5cd9bb1355a5a8c75c52cd5758b90fcc"
+    },
+    {
+      "round": 11,
+      "trustTableHash": "e7f305bc2912f913c368afe840a1624112042c20196ee57ccc19a4d95c83958c",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "b053811c329c3a903a7d5a7c5f8cfbe0a3c4b7c74e6db007e034a7228fd7543a",
+      "maxTrustRise": 0.09,
+      "prevHash": "9b7840db293bb4ceabe275d8f6e3d6ff5cd9bb1355a5a8c75c52cd5758b90fcc",
+      "blockHash": "32c5622f39f106b404253ab938c5831377be2a974ca0fdb9dc8ccf000b59eb7a"
+    },
+    {
+      "round": 12,
+      "trustTableHash": "e308451b8c7eca4d1978dc5ef291e1b76cb2a18c332bebd30b5d077804501915",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "ba9f7e252a0be92a0c577c02e8e4a62bd6618fd44980629d9784fdb9924ea0f7",
+      "maxTrustRise": 0.088,
+      "prevHash": "32c5622f39f106b404253ab938c5831377be2a974ca0fdb9dc8ccf000b59eb7a",
+      "blockHash": "74a3c49e204ff27f75034cc5407c12581f923541e20fcdb7ff2a436b2a48ec06"
+    },
+    {
+      "round": 13,
+      "trustTableHash": "579619bc2fadce64cfa5f67ec98ca7a08299c2f0698e7886fc191d0c0fcee5eb",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "094e264300dccebb1e8cd7ef2c50a74851f111132353f3f226515a975df02b7f",
+      "maxTrustRise": 0.085,
+      "prevHash": "74a3c49e204ff27f75034cc5407c12581f923541e20fcdb7ff2a436b2a48ec06",
+      "blockHash": "abf078634c243b6407b24330d8e5d7ef9f83d324714ac8ee701081f5deb725b1"
+    },
+    {
+      "round": 14,
+      "trustTableHash": "08041ff380348c48cb39bd4bace34b5f6afcc24d0f131636edf5de112fd8c4a0",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "7413b0ebb4b415fd7b3fe352cd660a5693ff30b00fbab3fb8aa9c1da928d43ab",
+      "maxTrustRise": 0.1,
+      "prevHash": "abf078634c243b6407b24330d8e5d7ef9f83d324714ac8ee701081f5deb725b1",
+      "blockHash": "56ff8a81ff48c884363e1e5a7ee08225b6a47108fbde76ebbb2052c06dbf0239"
+    },
+    {
+      "round": 15,
+      "trustTableHash": "17d500d2822cc11b230c3b942ac5db165e3327702a8b56eee37f9ef7bb6e7772",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "2b6a079f62fbb283d90ebc86a795daee7f5cb179a3b6ebc48c052594c9cdb0bc",
+      "maxTrustRise": 0.098,
+      "prevHash": "56ff8a81ff48c884363e1e5a7ee08225b6a47108fbde76ebbb2052c06dbf0239",
+      "blockHash": "64af5240ebab0911a59de54dbe51514a057fa80bd3a226df60d0d8a026f0f0e5"
+    },
+    {
+      "round": 16,
+      "trustTableHash": "9a0fda5df1d04b19b780a903a5857cbbef1cc18f23f1cbdfbc2a7046e47b8aab",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "77bc40e94efe425496126230c1ed9b8a10fbb733c811bb5fe0f5dc3f27341a5d",
+      "maxTrustRise": 0.095,
+      "prevHash": "64af5240ebab0911a59de54dbe51514a057fa80bd3a226df60d0d8a026f0f0e5",
+      "blockHash": "c96e9685d86e227581f56c0cc3102c1c739e92f574033591a332dfa9433f0aa5"
+    },
+    {
+      "round": 17,
+      "trustTableHash": "fb1f31aaf56daa650319ab126c3ee249d0312a989195877bcf04524a66cca37b",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "6dbaa1cb51db8ffbe26d4129c593f32fab3ee74e73bf3ffe7bd2a284d7157a7c",
+      "maxTrustRise": 0.093,
+      "prevHash": "c96e9685d86e227581f56c0cc3102c1c739e92f574033591a332dfa9433f0aa5",
+      "blockHash": "9e0ed8e86cf2f136c89bfb533ff912f152fb05aab8203fe2d1c9e8e466459d6b"
+    },
+    {
+      "round": 18,
+      "trustTableHash": "6b6597368b03877aa21115b65671fc89c4b4e38ba1bfb3e9db5584190ac26eae",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "f29db39b884b68e733714277931fdf925f2833cfdbc7d1119da73204e0e7488b",
+      "maxTrustRise": 0.09,
+      "prevHash": "9e0ed8e86cf2f136c89bfb533ff912f152fb05aab8203fe2d1c9e8e466459d6b",
+      "blockHash": "bf2ce2dbbafee2e25b85529a175cdb7166a2237ac2a6afcf08106c95b7b308e8"
+    },
+    {
+      "round": 19,
+      "trustTableHash": "64aba2ed57c983d930a22cae8cbafbef2cf84862a906a7b67bc1aa4f5a24b3f7",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "457e2e07fb04f092f6e0cfb15737bdfe5b21d6c016bc844944fd60e846811e21",
+      "maxTrustRise": 0.088,
+      "prevHash": "bf2ce2dbbafee2e25b85529a175cdb7166a2237ac2a6afcf08106c95b7b308e8",
+      "blockHash": "c67213ff5fd1c83383b69c928bbbf065936c22d9b26ff7e4579c2a641ed93ccc"
+    },
+    {
+      "round": 20,
+      "trustTableHash": "37daca427593ab77336ca8c25c18d314a40534b0a8014802de5bc55b7cccbaa0",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "c10a25be39765c1ad6c19f2235a30c3612f4c7f82b3065ad7e2bb3de830984c6",
+      "maxTrustRise": 0.085,
+      "prevHash": "c67213ff5fd1c83383b69c928bbbf065936c22d9b26ff7e4579c2a641ed93ccc",
+      "blockHash": "ac3b5888da2a030d6ea27df234cb8adc3a456381ffb23d40ca5e1e7020502863"
+    },
+    {
+      "round": 21,
+      "trustTableHash": "4be97da71d2a1d8dca991b26e706848c5b5523e51589e682ac753a4a2353bc23",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "38cde2217d0d8c81834afe41e7f9ef57d71b87a2f43497354983f70bee498748",
+      "maxTrustRise": 0.1,
+      "prevHash": "ac3b5888da2a030d6ea27df234cb8adc3a456381ffb23d40ca5e1e7020502863",
+      "blockHash": "f228c68548667b480e473d47ac484ce8e643eb33e71f2044ae506572f03ead9d"
+    },
+    {
+      "round": 22,
+      "trustTableHash": "0b1a98cc589bbfa6cbddc07ca0ddd2e99306682d52241fd0f405a7872cff75a2",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "8517e66131e8703d0d2b033d46d03a172919c2cb11e947955fa1b55e7e4907fa",
+      "maxTrustRise": 0.098,
+      "prevHash": "f228c68548667b480e473d47ac484ce8e643eb33e71f2044ae506572f03ead9d",
+      "blockHash": "ae97ffc7d76dea4e399663ee88a121c499b601ede3831e4dd8bf63b005e4f8a5"
+    },
+    {
+      "round": 23,
+      "trustTableHash": "9eb8f46546438b968f2801ccc4a914074d1c75657223c51eb663cdc9078d4247",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "d2a8b8253e45bee01b3b822a5fdd1b462ef9fc716f5aacd43eb3bd56d10e0699",
+      "maxTrustRise": 0.095,
+      "prevHash": "ae97ffc7d76dea4e399663ee88a121c499b601ede3831e4dd8bf63b005e4f8a5",
+      "blockHash": "44d0545c976d2c0c0e807c227324ea0b7b360af34def561e2921a00911c41eb3"
+    },
+    {
+      "round": 24,
+      "trustTableHash": "13962552e9ccef40a7b5d3fe6d7510049eb83d8282f740bf6511b8aa72e837de",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "d3f01c977486ce75216099e5828bed1f6cb595a41944e70c1f380dc6c0382ab5",
+      "maxTrustRise": 0.093,
+      "prevHash": "44d0545c976d2c0c0e807c227324ea0b7b360af34def561e2921a00911c41eb3",
+      "blockHash": "b7e08aff236597033ef95fd71c41aeef24f6f544d22ce945d65d4f8cef7a0ca7"
+    },
+    {
+      "round": 25,
+      "trustTableHash": "64fa134d885af875a459c192ad3f24e0445388bda37336a7d7ef252435d2b548",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "d2e4948a2e1784ba43f4366865045e83881230c436aa38f1647cc53370d7c424",
+      "maxTrustRise": 0.09,
+      "prevHash": "b7e08aff236597033ef95fd71c41aeef24f6f544d22ce945d65d4f8cef7a0ca7",
+      "blockHash": "bad8d7a0a008cdb27b3d9edbd7461ba192da8045e1dd9438ccd9adfb6e4f717c"
+    },
+    {
+      "round": 26,
+      "trustTableHash": "f555a209db16dcd6cf90062efb53fec2a0bbea4c23ca2575c5a5142a097b7f10",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "9eabf0ea2f06364fb1d9f68b796939c061d91db2e0d2856e27c47188f5fa7edd",
+      "maxTrustRise": 0.088,
+      "prevHash": "bad8d7a0a008cdb27b3d9edbd7461ba192da8045e1dd9438ccd9adfb6e4f717c",
+      "blockHash": "f44dc889a0b64f4b6e2e621a30614e423b003dff09a648d08e96513fcb1c313a"
+    },
+    {
+      "round": 27,
+      "trustTableHash": "fdc52881f1c32e839a71b6eb6c0065e93c7adf0dc132f7894402c5bbd242877e",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "c5e98b2dff99b30d097d2ad40d6f5b8e608f40608383ce698db3e1b3cc74578d",
+      "maxTrustRise": 0.085,
+      "prevHash": "f44dc889a0b64f4b6e2e621a30614e423b003dff09a648d08e96513fcb1c313a",
+      "blockHash": "0bdd499636a0804eac9446f2a38b565bd2b26b84568ceb5cd799f590baf9ff4a"
+    },
+    {
+      "round": 28,
+      "trustTableHash": "10e85a6cbd86cee0603d7aef8229fd8050f7e0c6c181a7a2711e7cf55475c0c6",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "d784446c247bf29b11a90f4fdb39373b3ba4bea97d99d0f7d410ad5b7018c03f",
+      "maxTrustRise": 0.1,
+      "prevHash": "0bdd499636a0804eac9446f2a38b565bd2b26b84568ceb5cd799f590baf9ff4a",
+      "blockHash": "d8ff7f7b3b912d96a5632bf3a470cc8168549c4f948f43fde36880e3abbf83fa"
+    },
+    {
+      "round": 29,
+      "trustTableHash": "b0cad7816bf1c91cfcd7f1217bade056c26582d5da9d83c4a850f072d97e31d4",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "a0567e4ca0c67366972eafe71b6c936208d4a03dd64f2794269924be133b9bcf",
+      "maxTrustRise": 0.098,
+      "prevHash": "d8ff7f7b3b912d96a5632bf3a470cc8168549c4f948f43fde36880e3abbf83fa",
+      "blockHash": "0f713fddf86dd2d2d272c0930740663779f48b96254be786f6bc8516e5a8e380"
+    },
+    {
+      "round": 30,
+      "trustTableHash": "b99a69a7a8accdca6fbf02400fc4829a660162579dc9fdf5df03f8ef31f8730e",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "28e542b13e2a659201df2de9ac7ea5f4a0b6ae8c6fa9ffac6b3b608b7c6c1201",
+      "maxTrustRise": 0.095,
+      "prevHash": "0f713fddf86dd2d2d272c0930740663779f48b96254be786f6bc8516e5a8e380",
+      "blockHash": "8ead1566a2400bbafb235e962f1130416c4c69b70ca7f08c2fcef0a28258a93b"
+    },
+    {
+      "round": 31,
+      "trustTableHash": "e6889d489437a21c25589bdcc54d17d405eb0c196149def44cf886d7eccc39f8",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "85659fa6c9aa2c10e1086b203af662b1ff7f895c46a60689c882b6266be76d9f",
+      "maxTrustRise": 0.093,
+      "prevHash": "8ead1566a2400bbafb235e962f1130416c4c69b70ca7f08c2fcef0a28258a93b",
+      "blockHash": "c339dade40ed7a6efbe8e927916f4d8cf2a84cb33a052e801efc10588fb0ec3e"
+    },
+    {
+      "round": 32,
+      "trustTableHash": "c6d6c00af398666ea936c4490605e20ab21ab2eb590251c09dbe3dee3111172d",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "24ce3d6bc0794da7cc7130a32020ac1b11867c0869b10e4b9669867a1d720216",
+      "maxTrustRise": 0.09,
+      "prevHash": "c339dade40ed7a6efbe8e927916f4d8cf2a84cb33a052e801efc10588fb0ec3e",
+      "blockHash": "f499c64f92d5aebb26d89bc6af843eedeb66337809c87f74e894fe354ce9520f"
+    },
+    {
+      "round": 33,
+      "trustTableHash": "1eca57538a2119174993ae51aa65e5783b61b1020f85c0ae92caff47512ba4d2",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "9cd5cef48b1e3e46f065a1f608e4eabeee433edb55e27f38b8b18b30ee920b0d",
+      "maxTrustRise": 0.088,
+      "prevHash": "f499c64f92d5aebb26d89bc6af843eedeb66337809c87f74e894fe354ce9520f",
+      "blockHash": "1d4e0137384ddd3ed0d9d760f1c5cdf60a4d00d18b23aae533efdc64b94fce0f"
+    },
+    {
+      "round": 34,
+      "trustTableHash": "4f36d4035c6c9058a47184531f9ceca69201b34115e0859d630432da0858e8fd",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "c0693f8de4f7f14b70601155b8266fe4dc9396d35394c1ae8af7d7a04101be19",
+      "maxTrustRise": 0.085,
+      "prevHash": "1d4e0137384ddd3ed0d9d760f1c5cdf60a4d00d18b23aae533efdc64b94fce0f",
+      "blockHash": "a9ec5083dc71fd5a5a11461b1d09a6c8d516fe14a95770bf7f230a25da636a7c"
+    },
+    {
+      "round": 35,
+      "trustTableHash": "6c33340f60042aa44394dccfc22a3b803e9d0194e058ed525d27bf53573746c0",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "f8538c0fa164ca8c6a13961c108535015f7fa0d45a97a663bd28b1b370110271",
+      "maxTrustRise": 0.1,
+      "prevHash": "a9ec5083dc71fd5a5a11461b1d09a6c8d516fe14a95770bf7f230a25da636a7c",
+      "blockHash": "6b36daaa7566e2edbe7a3d8d3ec1432fccfdba83b10eea36b64d6a0c9117477e"
+    },
+    {
+      "round": 36,
+      "trustTableHash": "3eab62ce4e43290e7bb5850602f7d7736be3ac35761863a1db8157f78fbb42d6",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "a7dd8e7d9652d4bef27a2de42a5c20b8d30737819aaee77104948c73033fdf7f",
+      "maxTrustRise": 0.098,
+      "prevHash": "6b36daaa7566e2edbe7a3d8d3ec1432fccfdba83b10eea36b64d6a0c9117477e",
+      "blockHash": "edb70042539363adafc83cc4687e642854af012d8757d90ca6a14cc3d3e39322"
+    },
+    {
+      "round": 37,
+      "trustTableHash": "3aa45b73617e28e49f00f24a0ef87745719fd0bd3ddfae73c9de5974551ce391",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "40a52b1597faa0abf721d4c00ad51092591431bd13fb67d110ced313011539f2",
+      "maxTrustRise": 0.095,
+      "prevHash": "edb70042539363adafc83cc4687e642854af012d8757d90ca6a14cc3d3e39322",
+      "blockHash": "ea863f9a3630fd7fd03cf9d45d88fc64d8edab382466df9c11e5b8219f5274d8"
+    },
+    {
+      "round": 38,
+      "trustTableHash": "0edbfdae562fde2f3f3bcb17cfe9a87ea2eef9580e7731cf830c57e8387fe63a",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "7a14f8fe66b39b4178f6f83c2a11e2d497c77e76548a6f545a5dbbc0a7b21848",
+      "maxTrustRise": 0.093,
+      "prevHash": "ea863f9a3630fd7fd03cf9d45d88fc64d8edab382466df9c11e5b8219f5274d8",
+      "blockHash": "faefaddfb6a10e9d3de9a3036b9a9773df0ba66c1983ee0b1ec0fa5a4e3d3a42"
+    },
+    {
+      "round": 39,
+      "trustTableHash": "e7f9af37dffeb61d9ea189e8568d9e3c1017ebd032eebad3d6dc6bcc2db4e56f",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "b8707be9c681602cfb030ea76abe0f9ba439ab52a05c3dadc9d59cff68532067",
+      "maxTrustRise": 0.09,
+      "prevHash": "faefaddfb6a10e9d3de9a3036b9a9773df0ba66c1983ee0b1ec0fa5a4e3d3a42",
+      "blockHash": "9b1026a23de545d0d178d81dfb313711371ebe79fd11c3b7ecb60a14a44a3e22"
+    },
+    {
+      "round": 40,
+      "trustTableHash": "faa0e51b427796006a2695f3a4f7dc26a35b1b8c14886c527ae5ee9428984f7f",
+      "coverage": [
+        6,
+        6,
+        3,
+        3,
+        5,
+        4,
+        3,
+        2
+      ],
+      "historyHash": "42a33bef81e12ba9a71001f50bb48ffe8518c7b1922456743b6f863d6582fdfa",
+      "maxTrustRise": 0.088,
+      "prevHash": "9b1026a23de545d0d178d81dfb313711371ebe79fd11c3b7ecb60a14a44a3e22",
+      "blockHash": "1ab5f9399b2316753e80fe4410de986007e514f0fca7d3038ffa3fdfdac9f166"
+    }
+  ]
+}

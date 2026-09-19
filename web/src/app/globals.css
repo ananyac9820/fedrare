@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  /* Surfaces */
+  --color-ink-950: #04060b;
+  --color-ink-900: #080c16;
+  --color-ink-850: #0c1220;
+  --color-ink-800: #111a2c;
+  --color-line: rgb(148 163 184 / 0.12);
+
+  /* Brand accent: data flow, the model */
+  --color-accent: #2dd4bf;
+
+  /* The three project states - used consistently everywhere */
+  --color-verified: #34d399;
+  --color-baseline: #60a5fa;
+  --color-progress: #fbbf24;
+
+  /* Gate outcomes */
+  --color-failed: #fb7185;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-ink-950);
+}
+
+body {
+  background: var(--color-ink-950);
+  color: #cbd5e1;
+}
+
+::selection {
+  background: rgb(45 212 191 / 0.3);
+  color: white;
+}
+
+/* SAMPLE DATA marking - striped so it cannot be mistaken for a real figure */
+.sample-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgb(148 163 184 / 0.1) 0 6px,
+    transparent 6px 12px
+  );
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgb(148 163 184 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(148 163 184 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Reduced motion: no smooth scroll, no CSS animation. framer-motion and the 3D scenes
+   check the same preference themselves. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

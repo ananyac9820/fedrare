@@ -1,0 +1,30 @@
+{
+  "_meta": {
+    "status": "sample",
+    "sources": [],
+    "note": "PLACEHOLDER VALUES FOR LAYOUT ONLY - not results. No Tier A run has produced these numbers yet: G0b and the S1 baselines were not run because G0a failed.",
+    "wouldComeFrom": "results/tier_a_s1_metrics.csv (scripts/07_tier_a_s1_baselines.py on feature/pipeline)",
+    "syncedAt": "2026-09-19"
+  },
+  "split": "S1",
+  "rules": [
+    {
+      "id": "fedavg",
+      "label": "FedAvg",
+      "status": "baseline",
+      "seeds": 0,
+      "balancedAccuracy": 0.4,
+      "rareMacroF1": 0.3,
+      "rareF1": { "Dermatofibroma": 0.2, "Vascular lesion": 0.4 }
+    },
+    {
+      "id": "camp_a",
+      "label": "Camp A (evidence weighting)",
+      "status": "baseline",
+      "seeds": 0,
+      "balancedAccuracy": 0.4,
+      "rareMacroF1": 0.4,
+      "rareF1": { "Dermatofibroma": 0.3, "Vascular lesion": 0.5 }
+    }
+  ]
+}
