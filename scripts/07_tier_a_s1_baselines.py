@@ -13,17 +13,19 @@ Tier A baselines on the natural split S1, and Gate G0b.
 Both use TierAConfig defaults (src/federated/tier_a.py) - the same local training G0a
 measured - and the aggregators in src/federated/baselines.py.
 
-Outputs to results/:
-    tier_a_s1_metrics.csv    seed, rule, round, test metrics of the global head each round
-    tier_a_s1_weights.csv    seed, rule, round, client_id, class_id, head_row_weight, evidence
-    gate_g0b.json            the gate record
-    tier_a_s1.md             summary
+Outputs to results/, one pair of CSVs per rule run (rule = fedavg, camp_a):
+    tier_a_s1_<rule>.csv          seed, rule, round, test metrics of the global head each round
+    tier_a_s1_<rule>_weights.csv  seed, rule, round, client_id, class_id, head_row_weight, evidence
+    gate_g0b.json                 the gate record
+    tier_a_s1.md                  summary
 
-    python scripts/07_tier_a_s1_baselines.py     # needs scripts/05_extract_features.py output
+    python scripts/07_tier_a_s1_baselines.py              # FedAvg + G0b, then Camp A if it passes
+    python scripts/07_tier_a_s1_baselines.py --no-camp-a  # FedAvg + G0b only
 """
 
 from __future__ import annotations
 
+import argparse
 import importlib.util
 import json
 import sys
@@ -103,6 +105,10 @@ def md_table(headers, rows):
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description="Tier A baselines on S1 and Gate G0b.")
+    parser.add_argument("--no-camp-a", action="store_true",
+                        help="run FedAvg and check G0b only; skip Camp A")
+    args = parser.parse_args()
     cfg_yaml = load_config(ROOT / "configs" / "default.yaml")
     n_centers, n_classes = cfg_yaml["dataset"]["n_centers"], cfg_yaml["dataset"]["n_classes"]
     names = [cfg_yaml["dataset"]["class_names"][c] for c in range(n_classes)]
@@ -139,7 +145,9 @@ def main() -> int:
           f"{bal.mean():.3f} ± {bal.std():.3f} over seeds {SEEDS}; threshold {G0B_THRESHOLD})\n{bar}")
 
     # ---------------------------------------------------------------- Camp A
-    if g0b_passed:
+    if g0b_passed and args.no_camp_a:
+        print("\nCamp A skipped (--no-camp-a).")
+    elif g0b_passed:
         print("\nCamp A on S1")
         m, w, all_results["camp_a"] = run_rule("camp_a", clients, test, cfg, rare_ids, names)
         metric_rows += m
@@ -148,9 +156,11 @@ def main() -> int:
         print("  STOP: Camp A not run. Per the design doc, the retry (unfreeze the last dense "
               "block and re-extract features) is a team decision.")
 
-    pd.DataFrame(metric_rows).to_csv(out_dir / "tier_a_s1_metrics.csv", index=False)
+    metrics = pd.DataFrame(metric_rows)
     weights = pd.DataFrame(weight_rows)
-    weights.to_csv(out_dir / "tier_a_s1_weights.csv", index=False)
+    for rule in all_results:
+        metrics[metrics["rule"] == rule].to_csv(out_dir / f"tier_a_s1_{rule}.csv", index=False)
+        weights[weights["rule"] == rule].to_csv(out_dir / f"tier_a_s1_{rule}_weights.csv", index=False)
 
     # ---------------------------------------------------------------- summary
     rare_names = [names[c] for c in rare_ids]
@@ -177,7 +187,8 @@ def main() -> int:
                          f"{per_rule['camp_a'] / per_rule['fedavg']:.2f}x"])
         md += [f"Centre {SPECIALIST}'s mean weight on each rare head row (all rounds, all seeds):",
                "", md_table(["row", "FedAvg", "Camp A", "Camp A / FedAvg"], rows), ""]
-    md += ["Per-round data: `tier_a_s1_metrics.csv`, `tier_a_s1_weights.csv`.", ""]
+    md += ["Per-round data: " + ", ".join(f"`tier_a_s1_{r}.csv`, `tier_a_s1_{r}_weights.csv`"
+                                          for r in all_results) + ".", ""]
     (out_dir / "tier_a_s1.md").write_text("\n".join(md), encoding="utf-8")
     print(f"\n  wrote {out_dir / 'tier_a_s1.md'} and the CSVs")
     return 0 if g0b_passed else 4
