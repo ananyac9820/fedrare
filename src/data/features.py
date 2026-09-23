@@ -10,6 +10,10 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 FEATURES_DIR = ROOT / "data" / "features"
 PREFIX = "fed_isic2019_densenet121"
+# Feature sets: "frozen" = ImageNet DenseNet-121 as is (scripts/05_extract_features.py);
+# "ft4" = last dense block fine-tuned federated, the G0b retry (scripts/08_g0b_retry.py,
+# docs/DEVIATIONS.md D3). Experiments from D4 on use "ft4".
+VARIANTS = {"frozen": PREFIX, "ft4": f"{PREFIX}_ft4"}
 
 
 @dataclass(frozen=True)
@@ -25,10 +29,14 @@ class FeatureSplit:
                          for k in range(n_centers)])
 
 
-def load_features(split: str, features_dir: Path | str | None = None) -> FeatureSplit:
-    path = Path(features_dir or FEATURES_DIR) / f"{PREFIX}_{split}.npz"
+def load_features(split: str, features_dir: Path | str | None = None,
+                  variant: str = "frozen") -> FeatureSplit:
+    if variant not in VARIANTS:
+        raise ValueError(f"unknown feature variant {variant!r}; expected one of {list(VARIANTS)}")
+    path = Path(features_dir or FEATURES_DIR) / f"{VARIANTS[variant]}_{split}.npz"
     if not path.exists():
-        raise FileNotFoundError(f"{path} not found. Run scripts/05_extract_features.py first.")
+        script = "05_extract_features.py" if variant == "frozen" else "08_g0b_retry.py"
+        raise FileNotFoundError(f"{path} not found. Run scripts/{script} first.")
     with np.load(path) as z:
         return FeatureSplit(z["features"], z["labels"].astype(np.int64),
                             z["centers"].astype(np.int64))
