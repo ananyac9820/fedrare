@@ -31,6 +31,7 @@ class FlatLayout:
     body_cols: np.ndarray            # columns of body parameters
     head_cols: tuple[np.ndarray, ...]    # head_cols[c] = columns of head row c (weight + bias)
     head_weight_cols: tuple[np.ndarray, ...]  # head_weight_cols[c] = columns of weight row c only
+    head_bias_cols: tuple[int, ...] | None = None  # head_bias_cols[c] = column of bias entry c
 
     @classmethod
     def from_state(cls, state: dict, prefix: str = DEFAULT_HEAD_PREFIX) -> "FlatLayout":
@@ -41,7 +42,9 @@ class FlatLayout:
             raise KeyError(f"no head weight '{weight_key}' in state")
         n_classes = state[weight_key].shape[0]
 
+        bias_key = f"{prefix}.bias"
         body, rows, weight_rows = [], [[] for _ in range(n_classes)], [None] * n_classes
+        bias_cols = [None] * n_classes
         pos = 0
         for k in keys:
             n = state[k].numel()
@@ -55,6 +58,8 @@ class FlatLayout:
                     rows[c].append(cols)
                     if k == weight_key:
                         weight_rows[c] = cols
+                    elif k == bias_key and per_row == 1:
+                        bias_cols[c] = int(cols[0])
             else:
                 body.append(np.arange(pos, pos + n))
             pos += n
@@ -62,7 +67,8 @@ class FlatLayout:
         return cls(keys=keys, head_weight_key=weight_key, n_classes=n_classes,
                    body_cols=np.concatenate(body) if body else np.zeros(0, dtype=np.int64),
                    head_cols=tuple(np.concatenate(r) for r in rows),
-                   head_weight_cols=tuple(weight_rows))
+                   head_weight_cols=tuple(weight_rows),
+                   head_bias_cols=tuple(bias_cols) if all(b is not None for b in bias_cols) else None)
 
 
 def clip_to_median_norm(updates: torch.Tensor) -> tuple[torch.Tensor, np.ndarray]:
@@ -77,14 +83,27 @@ def clip_to_median_norm(updates: torch.Tensor) -> tuple[torch.Tensor, np.ndarray
     return updates * torch.as_tensor(scale, dtype=updates.dtype)[:, None], scale
 
 
-def head_evidence(updates: torch.Tensor, layout: FlatLayout) -> np.ndarray:
-    """e[k][c] = L2 norm of client k's update to head weight row c. Shape (K, C).
+EVIDENCE_KINDS = ("weight", "bias", "signed_bias")
 
-    Weight row only; the bias entry is excluded (the design doc's G0a retry option is to use
-    the bias instead).
+
+def head_evidence(updates: torch.Tensor, layout: FlatLayout, kind: str = "weight") -> np.ndarray:
+    """Per-client, per-class evidence read from the head update. Shape (K, C), all >= 0.
+
+    kind="weight"       e[k][c] = L2 norm of k's update to head weight row c (the design
+                        doc's definition; what G0a measured).
+    kind="bias"         e[k][c] = |change of bias c| (the design doc's G0a retry, docs/DEVIATIONS.md D1).
+    kind="signed_bias"  e[k][c] = max(0, change of bias c) - amendment M1 (docs/DEVIATIONS.md
+                        D2). Sign-aware: a client that pushed class c's score down shows none.
     """
-    return np.stack([updates[:, cols].norm(dim=1).double().cpu().numpy()
-                     for cols in layout.head_weight_cols], axis=1)
+    if kind == "weight":
+        return np.stack([updates[:, cols].norm(dim=1).double().cpu().numpy()
+                         for cols in layout.head_weight_cols], axis=1)
+    if kind not in EVIDENCE_KINDS:
+        raise ValueError(f"unknown evidence kind {kind!r}; expected one of {EVIDENCE_KINDS}")
+    if layout.head_bias_cols is None:
+        raise ValueError("bias-based evidence needs a per-class bias in the head")
+    bias = updates[:, list(layout.head_bias_cols)].double().cpu().numpy()
+    return np.abs(bias) if kind == "bias" else np.maximum(bias, 0.0)
 
 
 def evidence_share(evidence: np.ndarray) -> np.ndarray:

@@ -204,3 +204,15 @@ def test_run_federated_learns_and_supports_hooks():
     # same seed, same factory -> identical run
     res3 = run_federated(lambda: baselines.fedavg, clients, xt, yt, cfg, seed=0, rare_ids=[5, 6])
     assert res3["final"] == res["final"]
+
+
+def test_head_evidence_kinds_read_the_bias_with_and_without_sign():
+    clients, g = make_states()
+    layout = FlatLayout.from_state(g)
+    updates = torch.stack([flatten(state_delta(s, g, layout.keys), layout.keys) for s in clients])
+    db = torch.stack([s["classifier.bias"] - g["classifier.bias"] for s in clients]).double().numpy()
+    assert np.allclose(head_evidence(updates, layout, "bias"), np.abs(db))
+    assert np.allclose(head_evidence(updates, layout, "signed_bias"), np.maximum(db, 0))
+    assert np.allclose(head_evidence(updates, layout), head_evidence(updates, layout, "weight"))
+    with pytest.raises(ValueError, match="unknown evidence kind"):
+        head_evidence(updates, layout, "nope")
