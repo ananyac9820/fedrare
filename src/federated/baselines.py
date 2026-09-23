@@ -119,6 +119,7 @@ def coordinate_wise_median(client_states, client_sizes, global_state, round_num,
 
 def camp_a(client_states, client_sizes, global_state, round_num, *, lam: float = 1.0,
            cap: float = 0.5, clip: bool = True, head_prefix: str = DEFAULT_HEAD_PREFIX,
+           evidence_fn=None, evidence_kind: str = "weight", rule_name: str = "camp_a",
            **kwargs):
     """Evidence-proportional per-class weighting - EARN's weighting with trust fixed at 1.
 
@@ -132,6 +133,10 @@ def camp_a(client_states, client_sizes, global_state, round_num, *, lam: float =
     gets the full evidence bonus without having earned it - the Camp A behaviour EARN is
     meant to fix. lam = 1 weighs size share and evidence share equally; the design doc
     leaves lam unspecified, so it is a named constant here, not a tuned value.
+
+    evidence_fn(clipped_updates, layout, round_num) -> (K, C) replaces the head-row evidence;
+    the oracle-evidence runs (docs/DEVIATIONS.md D6) use it for a Camp A that weights by
+    reported class counts - the cwFedAvg / FedSat style of the literature.
     """
     layout = FlatLayout.from_state(global_state, head_prefix)
     updates = _stack_updates(client_states, global_state, layout)
@@ -141,7 +146,8 @@ def camp_a(client_states, client_sizes, global_state, round_num, *, lam: float =
 
     size_share = np.asarray(client_sizes, dtype=np.float64)
     size_share /= size_share.sum()
-    evidence = head_evidence(updates, layout)
+    evidence = (np.asarray(evidence_fn(updates, layout, round_num), dtype=np.float64)
+                if evidence_fn is not None else head_evidence(updates, layout, evidence_kind))
     share = evidence_share(evidence)
 
     agg = torch.zeros(updates.shape[1], dtype=updates.dtype)
@@ -154,7 +160,7 @@ def camp_a(client_states, client_sizes, global_state, round_num, *, lam: float =
         agg[cols] = (torch.as_tensor(head_w[:, c])[:, None] * updates[:, cols]).sum(dim=0)
 
     return _new_state(global_state, agg, layout), _info(
-        "camp_a", round_num, size_share, head_w, scale,
+        rule_name, round_num, size_share, head_w, scale,
         evidence=evidence, evidence_share=share)
 
 

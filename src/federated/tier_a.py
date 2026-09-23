@@ -21,7 +21,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from src.data.loader import class_balanced_weights
-from src.utils.metrics import summarise
+from src.utils.metrics import confusion, summarise
 from src.utils.seed import set_seed
 
 from .interface import DEFAULT_HEAD_PREFIX, AggregatorFactory, State, validate_round_info
@@ -118,7 +118,9 @@ def evaluate(state: State, x: torch.Tensor, y: np.ndarray, rare_ids: list[int],
              n_classes: int) -> dict:
     w, b = state[f"{DEFAULT_HEAD_PREFIX}.weight"], state[f"{DEFAULT_HEAD_PREFIX}.bias"]
     pred = (x @ w.T + b).argmax(1).numpy()
-    return summarise(y, pred, rare_ids, n_classes)
+    out = summarise(y, pred, rare_ids, n_classes)
+    out["confusion"] = confusion(y, pred, n_classes).tolist()
+    return out
 
 
 def run_federated(aggregator_factory: AggregatorFactory, clients: Sequence[ClientData],
