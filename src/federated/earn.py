@@ -68,7 +68,8 @@ class EARNConfig:
     cap: float = 0.5             # no client above 50% of any row
     divisor: float = 4.0         # p(c) = clip((n - 1) / divisor, 0, 1)
     lam: float = 1.0             # evidence bonus scale (same as Camp A)
-    tau: float = 0.0             # holder threshold on evidence
+    tau: float | str = 0.0       # holder threshold on evidence; "mean" = above this round's
+                                 # per-class mean (for evidence with no natural unit)
     blend: bool = True
     slow_ramp: bool = True
     ledger: bool = True
@@ -128,7 +129,8 @@ class EARN:
         evidence = (self.evidence_fn(updates, layout, round_num) if self.evidence_fn
                     else head_evidence(updates, layout, self.evidence_kind))
         evidence = np.asarray(evidence, dtype=np.float64)
-        holders = evidence > cfg.tau
+        holders = evidence > (evidence.mean(axis=0, keepdims=True) if cfg.tau == "mean"
+                              else cfg.tau)
         coverage = holders.sum(axis=0).astype(np.int64)
         p = (np.ones(C) if not cfg.blend
              else np.clip((coverage - 1) / cfg.divisor, 0.0, 1.0))
