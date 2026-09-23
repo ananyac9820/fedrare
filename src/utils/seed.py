@@ -28,6 +28,9 @@ def set_seed(seed: int = 42, deterministic: bool = True) -> None:
 
 
 def get_device(preferred: str = "cuda") -> torch.device:
+    """CUDA if asked for and present, else Apple-silicon MPS if present, else CPU."""
     if preferred == "cuda" and torch.cuda.is_available():
         return torch.device("cuda")
+    if preferred in ("cuda", "mps") and torch.backends.mps.is_available():
+        return torch.device("mps")
     return torch.device("cpu")
