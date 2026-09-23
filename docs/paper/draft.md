@@ -55,7 +55,9 @@ holdings is inverted under standard local training, with the mechanism. (2) A pr
 comparison of eight aggregation rules under three attacks on a natural and a specialist split,
 reporting rare-class F1, attack success, and the specialist's share of influence. (3) A negative,
 mechanistic result for coverage-aware trust (EARN) even with an oracle signal. (4) Gas and latency
-for an on-chain maximum-trust-step rule on 2,400 real rounds.
+for an on-chain maximum-trust-step rule on 2,400 real rounds, and a measured case where the locked
+history detects an insider that an editable one cannot - without that detection translating into
+protection.
 
 ## 2 Related work
 
@@ -210,7 +212,19 @@ meet the G2 conditions: on S1 it loses 0.055 rare F1 under A2 and centre 2's tru
   Peer-only checking (no blend) holds the attacker to 1.05x but also zeroes the honest specialist.
 
 Ablations: removing the slow ramp raises the attacker's weight (S1 A1 4.0x vs 2.2x); making the
-history editable changes nothing measurable, because neither attacker needed to rewrite its past.
+history editable changes nothing measurable for A1-A3, because none of those attackers needed to
+rewrite its past.
+
+*Follow-up (pre-registered as D7 after the main grid): the specialist turns.* The one case the
+ledger argument rests on is the sole holder of a disease turning malicious. With centre 2 as a
+sleeper on S2, the locked history detects the turn - the attacker's vascular-lesion trust falls from
+1.00 to 0.06 by round 19 (mean of 3 seeds), while with an editable history it never leaves 1.00.
+Detection does not become protection, and the pre-registered criterion (a 0.05 rare-F1 gain from the
+lock) is not met: EARN's trust only removes a bonus, so the attacker keeps its FedAvg share and, as
+sole holder, drives rare F1 to 0.000 under every rule; and a running-mean history absorbs the new
+malicious updates, so trust returns to 1.00 by round 30. Two design lessons follow: trust must be
+able to push a hospital *below* its size share, and the reference history must stop drifting once
+established. At coverage 1 the best any rule can do is detect and flag.
 Using EARN on the real (failed) signal is worse than FedAvg (S1 0.563; S2 0.442).
 
 ### 7.6 Cost of the ledger
@@ -239,8 +253,8 @@ hospitals is the setting in which no such party exists.
 
 ## 9 Limitations
 
-Tier A only (a head on features; the last block fine-tuned once, seed 42, without attackers); Tier B
-was cut, and BOBA is not applicable as specified with 6 clients and 8 classes (Section 2). One attacker at a time; no collusion. S2 is constructed. The rare-class rule
+Tier A only (a head on features; the last block fine-tuned once, seed 42, without attackers); a
+one-seed Tier B confirmation is pre-registered (D8) but not yet run, and BOBA is not applicable as specified with 6 clients and 8 classes (Section 2). One attacker at a time; no collusion. S2 is constructed. The rare-class rule
 was chosen after seeing counts. The 100-round schedule and the sign-aware evidence variant are
 amendments made after seeing earlier results (logged beforehand). Local chain only. The design
 doc's statement that common diseases have 5-6 holders is wrong for three of them (BCC and AK 3,

@@ -319,3 +319,17 @@ final rare macro-F1 is >= 0.10 **and** clipping recovers at least half of that d
 confirm one headline finding with the real model. One seed only - stated as a limitation.
 
 **Status.** Not run: it needs the laptop for ~6.5 h, which is the team's decision.
+
+**R4 addendum (same day).** The diagnostic was repeated over all three seeds
+(`scripts/11b_ledger_trajectory.py` -> `results/followup_ledger_trajectory.json`): with the locked
+history the attacker's vascular-lesion trust goes 1.00 (round 15) -> 0.06 (minimum, round 19) ->
+1.00 (round 30); with the editable history it stays at 1.00 throughout. Mean rare F1 is 0.589 at
+round 15 and 0.018 at round 20 (locked) vs 0.586 -> 0.000 (editable). Same conclusion as above.
+
+## R5 - Literature re-check done; BOBA not applicable as specified (23 Sep 2026)
+
+See `docs/LITERATURE_RECHECK.md`. CELM already uses "class coverage" as a normalising term (paper
+wording narrowed); CALM (Sep 2026) does per-class peer agreement without trust, coverage adaptation
+or attacks; BOBA needs a (c-1)-dimensional subspace (7) from n-f = 5 gradients and server data for
+every class, so it cannot be run as published with 6 clients and 8 classes. Our cut of BOBA
+(design doc cut line 2) therefore stands on substance. CARE-FL's full text could not be accessed.

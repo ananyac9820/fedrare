@@ -17,31 +17,22 @@
       "blockedBy": "a signal that passes G0a - the one allowed retry failed"
     },
     {
-      "what": "Tier B confirmation runs (full DenseNet-121 fine-tuning)",
+      "what": "Tier B confirmation (full DenseNet-121, 3 runs)",
       "status": "not-run",
       "owner": "Team",
       "track": "Pipeline & EARN",
-      "branch": "-",
-      "file": "-",
-      "producedBy": "Cut line 1 in the design doc"
+      "branch": "main",
+      "file": "results/tier_b.json",
+      "producedBy": "scripts/12_tier_b.py - pre-registered (D8), smoke-tested, ~6.5 h of GPU"
     },
     {
-      "what": "BOBA label-skew baseline",
-      "status": "not-run",
-      "owner": "Team",
-      "track": "Attacks & Eval",
-      "branch": "-",
-      "file": "-",
-      "producedBy": "Cut line 2 in the design doc"
-    },
-    {
-      "what": "Final literature re-check (CELM, CARE-FL, BOBA, ACE in full)",
+      "what": "CARE-FL full-text check",
       "status": "not-run",
       "owner": "Team",
       "track": "Paper",
       "branch": "-",
-      "file": "docs/paper/draft.md",
-      "producedBy": "Week 6"
+      "file": "docs/LITERATURE_RECHECK.md",
+      "producedBy": "library access - abstract checked, full text paywalled"
     }
   ]
 }
