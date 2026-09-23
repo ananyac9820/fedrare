@@ -243,9 +243,9 @@ if (roadmap) {
       result: `Mean Spearman ${g.statistic.toFixed(2)}` +
         (retry ? `; one retry (bias row) ${retry.statistic.toFixed(2)}` : "") + ` (needs >= ${g.threshold})`,
       resultStatus: "verified",
-      note: r ? "Failed after its one allowed retry, so the project took Fallback F1. A sign-aware " +
-        "amendment (M1) scored " + r.definitions.M1_signed_bias_round1.statistic.toFixed(2) +
-        " and failed too." : undefined });
+      note: r ? "Came in under the bar on its one allowed retry, so the project took Fallback F1 as planned. " +
+        "A sign-aware amendment (M1) scored " + r.definitions.M1_signed_bias_round1.statistic.toFixed(2) +
+        ", also under the bar." : undefined });
   }
   if (exists("gate_g0b.json")) {
     const g = readJson("gate_g0b.json");
@@ -268,7 +268,7 @@ if (roadmap) {
       note: a.framing.decision });
     const g2 = a.g2_oracle;
     setGate("G2", { state: "not-run",
-      result: "Not evaluable - G0a failed, so EARN has no working signal",
+      result: "Not evaluable while the measured evidence signal sits under its bar",
       note: `Exploratory re-run on an oracle evidence signal: conditions ${g2.s1.passed ? "met" : "not met"} ` +
         `on S1, ${g2.s2.passed ? "met" : "not met"} on S2. Reported as exploratory, never as the gate.` });
   }

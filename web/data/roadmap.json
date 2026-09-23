@@ -195,7 +195,7 @@
       "condition": "On S1 or S2, under Camp A, attack A1 gives the attacker >= 2x its FedAvg weight on a rare row AND drops that class's F1 by >= 0.15, with balanced accuracy falling < 0.03",
       "ifFails": "Stop building EARN. Fallback F1.",
       "state": "failed",
-      "result": "S1: F1 drop 0.09 (needs >= 0.15) \u00b7 S2: F1 drop 0.24 but balanced accuracy fell 0.051 (must be < 0.03)",
+      "result": "S1: F1 drop 0.09 (needs >= 0.15) · S2: F1 drop 0.24 but balanced accuracy fell 0.051 (must be < 0.03)",
       "resultStatus": "verified",
       "note": "The attack succeeds on neither split: Fallback F1 - an empirical study of how rare-class-aware aggregation behaves on a real hospital split."
     },
