@@ -265,3 +265,57 @@ rare macro-F1(earn, A2s) - rare macro-F1(earn_no_ledger, A2s) >= 0.05 **and** th
 rare-row weight while attacking under `earn` is at most half of that under `earn_no_ledger`.
 Prediction written now: met on S2 (history is the only check), not met on S1 (peers dominate).
 Either outcome is reported. No other variant will be run under this entry.
+
+---
+
+## R4 - Result: D7 specialist sleeper (23 Sep 2026)
+
+`scripts/11_ledger_followup.py` -> `results/followup_ledger.json` (copy in `docs/results/`).
+Mean of seeds 42-44; rare macro-F1 no attack -> under A2s:
+
+| Split | FedAvg | Camp A (reported) | EARN (oracle) | EARN, no ledger | Lock criterion |
+|---|---|---|---|---|---|
+| S1 | 0.592 -> 0.484 | 0.605 -> 0.505 | 0.596 -> 0.552 | 0.596 -> 0.552 | not met (gain +0.000) |
+| S2 | 0.490 -> 0.000 | 0.560 -> 0.000 | 0.555 -> 0.000 | 0.555 -> 0.000 | not met (gain +0.000) |
+
+**Verdict: the pre-registered criterion is not met on either split; the prediction for S2 was
+wrong.** Reported as is.
+
+**Diagnostic (explains, does not change, the result; seed 42, S2, vascular-lesion row).**
+- *With the ledger*, the history check **does detect the turn**: agreement goes from +0.75 (round 15)
+  to -0.27 (round 16) and trust falls 1.00 -> 0.50 -> 0.25 -> 0.12 -> 0.06 (round 19).
+  *Without the ledger* (history editable) trust stays at 1.00 throughout. This is the first
+  measured effect of the history lock in this project.
+- Detection does not become protection, for two design reasons:
+  1. **Trust only removes a bonus.** EARN's row weight is size share + T x evidence share; at T = 0
+     the attacker keeps its FedAvg-size share (15.8% on S2), and as the sole holder nobody outweighs
+     it. Rare F1 falls 0.605 -> 0.313 (round 16) -> 0.000 (round 20) even while trust is near zero.
+  2. **A running-mean history is locked against rewriting, not against drift.** The attacker's new
+     malicious updates enter its history, agreement recovers (+0.94 by round 30) and trust returns to
+     1.00 by round 30.
+- At coverage 1 there is also no other source of the disease's knowledge: once the only holder
+  turns, no aggregation rule can recover the class (FedAvg and Camp A also reach 0.000). The best a
+  defence can do there is to detect and flag - which the lock did.
+
+No further variants will be run under D7. Design implications (future work, not tested): weight
+floors that let trust go *below* the FedAvg share; a history that is frozen after it is established
+(or decays towards the pre-turn record) rather than a running mean.
+
+---
+
+## D8 - Tier B confirmation, pre-registered and ready (23 Sep 2026) - NOT YET RUN
+
+**What.** Full DenseNet-121 (ImageNet init, all layers trained) federated on S1, 6 centres, 20 rounds
+x 50 local Adam steps (batch 32, lr 1e-4, class-balanced loss, train-time augmentation), seed 42,
+same aggregation interface and the same sleeper attack as Tier A (centre 1, honest rounds 1-15).
+Three runs: FedAvg no attack; FedAvg under A2; FedAvg + clipping under A2. Test metrics after rounds
+5, 10, 15, 20. Script: `scripts/12_tier_b.py` (smoke-tested; resumable per round).
+
+**Criterion (fixed now):** Tier B *confirms* the Tier A sleeper finding if the A2 drop in FedAvg's
+final rare macro-F1 is >= 0.10 **and** clipping recovers at least half of that drop.
+
+**Why only this.** Measured cost: ~1.24 s per training step on the Apple GPU, ~2.1 h per run,
+~6.5 h for the three. Tier B was the design doc's first cut line; this is the smallest run that can
+confirm one headline finding with the real model. One seed only - stated as a limitation.
+
+**Status.** Not run: it needs the laptop for ~6.5 h, which is the team's decision.
