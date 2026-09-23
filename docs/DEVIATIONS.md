@@ -214,3 +214,29 @@ wording, explicitly not the gate, which is not evaluable after G0a failed): unde
 with no attack. Evaluated per split.
 
 **Output format (status report C7)** - `docs/results_format.md`.
+
+---
+
+## R3 - Results: F1 study, G1, exploratory EARN, ledger (23 Sep 2026)
+
+All 408 pre-registered runs completed (`results/grid/`, analysis in `docs/results/analysis.md`).
+
+**G1 fails on both splits, for different reasons.** Camp A (update evidence) under A1:
+- S1: the attacker captures 5.0x / 5.5x its FedAvg weight on the Dermatofibroma / Vascular
+  lesion rows, but those classes' F1 drops only 0.086 / 0.017 (needs >= 0.15).
+- S2: 4.8x / 4.7x weight and F1 drops of 0.207 / 0.237 - both met - but balanced accuracy
+  falls 0.051, above the 0.03 stealth bar. The attack works on S2; it is not stealthy.
+Framing (design doc 6.2): "succeeds on neither" -> **Fallback F1**, consistent with R1.
+
+**One correction to a measurement script, disclosed.** The ledger tamper check first forged
++0.3 on centre 4 / vascular lesion. In the three S2 + A1 runs that entry was already at 1.0
+(the A1 attacker had reached full trust), so the "forgery" was not a rise and was correctly
+accepted. The check now forges the lowest-trust entry; all 24 runs reject it. No experiment
+result changed.
+
+**Diagnostic (explains, does not change, a result).** Why EARN's honest specialist earns
+little trust on S1: honest holders' per-round rare-row updates agree weakly with each other
+(centre 2's mean agreement 0.14 / 0.12, other holders 0.00 / 0.43 for DF / VL), so the peer
+check at the pre-registered 0.5 bar fails honest hospitals once training settles. On S2
+(coverage 1) only the history check runs, and it passes any *consistent* client - the honest
+specialist (agreement 0.85-0.89) and the A1 attacker alike.

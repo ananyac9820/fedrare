@@ -1,0 +1,21 @@
+{
+  "gate": "G0b",
+  "passed": false,
+  "statistic": 0.4152655907542953,
+  "threshold": 0.45,
+  "per_seed": {
+    "42": 0.41662727668059885,
+    "43": 0.42048233021866555,
+    "44": 0.4086871653636216
+  },
+  "definition": "Tier A FedAvg on S1, final-round balanced accuracy on the pooled test split, mean over seeds",
+  "tier_a_config": {
+    "rounds": 40,
+    "local_steps": 50,
+    "batch_size": 32,
+    "lr": 0.0005,
+    "class_balanced_loss": true,
+    "feature_dim": 1024,
+    "n_classes": 8
+  }
+}

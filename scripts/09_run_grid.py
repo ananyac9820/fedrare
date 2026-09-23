@@ -32,6 +32,7 @@ sys.path.insert(0, str(ROOT))
 import pandas as pd
 
 from src.experiments import grid
+from src.ledger.chain import to_bps
 
 OUT = ROOT / "results" / "grid"
 PARTS = OUT / "parts"
@@ -73,6 +74,8 @@ def combine():
         weights += out["weights"]
         if "ledger" in out:
             r = out["run"]
+            for block in out["ledger"]:
+                block["trust_bps"] = to_bps(block["trust"]).ravel().tolist()
             (LEDGER_DIR / f"earn_rounds_{r['split']}_{r['attack']}_seed{r['seed']}.json").write_text(
                 json.dumps({"split": r["split"], "attack": r["attack"], "seed": r["seed"],
                             "n_clients": 6, "n_classes": 8, "max_step": 0.1,
