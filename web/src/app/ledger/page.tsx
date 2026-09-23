@@ -39,7 +39,7 @@ export default function LedgerPage() {
         Every round, EARN commits its trust table, coverage and a hash of every hospital&apos;s history to
         an append-only chain. The contract is built and tested on a local Hardhat chain; every round below
         is a real round EARN produced. EARN itself ran on an oracle evidence signal, because the real
-        signal failed Gate G0a - so these are real mechanics, not a validated method.
+        signal sits under its bar at Gate G0a - so these are real mechanics, not a validated method.
       </PageHeader>
 
       <Section

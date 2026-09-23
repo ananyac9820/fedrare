@@ -20,10 +20,10 @@ const STATUS: Record<ProjectStatus, { label: string; cls: string; dot: string; t
     title: "Being built or validated - not final",
   },
   failed: {
-    label: "Failed",
+    label: "Negative result",
     cls: "text-failed bg-failed-soft border-failed/25",
     dot: "bg-failed",
-    title: "Measured, and did not meet its pre-set bar",
+    title: "Measured, and came in under its pre-set bar",
   },
   "not-run": {
     label: "Not run yet",
@@ -76,7 +76,7 @@ const GATE_STATUS: Record<GateState, ProjectStatus> = {
 };
 const GATE_LABEL: Record<GateState, string> = {
   passed: "Passed",
-  failed: "Failed",
+  failed: "Bar not met",
   pending: "Pending",
   "not-run": "Not run",
 };

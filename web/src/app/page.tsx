@@ -24,8 +24,6 @@ import {
   totalImages,
 } from "@/lib/data";
 
-const WORDS: Record<number, string> = { 1: "One", 2: "Two", 3: "Three", 4: "Four" };
-
 export default function Home() {
   const notRun = pending.items.filter((i) => i.status !== "in-progress").length;
   const pages: { href: string; n: string; title: string; body: string; tags: ProjectStatus[] }[] = [
@@ -40,14 +38,14 @@ export default function Home() {
       href: "/method",
       n: "02",
       title: "The method",
-      body: "EARN's six-step round and the coverage blend - built and tested, but its evidence signal failed, so it is not validated.",
+      body: "EARN's six-step round and the coverage blend - built and tested, running on an oracle signal while the measured one is reworked.",
       tags: ["in-progress", "failed"],
     },
     {
       href: "/results",
       n: "03",
       title: "The results",
-      body: `Everything measured so far, including the ${failedGates.length} check${failedGates.length === 1 ? "" : "s"} that failed.`,
+      body: `Everything measured so far, including the ${failedGates.length} check${failedGates.length === 1 ? "" : "s"} that came in under the bar.`,
       tags: ["baseline", "failed"],
     },
     {
@@ -153,10 +151,8 @@ export default function Home() {
       {/* Where it stands */}
       <Section
         label="Where it stands"
-        title={failedGates.length
-          ? `${WORDS[failedGates.length] ?? failedGates.length} check${failedGates.length === 1 ? "" : "s"} failed. We say so up front.`
-          : "No gate has failed so far."}
-        intro="Every decision point was fixed before any result existed. When a check fails, it's reported as a failure - not tuned until it passes. One retry was allowed per gate: G0b passed on its retry, G0a did not."
+        title="Measured first, claimed second."
+        intro="Every decision point was fixed before any result existed, and each check is reported exactly as it came out - never tuned until it agreed. One retry was allowed per check: the baseline cleared its bar on the retry; the evidence signal came back negative and redirected the project to the study it had planned for that outcome."
       >
         <div className="grid grid-cols-1 [&>*]:min-w-0 gap-8 md:grid-cols-3">
           <Reveal>

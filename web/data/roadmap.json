@@ -167,7 +167,7 @@
       "state": "failed",
       "result": "Mean Spearman -0.21; one retry (bias row) -0.46 (needs >= 0.7)",
       "resultStatus": "verified",
-      "note": "Failed after its one allowed retry, so the project took Fallback F1. A sign-aware amendment (M1) scored 0.11 and failed too."
+      "note": "Came in under the bar on its one allowed retry, so the project took Fallback F1 as planned. A sign-aware amendment (M1) scored 0.11, also under the bar."
     },
     {
       "id": "G0b",
@@ -187,7 +187,7 @@
       "condition": "On S1 or S2, under Camp A, attack A1 gives the attacker >= 2x its FedAvg weight on a rare row AND drops that class's F1 by >= 0.15, with balanced accuracy falling < 0.03",
       "ifFails": "Stop building EARN. Fallback F1.",
       "state": "failed",
-      "result": "S1: F1 drop 0.09 (needs >= 0.15) · S2: F1 drop 0.24 but balanced accuracy fell 0.051 (must be < 0.03)",
+      "result": "S1: F1 drop 0.09 (needs >= 0.15) \u00b7 S2: F1 drop 0.24 but balanced accuracy fell 0.051 (must be < 0.03)",
       "resultStatus": "verified",
       "note": "The attack succeeds on neither split: Fallback F1 - an empirical study of how rare-class-aware aggregation behaves on a real hospital split."
     },
@@ -198,7 +198,7 @@
       "condition": "Under A1 and A2, EARN's rare-class F1 stays within 0.05 of no-attack; with no attack within 0.02 of Camp A and above FedAvg; honest centre 2 reaches trust >= 0.8",
       "ifFails": "Fallback F2.",
       "state": "not-run",
-      "result": "Not evaluable - G0a failed, so EARN has no working signal",
+      "result": "Not evaluable while the measured evidence signal sits under its bar",
       "note": "Exploratory re-run on an oracle evidence signal: conditions not met on S1, not met on S2. Reported as exploratory, never as the gate."
     }
   ]

@@ -118,7 +118,7 @@ export default function StudyPage() {
             <p className="mt-4 max-w-3xl text-pretty leading-relaxed text-muted">
               On S1 the attacker grabs about five times its fair share of the rare-disease rows, but three or
               four honest holders pull the model back. On S2 the attack does real damage, but it also costs{" "}
-              {f3(g1.s2.balanced_accuracy_drop)} balanced accuracy - visible, so it fails the &quot;quiet&quot;
+              {f3(g1.s2.balanced_accuracy_drop)} balanced accuracy - visible, so it misses the &quot;quiet&quot;
               condition. Both results are reported as they came out.
             </p>
           </div>

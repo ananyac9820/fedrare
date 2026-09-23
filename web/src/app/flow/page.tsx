@@ -24,7 +24,7 @@ export default function FlowPage() {
         title="One round, from the hospitals to the ledger."
       >
         Ten steps, in the order the system actually runs them. Each carries its real state: what was
-        measured, what failed, and what has only been designed. Scroll to follow the round through -
+        measured, what came back negative, and what has only been designed. Scroll to follow the round through -
         every step links to the page with the detail behind it.
       </PageHeader>
 

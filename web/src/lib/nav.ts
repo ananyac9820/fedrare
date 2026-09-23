@@ -4,7 +4,7 @@ export const NAV = [
   { href: "/flow", label: "Flow", blurb: "The whole system, end to end" },
   { href: "/problem", label: "Problem", blurb: "Knowledge does not match weight" },
   { href: "/method", label: "Method", blurb: "What EARN would do" },
-  { href: "/results", label: "Results", blurb: "The gates, including the failures" },
+  { href: "/results", label: "Results", blurb: "Every check, exactly as measured" },
   { href: "/study", label: "Study", blurb: "408 runs: methods under attack" },
   { href: "/ledger", label: "Ledger", blurb: "The tamper-proof record" },
   { href: "/status", label: "Status", blurb: "Where it stands, what is left" },

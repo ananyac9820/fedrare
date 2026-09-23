@@ -118,7 +118,7 @@ export function Footer({ syncedAt }: { syncedAt: string }) {
             </p>
             <p className="mt-6 max-w-md text-pretty leading-relaxed text-muted">
               A student research prototype. It shows real measurements where they exist, labels
-              everything else, and reports failed checks as failures. Not a medical product; no
+              everything else, and reports every check exactly as it came out. Not a medical product; no
               clinical claims.
             </p>
           </div>

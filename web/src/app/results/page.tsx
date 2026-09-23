@@ -42,11 +42,11 @@ export default function ResultsPage() {
             <StatusTag status="failed" />
           </>
         }
-        title="Everything we've measured - including what failed."
+        title="Everything we've measured, negative results included."
       >
         Real numbers from real runs, with the spread across random seeds.{" "}
         {failedGates.length > 0 &&
-          `${failedGates.length} pre-set check${failedGates.length === 1 ? "" : "s"} did not pass, and ${failedGates.length === 1 ? "it is" : "both are"} shown here as ${failedGates.length === 1 ? "a failure" : "failures"}. `}
+          `${failedGates.length} pre-set check${failedGates.length === 1 ? "" : "s"} came in under ${failedGates.length === 1 ? "its" : "their"} bar, and ${failedGates.length === 1 ? "it is" : "both are"} reported here exactly as measured. `}
         Anything that hasn&apos;t run has no number on this page.
       </PageHeader>
 
@@ -286,7 +286,7 @@ export default function ResultsPage() {
               </ul>
               <p className="mt-8 text-sm leading-relaxed text-muted">
                 {g0aRetry
-                  ? "The one allowed retry failed too, so the project switched to Fallback F1."
+                  ? "The one allowed retry also came in under the bar, so the project switched to Fallback F1."
                   : "Retrying is a team decision. Until the signal is fixed, Camp A and EARN cannot be run."}
               </p>
             </Card>

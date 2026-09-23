@@ -120,7 +120,7 @@ export function LedgerExplorer({ ledger, classShort }: { ledger: Ledger; classSh
         {isBroken && (
           <p className="mt-6 rounded-2xl bg-failed-soft p-5 text-sm leading-relaxed text-failed">
             Link broken: this block points to the original round {tampered}, which no longer exists. Every
-            later block fails the same check.
+            later block trips the same check.
           </p>
         )}
         {!isEdited && !isBroken && <p className="mt-6 text-sm leading-relaxed text-faint">{ledger._meta.note}</p>}

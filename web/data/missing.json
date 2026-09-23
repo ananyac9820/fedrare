@@ -14,7 +14,7 @@
       "branch": "-",
       "file": "results/gate_g0a_retry.json",
       "producedBy": "scripts/06b_gate_g0a_retry.py",
-      "blockedBy": "a signal that passes G0a - the one allowed retry failed"
+      "blockedBy": "a signal that clears G0a - the one allowed retry came in under the bar"
     },
     {
       "what": "Tier B confirmation runs (full DenseNet-121 fine-tuning)",

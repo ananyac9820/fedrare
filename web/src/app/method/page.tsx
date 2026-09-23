@@ -23,7 +23,7 @@ const STEPS: { title: string; symbol: string; body: string; statuses: ProjectSta
     symbol: "e(k,c)",
     body: "How strongly each hospital changed the model's row for each disease. No data shared, no self-reported counts.",
     statuses: ["failed"],
-    warning: "Failed G0a, and its one retry",
+    warning: "Under the bar at G0a, and at its one retry",
   },
   {
     title: "Coverage check",
@@ -89,7 +89,7 @@ export default function MethodPage() {
       >
         EARN - Earned, Audited, Rare-class-aware aggregation - was our proposal. It is now built and
         unit-tested step by step, but its foundation - reading from each update which hospitals hold a
-        disease - failed its check and its one retry. So EARN is not validated. We ran it once more on an
+        disease - came in under the bar on its check and its one retry. So EARN is not validated. We ran it once more on an
         oracle signal, clearly labelled, to see whether the rest of the mechanism would have worked.
       </PageHeader>
 
@@ -103,13 +103,13 @@ export default function MethodPage() {
               </div>
               <p className="mt-5 text-pretty text-lg leading-relaxed text-ink">
                 EARN reads each hospital&apos;s &quot;evidence&quot; for each disease. Our check of that
-                signal failed: mean Spearman {g0a.statistic.toFixed(2)} against a bar of {g0a.threshold}
+                signal came back inverted: mean Spearman {g0a.statistic.toFixed(2)} against a bar of {g0a.threshold}
                 {retry ? `, and ${retry.statistic.toFixed(2)} on the one allowed retry` : ""}. The project
                 therefore switched to Fallback F1, the attack study.
               </p>
             </div>
             <PillLink href="/results" variant="outline">
-              See the failed check
+              See the measurement
             </PillLink>
           </div>
         </Reveal>
@@ -118,7 +118,7 @@ export default function MethodPage() {
       <Section
         label="One round"
         title="Six steps, every training round."
-        intro="Every step is implemented in src/federated/earn.py and unit-tested. The evidence step is the one that failed."
+        intro="Every step is implemented in src/federated/earn.py and unit-tested. The evidence step is the one that came back negative."
       >
         <HScroll label="The six steps of one round">
           {STEPS.map((s, i) => (
@@ -263,7 +263,7 @@ a(k,c) = p(c)     · agree_with_peers
             <Pill tone="paper">Not a validated result</Pill>
           </>
         }
-        intro="We replaced the failed signal with an oracle: every honest hospital's true image counts, which an attacker can fake exactly as it fakes a reported count. Everything else is EARN as designed, with three ablations and four sensitivity settings. Gate G2 cannot be evaluated after G0a failed; below is the same test on the oracle, reported as exploratory."
+        intro="We replaced the measured signal with an oracle: every honest hospital's true image counts, which an attacker can fake exactly as it fakes a reported count. Everything else is EARN as designed, with three ablations and four sensitivity settings. Gate G2 cannot be evaluated while the measured signal sits under its bar; below is the same test on the oracle, reported as exploratory."
       >
         <div className="grid grid-cols-1 [&>*]:min-w-0 gap-8 md:grid-cols-2">
           {(["s1", "s2"] as const).map((sp, i) => (
@@ -302,10 +302,10 @@ a(k,c) = p(c)     · agree_with_peers
         <div className="mt-8 grid grid-cols-1 [&>*]:min-w-0 gap-8 md:grid-cols-2">
           <Reveal>
             <Card className="h-full">
-              <Pill>Why it fails on S1</Pill>
+              <Pill>Where it stalls on S1</Pill>
               <p className="mt-8 text-pretty leading-relaxed text-muted">
                 Honest hospitals&apos; rare-disease updates barely point the same way as each other in a round, so
-                the peer check fails them too. Centre 2&apos;s trust at round 15 is only{" "}
+                the peer check turns them down too. Centre 2&apos;s trust at round 15 is only{" "}
                 {e("s1", "earn", "none")?.specialist_trust_5_r15?.mean.toFixed(2)} (dermatofibroma) and{" "}
                 {e("s1", "earn", "none")?.specialist_trust_6_r15?.mean.toFixed(2)} (vascular lesion) - EARN ends up
                 close to clipped FedAvg.
@@ -314,7 +314,7 @@ a(k,c) = p(c)     · agree_with_peers
           </Reveal>
           <Reveal delay={0.08}>
             <Card className="h-full">
-              <Pill>Why it fails on S2</Pill>
+              <Pill>Where it stalls on S2</Pill>
               <p className="mt-8 text-pretty leading-relaxed text-muted">
                 With one holder, only the history check runs - and it rewards being <em>consistent</em>, not
                 being right. The A1 attacker is consistent from round 1, earns full trust and captures{" "}

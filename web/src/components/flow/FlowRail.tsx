@@ -111,7 +111,7 @@ const STAGES: Stage[] = [
   },
   {
     title: "Read the evidence",
-    lead: "This is the step that broke.",
+    lead: "This is where the signal turned inverted.",
     detail:
       `EARN needs to infer, from the update alone, how much of each disease a hospital holds. Gate ` +
       `G0a checked that and it came out inverted: ${g0a.statistic.toFixed(2)} where ${g0a.threshold} ` +
@@ -124,7 +124,7 @@ const STAGES: Stage[] = [
     ],
     status: ["failed"],
     href: "/results",
-    hrefLabel: "The failed gate in full",
+    hrefLabel: "The measurement in full",
     viz: "evidence",
   },
   {
@@ -149,7 +149,7 @@ const STAGES: Stage[] = [
     lead: "Earned in ten rounds, halved in one.",
     detail:
       "Agreement raises a hospital's trust for that disease by a small fixed step; disagreement halves " +
-      "it. EARN is fully built and unit-tested, but because the evidence signal failed, it could only " +
+      "it. EARN is fully built and unit-tested, but because the measured signal came back inverted, it could only " +
       "be run on an oracle signal - labelled exploratory, and it still did not meet its G2 conditions.",
     chips: [
       { k: "Up", v: "+0.1" },
@@ -209,10 +209,10 @@ const STAGES: Stage[] = [
     detail:
       `${study.runs} runs across methods, attacks and both splits. The pre-registered attack gate G1 ` +
       `did not pass on either split, so the paper follows the plan's own fallback: an empirical study ` +
-      `of how these methods behave on a real hospital split, with the failures reported as failures.`,
+      `of how these methods behave on a real hospital split, with every negative result reported as a finding.`,
     chips: [
       { k: "Runs", v: String(study.runs) },
-      { k: "G1", v: "failed on S1 and S2" },
+      { k: "G1", v: "bar not met on either split" },
       { k: "Framing", v: "Fallback F1" },
     ],
     status: ["verified", "failed"],

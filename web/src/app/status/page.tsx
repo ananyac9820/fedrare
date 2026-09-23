@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "Status" };
 
 const ICON: Record<ProgressState, { icon: string; cls: string; label: string }> = {
   done: { icon: "✓", cls: "text-verified", label: "done" },
-  failed: { icon: "✕", cls: "text-failed", label: "failed" },
+  failed: { icon: "✕", cls: "text-failed", label: "under the bar" },
   blocked: { icon: "‖", cls: "text-notrun", label: "blocked" },
   pending: { icon: "·", cls: "text-faint", label: "pending" },
   "in-progress": { icon: "◐", cls: "text-progress", label: "in progress" },
@@ -34,7 +34,7 @@ export default function StatusPage() {
           const n = (st: string) => roadmap.gates.filter((g) => g.state === st).length;
           const parts = [
             n("passed") && `${n("passed")} passed`,
-            n("failed") && `${n("failed")} failed`,
+            n("failed") && `${n("failed")} came in under the bar`,
             n("not-run") && `${n("not-run")} could not be evaluated`,
             n("pending") && `${n("pending")} still ahead`,
           ].filter(Boolean);
@@ -64,7 +64,7 @@ export default function StatusPage() {
                   </div>
                 )}
                 {g.note && <p className="mt-5 text-sm leading-relaxed text-muted">{g.note}</p>}
-                <p className="mt-6 border-t border-line pt-5 text-sm leading-relaxed text-faint">If it fails: {g.ifFails}</p>
+                <p className="mt-6 border-t border-line pt-5 text-sm leading-relaxed text-faint">If the bar is not met: {g.ifFails}</p>
               </Card>
             </Reveal>
           ))}
@@ -124,7 +124,7 @@ export default function StatusPage() {
                     </span>
                     <span>
                       {p.item}
-                      {p.state === "failed" && <span className="ml-2 text-sm text-failed">(failed)</span>}
+                      {p.state === "failed" && <span className="ml-2 text-sm text-failed">(under the bar)</span>}
                     </span>
                   </li>
                 ))}
