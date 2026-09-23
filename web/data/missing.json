@@ -1,0 +1,66 @@
+{
+  "_meta": {
+    "status": "verified",
+    "sources": [],
+    "note": "Everything that has not produced a result yet. No numbers are shown for these anywhere on the site. Update this file as work lands.",
+    "syncedAt": "2026-09-19"
+  },
+  "items": [
+    {
+      "what": "G0b retry: more rounds and an unfrozen last dense block",
+      "status": "in-progress",
+      "owner": "Ananya",
+      "track": "Pipeline & EARN",
+      "branch": "feature/pipeline",
+      "file": "results/gate_g0b.json (re-run)",
+      "producedBy": "scripts/05 re-extraction + scripts/07"
+    },
+    {
+      "what": "Camp A baseline on S1",
+      "status": "blocked",
+      "owner": "Ananya",
+      "track": "Pipeline & EARN",
+      "branch": "feature/pipeline",
+      "file": "results/tier_a_s1_camp_a.csv",
+      "producedBy": "scripts/07_tier_a_s1_baselines.py",
+      "blockedBy": "the G0a evidence-signal fix"
+    },
+    {
+      "what": "EARN aggregation rule",
+      "status": "not-run",
+      "owner": "Ananya",
+      "track": "Pipeline & EARN",
+      "branch": "feature/pipeline",
+      "file": "src/federated/earn.py",
+      "producedBy": "Week 3 - not built yet",
+      "blockedBy": "the G0a evidence-signal fix"
+    },
+    {
+      "what": "Attacks A1 / A2 / A3 and Gate G1",
+      "status": "not-run",
+      "owner": "Arya",
+      "track": "Attacks & Eval",
+      "branch": "feature/attacks",
+      "file": "results/ (G1 attack table - format to agree)",
+      "producedBy": "Week 2 attack runs"
+    },
+    {
+      "what": "Real ledger rounds (trust-table and history hashes)",
+      "status": "not-run",
+      "owner": "Aditya",
+      "track": "Blockchain",
+      "branch": "Hardhat contract repo (not in this repo yet)",
+      "file": "results/ledger_rounds.json",
+      "producedBy": "Week 5 integration"
+    },
+    {
+      "what": "Ledger gas cost and latency per round",
+      "status": "not-run",
+      "owner": "Aditya",
+      "track": "Blockchain",
+      "branch": "Hardhat contract repo (not in this repo yet)",
+      "file": "to agree",
+      "producedBy": "Week 5 measurements"
+    }
+  ]
+}

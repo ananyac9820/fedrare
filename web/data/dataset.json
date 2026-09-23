@@ -1,0 +1,223 @@
+{
+  "_meta": {
+    "status": "verified",
+    "sources": [
+      "results/class_distribution.csv",
+      "results/rare_classes.yaml",
+      "results/gate_g0a.json (train_counts)"
+    ],
+    "producedBy": "scripts/02_explore_data.py, scripts/06_gate_g0a.py",
+    "syncedAt": "2026-09-19"
+  },
+  "name": "Fed-ISIC2019",
+  "source": "huggingface.co/datasets/flwrlabs/fed-isic2019",
+  "classes": [
+    {
+      "id": 0,
+      "name": "Melanoma",
+      "sharePct": 18.002,
+      "rare": false
+    },
+    {
+      "id": 1,
+      "name": "Melanocytic nevus",
+      "sharePct": 48.72,
+      "rare": false
+    },
+    {
+      "id": 2,
+      "name": "Basal cell carcinoma",
+      "sharePct": 14.294,
+      "rare": false
+    },
+    {
+      "id": 3,
+      "name": "Actinic keratosis",
+      "sharePct": 3.73,
+      "rare": false
+    },
+    {
+      "id": 4,
+      "name": "Benign keratosis",
+      "sharePct": 10.436,
+      "rare": false
+    },
+    {
+      "id": 5,
+      "name": "Dermatofibroma",
+      "sharePct": 1.028,
+      "rare": true
+    },
+    {
+      "id": 6,
+      "name": "Vascular lesion",
+      "sharePct": 1.088,
+      "rare": true
+    },
+    {
+      "id": 7,
+      "name": "Squamous cell carcinoma",
+      "sharePct": 2.701,
+      "rare": false
+    }
+  ],
+  "rareRule": {
+    "headRatioDivisor": 25,
+    "cutoffPct": 1.949,
+    "headClass": "Melanocytic nevus",
+    "headSharePct": 48.72,
+    "holderMinImages": 20
+  },
+  "centres": [
+    {
+      "id": 0,
+      "trainCounts": [
+        2279,
+        3363,
+        2245,
+        606,
+        923,
+        97,
+        87,
+        330
+      ],
+      "totalCounts": [
+        2857,
+        4206,
+        2809,
+        737,
+        1138,
+        124,
+        111,
+        431
+      ],
+      "trainImages": 9930,
+      "totalImages": 12413
+    },
+    {
+      "id": 1,
+      "trainCounts": [
+        20,
+        2977,
+        2,
+        0,
+        96,
+        23,
+        45,
+        0
+      ],
+      "totalCounts": [
+        24,
+        3720,
+        2,
+        0,
+        124,
+        30,
+        54,
+        0
+      ],
+      "trainImages": 3163,
+      "totalImages": 3954
+    },
+    {
+      "id": 2,
+      "trainCounts": [
+        533,
+        1470,
+        174,
+        20,
+        379,
+        40,
+        64,
+        11
+      ],
+      "totalCounts": [
+        680,
+        1832,
+        211,
+        21,
+        475,
+        51,
+        82,
+        11
+      ],
+      "trainImages": 2691,
+      "totalImages": 3363
+    },
+    {
+      "id": 3,
+      "trainCounts": [
+        276,
+        649,
+        223,
+        86,
+        406,
+        20,
+        3,
+        144
+      ],
+      "totalCounts": [
+        342,
+        803,
+        296,
+        109,
+        490,
+        30,
+        3,
+        186
+      ],
+      "trainImages": 1807,
+      "totalImages": 2259
+    },
+    {
+      "id": 4,
+      "trainCounts": [
+        166,
+        349,
+        0,
+        0,
+        140,
+        0,
+        0,
+        0
+      ],
+      "totalCounts": [
+        215,
+        415,
+        0,
+        0,
+        189,
+        0,
+        0,
+        0
+      ],
+      "trainImages": 655,
+      "totalImages": 819
+    },
+    {
+      "id": 5,
+      "trainCounts": [
+        58,
+        276,
+        5,
+        0,
+        6,
+        4,
+        2,
+        0
+      ],
+      "totalCounts": [
+        67,
+        350,
+        5,
+        0,
+        10,
+        4,
+        3,
+        0
+      ],
+      "trainImages": 351,
+      "totalImages": 439
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme {
+  /* Warm, light neutrals */
+  --color-cream: #faf7f0;
+  --color-paper: #fffdf9;
+  --color-sand: #f2ebdd;
+  --color-sand-deep: #e7dcc7;
+  --color-line: #e4dccb;
+  --color-ink: #1d2929;
+  --color-muted: #56615f;
+  --color-faint: #8a918d;
+
+  /* One restrained accent */
+  --color-accent: #2c6a64;
+  --color-accent-soft: #dcebe7;
+
+  /* Project states - deep text on a soft tint, readable on cream */
+  --color-verified: #1d7348;
+  --color-verified-soft: #e0f0e6;
+  --color-baseline: #2c5b9a;
+  --color-baseline-soft: #e2eaf6;
+  --color-progress: #8f5d00;
+  --color-progress-soft: #f8edcf;
+  --color-failed: #ae2330;
+  --color-failed-soft: #f9e1e1;
+  --color-notrun: #5f6461;
+  --color-notrun-soft: #ecebe6;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-cream);
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+/* Graph-paper texture, as in the reference */
+.paper-grid {
+  background-image:
+    linear-gradient(rgb(29 41 41 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(29 41 41 / 0.045) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* SAMPLE DATA marking - striped so it cannot be mistaken for a real figure */
+.sample-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgb(95 100 97 / 0.08) 0 6px,
+    transparent 6px 12px
+  );
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+.text-pretty {
+  text-wrap: pretty;
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.ticker {
+  animation: ticker 60s linear infinite;
+}
+
+/* Reduced motion: no smooth scroll, no CSS animation (the ticker stays still).
+   framer-motion and the 3D scenes check the same preference themselves. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "_meta": {
+    "status": "verified",
+    "sources": [
+      "EARN Project Design v2, Sections 6.6 and 8",
+      "EARN Task Division",
+      "results/gate_g0a.json"
+    ],
+    "note": "Plan and gate definitions from the design doc. Gate states are updated by npm run sync-data when a gate file appears in results/; progress notes are hand-maintained.",
+    "syncedAt": "2026-09-19"
+  },
+  "asOf": "2026-09-19",
+  "currentWeek": 1,
+  "weeks": [
+    {
+      "week": 1,
+      "dates": "17-23 Sep",
+      "work": "Extract DenseNet-121 features. Check G0a on Day 2. Build the Tier A federated loop. Run FedAvg and Camp A on S1. Build split S2.",
+      "deliverable": "Features saved; baseline numbers; G0a, G0b",
+      "progress": [
+        {
+          "item": "Features extracted for all 23,247 images",
+          "state": "done"
+        },
+        {
+          "item": "Gate G0a run",
+          "state": "failed"
+        },
+        {
+          "item": "Tier A loop, FedAvg and Camp A implemented and unit-tested",
+          "state": "done"
+        },
+        {
+          "item": "FedAvg run on S1 (3 seeds)",
+          "state": "done"
+        },
+        {
+          "item": "Gate G0b run",
+          "state": "failed"
+        },
+        {
+          "item": "G0b retry: more rounds, unfrozen last block",
+          "state": "in-progress"
+        },
+        {
+          "item": "Camp A run on S1",
+          "state": "blocked"
+        },
+        {
+          "item": "Split S2 built",
+          "state": "done"
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "dates": "24-30 Sep",
+      "work": "Attacks A1-A3 against FedAvg, robust rules and Camp A on S1 and S2, 3 seeds.",
+      "deliverable": "Attack table; G1; S1/S2 framing decision"
+    },
+    {
+      "week": 3,
+      "dates": "1-7 Oct",
+      "work": "Implement EARN: clipping, evidence, coverage blend, slow-up/fast-down trust, capped weighting. Unit tests per step. In-memory ledger stub.",
+      "deliverable": "Working src/federated/earn.py"
+    },
+    {
+      "week": 4,
+      "dates": "8-14 Oct",
+      "work": "Full evaluation: all methods x all attacks x S1/S2 x 3 seeds. Ablations. Sensitivity of step size and threshold.",
+      "deliverable": "Main results; G2"
+    },
+    {
+      "week": 5,
+      "dates": "15-21 Oct",
+      "work": "Smart contract on a local Hardhat chain: trust table, history hashes, max-step rule. Gas and latency. Tier B confirmation runs.",
+      "deliverable": "Contract + overhead numbers; Tier B table"
+    },
+    {
+      "week": 6,
+      "dates": "22-28 Oct",
+      "work": "Figures, 6-8 page draft, updated synopsis, final literature re-check, clean repository.",
+      "deliverable": "Draft paper and final report"
+    }
+  ],
+  "gates": [
+    {
+      "id": "G0a",
+      "name": "Evidence signal",
+      "when": "Day 2, Week 1",
+      "condition": "Evidence e(k,c) ranks hospitals' true per-class counts with Spearman >= 0.7 on S1",
+      "ifFails": "One retry (bias row, or evidence averaged over 3 rounds); if still below 0.7, Fallback F1",
+      "state": "failed",
+      "result": "Mean Spearman -0.21 (needs >= 0.7)",
+      "resultStatus": "verified",
+      "note": "Evidence came out inverted: centres with no images of a disease showed the largest change. Retry decision pending with the team."
+    },
+    {
+      "id": "G0b",
+      "name": "Baseline quality",
+      "when": "End of Week 1",
+      "condition": "Tier A FedAvg reaches balanced accuracy >= 0.45",
+      "ifFails": "Unfreeze the last dense block and re-extract features. One retry.",
+      "state": "failed",
+      "note": "Balanced accuracy was still rising at round 40. A retry with more rounds and an unfrozen last dense block is in progress.",
+      "result": "FedAvg balanced accuracy 0.415 (needs >= 0.45)",
+      "resultStatus": "verified"
+    },
+    {
+      "id": "G1",
+      "name": "Problem is real",
+      "when": "End of Week 2 (30 Sep)",
+      "condition": "On S1 or S2, under Camp A, attack A1 gives the attacker >= 2x its FedAvg weight on a rare row AND drops that class's F1 by >= 0.15, with balanced accuracy falling < 0.03",
+      "ifFails": "Stop building EARN. Fallback F1.",
+      "state": "pending"
+    },
+    {
+      "id": "G2",
+      "name": "EARN works",
+      "when": "End of Week 4 (14 Oct)",
+      "condition": "Under A1 and A2, EARN's rare-class F1 stays within 0.05 of no-attack; with no attack within 0.02 of Camp A and above FedAvg; honest centre 2 reaches trust >= 0.8",
+      "ifFails": "Fallback F2.",
+      "state": "pending"
+    }
+  ]
+}

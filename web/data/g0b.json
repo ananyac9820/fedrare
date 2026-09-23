@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "status": "verified",
+    "sources": [
+      "results/gate_g0b.json"
+    ],
+    "producedBy": "scripts/07_tier_a_s1_baselines.py (feature/pipeline)",
+    "syncedAt": "2026-09-19"
+  },
+  "gate": "G0b",
+  "passed": false,
+  "statistic": 0.4152655907542953,
+  "threshold": 0.45,
+  "definition": "Tier A FedAvg on S1, final-round balanced accuracy on the pooled test split, mean over seeds",
+  "perSeed": [
+    {
+      "seed": 42,
+      "value": 0.41662727668059885
+    },
+    {
+      "seed": 43,
+      "value": 0.42048233021866555
+    },
+    {
+      "seed": 44,
+      "value": 0.4086871653636216
+    }
+  ],
+  "config": {
+    "rounds": 40,
+    "local_steps": 50,
+    "batch_size": 32,
+    "lr": 0.0005,
+    "class_balanced_loss": true,
+    "feature_dim": 1024,
+    "n_classes": 8
+  }
+}
