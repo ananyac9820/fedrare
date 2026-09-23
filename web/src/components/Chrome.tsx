@@ -4,7 +4,6 @@ import Link from "next/link";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { StatusLegend } from "@/components/ui/Status";
 import { REPO } from "@/lib/data";
 import { NAV, isActive } from "@/lib/nav";
 
@@ -123,10 +122,6 @@ export function Footer({ syncedAt }: { syncedAt: string }) {
             </p>
           </div>
           <div className="space-y-8">
-            <div>
-              <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-faint">How to read the labels</p>
-              <StatusLegend />
-            </div>
             <ul className="grid grid-cols-2 gap-y-3 font-mono text-xs uppercase tracking-[0.14em] text-muted">
               {LINKS.map(([href, label]) => (
                 <li key={href}>
