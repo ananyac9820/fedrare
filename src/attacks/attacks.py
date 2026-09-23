@@ -132,4 +132,6 @@ DEFAULT_ATTACKS = {
     "A1": AttackSpec("A1", attacker=4),
     "A2": AttackSpec("A2", attacker=1),
     "A3": AttackSpec("A3", attacker=4),
+    # D7 follow-up: the specialist itself turns after 15 honest rounds (sole rare holder on S2)
+    "A2s": AttackSpec("A2", attacker=2),
 }

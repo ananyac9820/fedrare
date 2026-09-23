@@ -240,3 +240,28 @@ little trust on S1: honest holders' per-round rare-row updates agree weakly with
 check at the pre-registered 0.5 bar fails honest hospitals once training settles. On S2
 (coverage 1) only the history check runs, and it passes any *consistent* client - the honest
 specialist (agreement 0.85-0.89) and the A1 attacker alike.
+
+---
+
+## D7 - Follow-up: does the locked history matter? Specialist sleeper A2s (23 Sep 2026, after merge)
+
+**Why.** In the D6 grid the "no ledger" ablation (attacker may rewrite its stored history) changed
+nothing measurable, because no tested attacker needed to rewrite its past: A1 is consistent from
+round 1, and A2's attacker (centre 1) is not the sole holder anywhere. The design doc's argument for
+the ledger (Section 5) is about the case where **the only holder of a disease turns**: at coverage 1
+only the history check runs, so a locked history should expose the turn and an editable one should
+hide it. That case was not in the grid. EARN remains exploratory (oracle evidence).
+
+**What.** New attack setting **A2s** = the A2 sleeper behaviour (honest rounds 1-15, A1 from round 16:
+rare labels flipped to nevus, rare rows inflated 3x against the rare classes, claims to be the top
+holder) with attacker **centre 2**, the specialist - the sole rare holder on S2 (coverage 1) and one
+of 4 / 3 holders on S1. Methods: `fedavg`, `camp_a_reported`, `earn`, `earn_no_ledger` (attacker's
+history editable). Splits S1 and S2; seeds 42, 43, 44; everything else exactly as D6 (ft4
+features, 100 rounds, oracle evidence, holder >= 20 images). The no-attack rows are the existing D6
+runs. Script: `scripts/11_ledger_followup.py` -> `results/followup_ledger.json`.
+
+**Pre-registered criterion ("the lock matters"), per split:** mean over seeds of
+rare macro-F1(earn, A2s) - rare macro-F1(earn_no_ledger, A2s) >= 0.05 **and** the attacker's mean
+rare-row weight while attacking under `earn` is at most half of that under `earn_no_ledger`.
+Prediction written now: met on S2 (history is the only check), not met on S1 (peers dominate).
+Either outcome is reported. No other variant will be run under this entry.
