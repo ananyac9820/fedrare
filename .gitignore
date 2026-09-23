@@ -31,3 +31,6 @@ venv/
 
 # iCloud: keep heavy folders out of sync
 *.nosync
+
+# Local editor/agent tooling
+.claude/
