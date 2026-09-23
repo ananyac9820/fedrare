@@ -1,3 +1,6 @@
+> **Superseded.** This is the original August plan. The current plan is EARN Project Design v2
+> (16 Sep 2026); what actually happened is in `README.md` and `docs/DEVIATIONS.md`.
+
 # Project Plan — 17 August to 30 September 2026
 
 Six and a half weeks. The plan is ordered so that the **make-or-break question is answered

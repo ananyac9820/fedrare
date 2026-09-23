@@ -1,131 +1,108 @@
-# Class-Conditional Blockchain-Coordinated Federated Learning for Rare Disease Diagnosis
+# EARN - Earned trust for rare diseases
 
-Federated learning across multiple hospitals for rare skin-disease diagnosis, where each
-hospital receives a **separate trust score per disease class** rather than one overall score,
-with those scores recorded on-chain for auditability.
+Federated learning across the six real hospitals of **Fed-ISIC2019** (23,247 dermoscopy images,
+8 skin-disease classes), asking one question: *who should get a say on the rarest diseases, and
+what happens when a hospital lies about them?*
 
-**Dataset:** Fed-ISIC2019 (23,247 dermoscopy images, 6 real data centres, 8 classes)
-**Rare classes:** Dermatofibroma and Vascular Lesion (each under 1% of samples)
+Live site: **https://fedrare.vercel.app** · Design: EARN Project Design v2 (16 Sep 2026) ·
+Every change to that plan: [`docs/DEVIATIONS.md`](docs/DEVIATIONS.md)
 
----
+## Where the project stands (23 Sep 2026)
 
-## The problem
+Every gate was fixed before its result existed; each allowed one retry.
 
-Existing federated learning systems assign each hospital **one** trust or contribution score
-per training round. A hospital holding most of the rare-disease cases, but performing only
-averagely on common conditions, receives a low overall score and gets less influence —
-precisely when its contribution matters most.
-
-## The approach
-
-| Stage | What happens |
-|---|---|
-| 1. Local training | Each hospital trains DenseNet-121 on its own images, sends only model updates |
-| 2. Per-class evaluation | Coordinator scores each update separately for all 8 classes → a reputation *vector*, not a scalar |
-| 3. Weighted aggregation | Per-class scores weight each row of the classifier head; feature extractor uses standard FedAvg |
-| 4. On-chain record | Reputation vector committed via smart contract each round |
-
-## Experiments
-
-Three configurations compared on **rare-class macro-F1** (not overall accuracy, which is
-dominated by common classes):
-
-1. `fedavg` — plain FedAvg, no reputation (baseline)
-2. `scalar` — one reputation score per hospital (current standard practice)
-3. `classcond` — per-class reputation (**this project's contribution**)
-
-Each is additionally evaluated under injected malicious client updates.
-
----
-
-## Setup
-
-```bash
-git clone <this-repo-url>
-cd fedrare
-
-python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
-
-pip install -r requirements.txt
-```
-
-### Getting the dataset
-
-The dataset is **not** in this repo. Download it from the Hugging Face mirror:
-
-```python
-from datasets import load_dataset
-ds = load_dataset("flwrlabs/fed-isic2019")
-```
-
-144 MB, no registration. This is the same FLamby-derived data - identical 23,247 images,
-already resized to 224px and colour-constancy corrected - published as parquet.
-
-Licence: CC BY-NC 4.0 (non-commercial; academic research qualifies). Cite the FLamby paper
-and the three source datasets (HAM10000, BCN20000, MSK) in any publication.
-
-| Centre | Train | Test | Total |
+| Gate | Pass condition | Result | Verdict |
 |---|---|---|---|
-| 0 | 9,930 | 2,483 | 12,413 |
-| 1 | 3,163 | 791 | 3,954 |
-| 2 | 2,691 | 672 | 3,363 |
-| 3 | 1,807 | 452 | 2,259 |
-| 4 | 655 | 164 | 819 |
-| 5 | 351 | 88 | 439 |
+| **G0a** evidence signal | evidence ranks hospitals' true class counts, Spearman >= 0.7 | -0.210; the one retry (bias row) -0.463 | **Failed** |
+| **G0b** baseline quality | Tier A FedAvg balanced accuracy >= 0.45 | 0.415; retry (last dense block fine-tuned) **0.535** | **Passed on retry** |
+| **G1** problem is real | under Camp A, attack A1: >= 2x weight AND rare F1 drop >= 0.15 AND balanced-acc drop < 0.03 | S1: 5x weight but F1 drop 0.09 · S2: F1 drop 0.24 but balanced acc -0.051 | **Failed** |
+| **G2** EARN works | see design doc 6.6 | not evaluable (G0a failed); exploratory oracle version not met | - |
 
-Note the 28x spread between the largest and smallest centre. Any aggregation weighted by
-sample count alone would nearly silence centre 5 - which is precisely the failure mode this
-project addresses, before rare classes even enter the picture.
+So, as the design doc prescribes, the paper is **Fallback F1**: an empirical study of how
+rare-class-aware aggregation behaves on a real hospital split, with attacks. EARN is fully
+built and was run on an **oracle** evidence signal, clearly labelled exploratory.
 
-<details>
-<summary>Alternative: full FLamby install</summary>
+## Main findings (408 runs, 3 seeds, all pre-registered)
 
-Only needed to regenerate preprocessing from source. Requires ISIC 2019 and HAM10000 licence
-acceptance, a ~9 GB download, and a local resize step.
+1. **The weight gap is real.** Centre 2 holds 27.0% of the rare-disease training images but gets
+   14.5% of FedAvg's weight (1.87x).
+2. **Reading "evidence" from model updates backfires.** A hospital that never sees a disease moves
+   that disease's row the *most* (G0a: -0.21). Weighting by that signal (Camp A) gives the
+   specialist *less* say than FedAvg (12.6% vs 14.5%) and lowers rare F1 (0.558 vs 0.592).
+3. **Honest counts help; claimed counts are exploitable.** Weighting by reported class counts is the
+   best method without attack (rare F1 0.605 on S1), but an attacker claiming to be a big holder
+   captures ~7.4x its fair weight on the specialist split S2 and rare F1 falls to 0.33.
+4. **The sleeper is the worst attack.** A real holder that turns after 15 honest rounds cuts FedAvg's
+   rare F1 from 0.592 to 0.286 on S1; median-norm clipping recovers most of it (0.538).
+5. **Robust filters can erase a lone specialist.** On S2, Multi-Krum gives centre 2 0% of the rare
+   rows and rare F1 is 0.000.
+6. **EARN on an oracle signal (exploratory)** does not meet the G2 conditions: on S1 honest
+   hospitals' rare-row updates agree too weakly for the peer check, so nobody earns trust; on S2 the
+   history check rewards *consistency*, so the A1 attacker earns full trust.
+7. **The ledger works as a constraint.** 2,400 real EARN rounds replayed on the `EarnLedger` contract
+   (local Hardhat): ~184k gas and ~1.1 ms per round; a forged trust boost is rejected in every run.
+   The "no ledger" ablation changed nothing measurable - the tested attackers never needed to
+   rewrite history.
+
+Full tables: [`docs/results/analysis.md`](docs/results/analysis.md) · figures:
+[`docs/results/figures/`](docs/results/figures) · paper draft: [`docs/paper/draft.md`](docs/paper/draft.md) ·
+status report: [`docs/STATUS_2026-09-23.md`](docs/STATUS_2026-09-23.md).
+
+## Reproduce
 
 ```bash
-pip install git+https://github.com/owkin/FLamby.git
+git clone https://github.com/ananyac9820/fedrare && cd fedrare
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+python scripts/02_explore_data.py            # per-hospital distribution, rare classes
+python scripts/05_extract_features.py        # frozen DenseNet-121 features (~5 min Apple GPU, ~35 min CPU)
+python scripts/06_gate_g0a.py                # G0a
+python scripts/06b_gate_g0a_retry.py         # G0a retry (D1) + amendment M1 (D2)
+python scripts/07_tier_a_s1_baselines.py --no-camp-a   # G0b, first attempt
+python scripts/08_g0b_retry.py               # G0b retry: fine-tune last dense block (~13 min Apple GPU)
+python scripts/09_run_grid.py --grid all     # the 408-run study (~10 min, 7 CPU workers)
+(cd ledger && npm install && npx hardhat test && npx hardhat run scripts/measure.js)
+python scripts/10_analyse.py                 # G1, framing, tables, figures, overhead
+python -m pytest                             # 44 tests
+
+cd web && npm install && npm run sync-data && npm run dev   # the site, http://localhost:3000
 ```
-Then follow https://owkin.github.io/FLamby/fed_isic.html and set `dataset.source: flamby`
-plus `dataset.root` in `configs/default.yaml`.
-</details>
 
-### Verify the setup
-
-```bash
-python scripts/01_verify_setup.py     # checks imports, GPU, dataset path
-python scripts/02_explore_data.py     # class distribution per centre → results/
-```
-
-`02_explore_data.py` is the important one. It produces the per-centre, per-class counts that
-the entire project depends on — you need to see the real imbalance before building anything.
-
----
+On macOS with the python.org build, set `SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())")`
+before the dataset download. Everything runs on a laptop: Tier A trains only the classifier head
+on saved features (design doc Section 7).
 
 ## Repository layout
 
 ```
-configs/          YAML configuration
-src/data/         Dataset loading, transforms, per-centre splits
-src/models/       DenseNet-121 definition
-src/federated/    FedAvg, scalar reputation, class-conditional reputation
-src/attacks/      Poisoning attack simulation
-src/utils/        Metrics (rare-class macro-F1), seeding
-scripts/          Numbered entry points, run in order
-docs/             Project plan
-results/          Generated outputs (gitignored except .gitkeep)
+configs/default.yaml     dataset and training configuration
+src/data/                loading, saved features (frozen / ft4), splits S1 and S2
+src/federated/           aggregation interface, FedAvg, robust rules, Camp A, EARN, Tier A loop
+src/attacks/attacks.py   A1 sudden expert, A2 sleeper, A3 scaling (client hooks)
+src/ledger/chain.py      in-memory hash-chain ledger with the trust-step rule
+src/experiments/grid.py  the pre-registered experiment grid
+scripts/                 numbered entry points, run in order
+ledger/                  EarnLedger.sol, Hardhat tests, on-chain replay of real EARN rounds
+tests/                   44 Python unit tests (interface, rules, splits, EARN per step, ledger, attacks)
+web/                     Next.js site; reads only web/data/*.json (npm run sync-data)
+docs/                    DEVIATIONS.md, results_format.md, aggregation_interface.md, results/, paper/
 ```
 
-## Status
+`results/` and `data/` are gitignored; the key outputs are copied into `docs/results/` and the
+site's `web/data/`.
 
-- [x] Repository scaffold
-- [ ] Dataset downloaded and verified
-- [ ] Per-centre class distribution confirmed
-- [ ] FedAvg baseline
-- [ ] Scalar reputation baseline
-- [ ] Class-conditional reputation
-- [ ] Poisoning robustness experiments
-- [ ] Blockchain logging layer
+## Honest limitations
 
-See `docs/PROJECT_PLAN.md` for the full week-by-week schedule.
+- **EARN is not validated.** Its evidence signal failed G0a; its results use an oracle signal.
+- **All results are Tier A** (a classifier head on DenseNet-121 features, last block fine-tuned
+  once by FedAvg). Tier B full fine-tuning and the BOBA baseline were cut (design doc cut lines 1-2).
+- **S2 is constructed** (90% of other hospitals' rare images moved to centre 2) and disclosed.
+- **The rare-class rule was chosen after seeing the counts** (under 1/25 of the largest class).
+- **Design doc correction:** it says common diseases have 5-6 holders; on the real counts basal
+  cell carcinoma and actinic keratosis have 3, squamous cell carcinoma 2 (status report C6).
+
+## Dataset
+
+Hugging Face mirror `flwrlabs/fed-isic2019` (FLamby-derived, 144 MB, CC BY-NC 4.0). Cite FLamby
+and the source datasets (HAM10000, BCN20000, MSK) in any publication.
