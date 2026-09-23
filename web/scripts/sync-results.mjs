@@ -230,7 +230,7 @@ if (roadmap) {
     const worst = (split) => Object.values(g1[split].per_class).reduce((b, v) => (v.f1_drop > b.f1_drop ? v : b));
     setGate("G1", { state: g1.s1.passed || g1.s2.passed ? "passed" : "failed",
       result: `S1: F1 drop ${worst("s1").f1_drop.toFixed(2)} (needs >= 0.15) · S2: F1 drop ` +
-        `${worst("s2").f1_drop.toFixed(2)} but balanced accuracy -${g1.s2.balanced_accuracy_drop.toFixed(3)} (must be < 0.03)`,
+        `${worst("s2").f1_drop.toFixed(2)} but balanced accuracy fell ${g1.s2.balanced_accuracy_drop.toFixed(3)} (must be < 0.03)`,
       resultStatus: "verified",
       note: a.framing.decision });
     const g2 = a.g2_oracle;

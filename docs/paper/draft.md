@@ -189,7 +189,7 @@ x10 is undone. Unclipped FedAvg loses 0.047 balanced accuracy on S1 (0.536 -> 0.
 Replacing the failed signal with true (but spoofable) class counts, EARN matches reported-count
 Camp A without attack (0.596 vs 0.605 on S1; 0.555 vs 0.560 on S2) and beats FedAvg, but does not
 meet the G2 conditions: on S1 it loses 0.055 rare F1 under A2 and centre 2's trust at round 15 is
-0.04 / 0.19; on S2 it loses 0.17 under A1 and all of it under A2. The two mechanisms (Figure 3):
+0.04 / 0.19; on S2 it loses 0.17 under A1 (0.555 -> 0.383) and all of it under A2 (0.000). The two mechanisms (Figure 3):
 
 - *S1, coverage 3-4:* honest holders' rare-row updates agree weakly with each other (centre 2's
   mean agreement 0.14 / 0.12 against the 0.5 bar), so the peer check rejects honest hospitals and

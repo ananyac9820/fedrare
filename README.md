@@ -15,7 +15,7 @@ Every gate was fixed before its result existed; each allowed one retry.
 |---|---|---|---|
 | **G0a** evidence signal | evidence ranks hospitals' true class counts, Spearman >= 0.7 | -0.210; the one retry (bias row) -0.463 | **Failed** |
 | **G0b** baseline quality | Tier A FedAvg balanced accuracy >= 0.45 | 0.415; retry (last dense block fine-tuned) **0.535** | **Passed on retry** |
-| **G1** problem is real | under Camp A, attack A1: >= 2x weight AND rare F1 drop >= 0.15 AND balanced-acc drop < 0.03 | S1: 5x weight but F1 drop 0.09 · S2: F1 drop 0.24 but balanced acc -0.051 | **Failed** |
+| **G1** problem is real | under Camp A, attack A1: >= 2x weight AND rare F1 drop >= 0.15 AND balanced-acc drop < 0.03 | S1: 5x weight but F1 drop 0.09 · S2: F1 drop 0.24 but balanced acc fell 0.051 | **Failed** |
 | **G2** EARN works | see design doc 6.6 | not evaluable (G0a failed); exploratory oracle version not met | - |
 
 So, as the design doc prescribes, the paper is **Fallback F1**: an empirical study of how
