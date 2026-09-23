@@ -2,65 +2,46 @@
   "_meta": {
     "status": "verified",
     "sources": [],
-    "note": "Everything that has not produced a result yet. No numbers are shown for these anywhere on the site. Update this file as work lands.",
-    "syncedAt": "2026-09-19"
+    "note": "Everything that has not produced a result. No numbers are shown for these anywhere on the site. Update this file as work lands.",
+    "syncedAt": "2026-09-23"
   },
   "items": [
     {
-      "what": "G0b retry: more rounds and an unfrozen last dense block",
-      "status": "in-progress",
-      "owner": "Ananya",
-      "track": "Pipeline & EARN",
-      "branch": "feature/pipeline",
-      "file": "results/gate_g0b.json (re-run)",
-      "producedBy": "scripts/05 re-extraction + scripts/07"
-    },
-    {
-      "what": "Camp A baseline on S1",
+      "what": "A working evidence signal for EARN",
       "status": "blocked",
-      "owner": "Ananya",
+      "owner": "Team",
       "track": "Pipeline & EARN",
-      "branch": "feature/pipeline",
-      "file": "results/tier_a_s1_camp_a.csv",
-      "producedBy": "scripts/07_tier_a_s1_baselines.py",
-      "blockedBy": "the G0a evidence-signal fix"
+      "branch": "-",
+      "file": "results/gate_g0a_retry.json",
+      "producedBy": "scripts/06b_gate_g0a_retry.py",
+      "blockedBy": "a signal that passes G0a - the one allowed retry failed"
     },
     {
-      "what": "EARN aggregation rule",
+      "what": "Tier B confirmation runs (full DenseNet-121 fine-tuning)",
       "status": "not-run",
-      "owner": "Ananya",
+      "owner": "Team",
       "track": "Pipeline & EARN",
-      "branch": "feature/pipeline",
-      "file": "src/federated/earn.py",
-      "producedBy": "Week 3 - not built yet",
-      "blockedBy": "the G0a evidence-signal fix"
+      "branch": "-",
+      "file": "-",
+      "producedBy": "Cut line 1 in the design doc"
     },
     {
-      "what": "Attacks A1 / A2 / A3 and Gate G1",
+      "what": "BOBA label-skew baseline",
       "status": "not-run",
-      "owner": "Arya",
+      "owner": "Team",
       "track": "Attacks & Eval",
-      "branch": "feature/attacks",
-      "file": "results/ (G1 attack table - format to agree)",
-      "producedBy": "Week 2 attack runs"
+      "branch": "-",
+      "file": "-",
+      "producedBy": "Cut line 2 in the design doc"
     },
     {
-      "what": "Real ledger rounds (trust-table and history hashes)",
+      "what": "Final literature re-check (CELM, CARE-FL, BOBA, ACE in full)",
       "status": "not-run",
-      "owner": "Aditya",
-      "track": "Blockchain",
-      "branch": "Hardhat contract repo (not in this repo yet)",
-      "file": "results/ledger_rounds.json",
-      "producedBy": "Week 5 integration"
-    },
-    {
-      "what": "Ledger gas cost and latency per round",
-      "status": "not-run",
-      "owner": "Aditya",
-      "track": "Blockchain",
-      "branch": "Hardhat contract repo (not in this repo yet)",
-      "file": "to agree",
-      "producedBy": "Week 5 measurements"
+      "owner": "Team",
+      "track": "Paper",
+      "branch": "-",
+      "file": "docs/paper/draft.md",
+      "producedBy": "Week 6"
     }
   ]
 }

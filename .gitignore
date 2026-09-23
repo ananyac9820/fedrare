@@ -1,5 +1,5 @@
 # Data - never commit the dataset
-/data/
+/data
 *.jpg
 *.jpeg
 *.png
@@ -19,7 +19,7 @@ results/*
 # Python
 __pycache__/
 *.py[cod]
-.venv/
+.venv
 venv/
 *.egg-info/
 .ipynb_checkpoints/
@@ -28,3 +28,9 @@ venv/
 .DS_Store
 .vscode/
 .idea/
+
+# iCloud: keep heavy folders out of sync
+*.nosync
+
+# Local editor/agent tooling
+.claude/

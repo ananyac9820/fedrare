@@ -1,0 +1,15 @@
+{
+  "name": "earn-ledger",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EARN trust ledger: append-only trust table with an on-chain max-step rule (local Hardhat chain)",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "measure": "hardhat run scripts/measure.js"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.29.1"
+  }
+}

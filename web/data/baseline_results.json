@@ -5,7 +5,7 @@
       "results/tier_a_s1_fedavg.csv"
     ],
     "producedBy": "scripts/07_tier_a_s1_baselines.py",
-    "syncedAt": "2026-09-19",
+    "syncedAt": "2026-09-23",
     "note": "Tier A, natural split S1. Final-round values, mean over seeds."
   },
   "split": "S1",
@@ -183,7 +183,7 @@
         },
         {
           "round": 26,
-          "balancedAccuracy": 0.38455846649260633,
+          "balancedAccuracy": 0.3845770510896922,
           "rareMacroF1": 0.3094815629595236
         },
         {
@@ -218,7 +218,7 @@
         },
         {
           "round": 33,
-          "balancedAccuracy": 0.4060097173642454,
+          "balancedAccuracy": 0.4060283019613314,
           "rareMacroF1": 0.2933360345439805
         },
         {
@@ -243,7 +243,7 @@
         },
         {
           "round": 38,
-          "balancedAccuracy": 0.4229799246361439,
+          "balancedAccuracy": 0.4230674596501496,
           "rareMacroF1": 0.29993496062040187
         },
         {

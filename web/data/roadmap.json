@@ -6,11 +6,11 @@
       "EARN Task Division",
       "results/gate_g0a.json"
     ],
-    "note": "Plan and gate definitions from the design doc. Gate states are updated by npm run sync-data when a gate file appears in results/; progress notes are hand-maintained.",
-    "syncedAt": "2026-09-19"
+    "note": "Plan and gate definitions from the design doc. Gate states are updated by npm run sync-data; progress notes are hand-maintained. Weeks 2-5 were completed early, on 23 Sep, with every change to the plan logged before its run in docs/DEVIATIONS.md.",
+    "syncedAt": "2026-09-23"
   },
-  "asOf": "2026-09-19",
-  "currentWeek": 1,
+  "asOf": "2026-09-23",
+  "currentWeek": 6,
   "weeks": [
     {
       "week": 1,
@@ -27,6 +27,10 @@
           "state": "failed"
         },
         {
+          "item": "G0a's one retry (bias row) and a sign-aware amendment",
+          "state": "failed"
+        },
+        {
           "item": "Tier A loop, FedAvg and Camp A implemented and unit-tested",
           "state": "done"
         },
@@ -39,12 +43,8 @@
           "state": "failed"
         },
         {
-          "item": "G0b retry: more rounds, unfrozen last block",
-          "state": "in-progress"
-        },
-        {
-          "item": "Camp A run on S1",
-          "state": "blocked"
+          "item": "G0b retry: last dense block fine-tuned, features re-extracted",
+          "state": "done"
         },
         {
           "item": "Split S2 built",
@@ -56,31 +56,105 @@
       "week": 2,
       "dates": "24-30 Sep",
       "work": "Attacks A1-A3 against FedAvg, robust rules and Camp A on S1 and S2, 3 seeds.",
-      "deliverable": "Attack table; G1; S1/S2 framing decision"
+      "deliverable": "Attack table; G1; S1/S2 framing decision",
+      "progress": [
+        {
+          "item": "Attacks A1-A3 implemented as client hooks",
+          "state": "done"
+        },
+        {
+          "item": "8 methods x 4 attacks x S1/S2 x 3 seeds (192 runs)",
+          "state": "done"
+        },
+        {
+          "item": "Gate G1 evaluated",
+          "state": "failed"
+        },
+        {
+          "item": "S1/S2 framing decided: Fallback F1",
+          "state": "done"
+        }
+      ]
     },
     {
       "week": 3,
       "dates": "1-7 Oct",
       "work": "Implement EARN: clipping, evidence, coverage blend, slow-up/fast-down trust, capped weighting. Unit tests per step. In-memory ledger stub.",
-      "deliverable": "Working src/federated/earn.py"
+      "deliverable": "Working src/federated/earn.py",
+      "progress": [
+        {
+          "item": "src/federated/earn.py built to the design doc's pseudocode",
+          "state": "done"
+        },
+        {
+          "item": "Unit tests per step (44 Python tests pass)",
+          "state": "done"
+        },
+        {
+          "item": "In-memory hash-chain ledger",
+          "state": "done"
+        }
+      ]
     },
     {
       "week": 4,
       "dates": "8-14 Oct",
       "work": "Full evaluation: all methods x all attacks x S1/S2 x 3 seeds. Ablations. Sensitivity of step size and threshold.",
-      "deliverable": "Main results; G2"
+      "deliverable": "Main results; G2",
+      "progress": [
+        {
+          "item": "EARN, 3 ablations and 4 sensitivity settings on oracle evidence (216 runs)",
+          "state": "done"
+        },
+        {
+          "item": "G2: not evaluable after G0a; exploratory oracle version not met",
+          "state": "failed"
+        }
+      ]
     },
     {
       "week": 5,
       "dates": "15-21 Oct",
       "work": "Smart contract on a local Hardhat chain: trust table, history hashes, max-step rule. Gas and latency. Tier B confirmation runs.",
-      "deliverable": "Contract + overhead numbers; Tier B table"
+      "deliverable": "Contract + overhead numbers; Tier B table",
+      "progress": [
+        {
+          "item": "EarnLedger contract on local Hardhat, 5 contract tests",
+          "state": "done"
+        },
+        {
+          "item": "2,400 real EARN rounds replayed on-chain: gas and latency",
+          "state": "done"
+        },
+        {
+          "item": "Tier B confirmation runs",
+          "state": "blocked"
+        }
+      ]
     },
     {
       "week": 6,
       "dates": "22-28 Oct",
       "work": "Figures, 6-8 page draft, updated synopsis, final literature re-check, clean repository.",
-      "deliverable": "Draft paper and final report"
+      "deliverable": "Draft paper and final report",
+      "progress": [
+        {
+          "item": "Figures, results tables, README",
+          "state": "done"
+        },
+        {
+          "item": "Paper draft (docs/paper/draft.md)",
+          "state": "done"
+        },
+        {
+          "item": "Final literature re-check (CELM, CARE-FL, BOBA, ACE in full)",
+          "state": "pending"
+        },
+        {
+          "item": "Team review of the F1 framing and the draft",
+          "state": "pending"
+        }
+      ]
     }
   ],
   "gates": [
@@ -91,9 +165,9 @@
       "condition": "Evidence e(k,c) ranks hospitals' true per-class counts with Spearman >= 0.7 on S1",
       "ifFails": "One retry (bias row, or evidence averaged over 3 rounds); if still below 0.7, Fallback F1",
       "state": "failed",
-      "result": "Mean Spearman -0.21 (needs >= 0.7)",
+      "result": "Mean Spearman -0.21; one retry (bias row) -0.46 (needs >= 0.7)",
       "resultStatus": "verified",
-      "note": "Evidence came out inverted: centres with no images of a disease showed the largest change. Retry decision pending with the team."
+      "note": "Failed after its one allowed retry, so the project took Fallback F1. A sign-aware amendment (M1) scored 0.11 and failed too."
     },
     {
       "id": "G0b",
@@ -101,9 +175,9 @@
       "when": "End of Week 1",
       "condition": "Tier A FedAvg reaches balanced accuracy >= 0.45",
       "ifFails": "Unfreeze the last dense block and re-extract features. One retry.",
-      "state": "failed",
-      "note": "Balanced accuracy was still rising at round 40. A retry with more rounds and an unfrozen last dense block is in progress.",
-      "result": "FedAvg balanced accuracy 0.415 (needs >= 0.45)",
+      "state": "passed",
+      "note": "Passed on the design doc's retry: the last dense block fine-tuned by FedAvg, features re-extracted.",
+      "result": "Retry 0.535; first attempt 0.415 (needs >= 0.45)",
       "resultStatus": "verified"
     },
     {
@@ -112,7 +186,10 @@
       "when": "End of Week 2 (30 Sep)",
       "condition": "On S1 or S2, under Camp A, attack A1 gives the attacker >= 2x its FedAvg weight on a rare row AND drops that class's F1 by >= 0.15, with balanced accuracy falling < 0.03",
       "ifFails": "Stop building EARN. Fallback F1.",
-      "state": "pending"
+      "state": "failed",
+      "result": "S1: F1 drop 0.09 (needs >= 0.15) · S2: F1 drop 0.24 but balanced accuracy fell 0.051 (must be < 0.03)",
+      "resultStatus": "verified",
+      "note": "The attack succeeds on neither split: Fallback F1 - an empirical study of how rare-class-aware aggregation behaves on a real hospital split."
     },
     {
       "id": "G2",
@@ -120,7 +197,9 @@
       "when": "End of Week 4 (14 Oct)",
       "condition": "Under A1 and A2, EARN's rare-class F1 stays within 0.05 of no-attack; with no attack within 0.02 of Camp A and above FedAvg; honest centre 2 reaches trust >= 0.8",
       "ifFails": "Fallback F2.",
-      "state": "pending"
+      "state": "not-run",
+      "result": "Not evaluable - G0a failed, so EARN has no working signal",
+      "note": "Exploratory re-run on an oracle evidence signal: conditions not met on S1, not met on S2. Reported as exploratory, never as the gate."
     }
   ]
 }

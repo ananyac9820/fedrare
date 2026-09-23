@@ -1,0 +1,1426 @@
+{
+  "_meta": {
+    "network": "Hardhat in-process chain (automine), chainId 31337",
+    "solc": "0.8.24, optimizer 200 runs",
+    "created_utc": "2026-09-23T14:58:53.286Z",
+    "contract": "ledger/contracts/EarnLedger.sol"
+  },
+  "summary": {
+    "runs": 24,
+    "rounds_committed": 2400,
+    "gas_per_round": {
+      "n": 2400,
+      "mean": 183780.78375,
+      "median": 183478,
+      "min": 169863,
+      "max": 282365
+    },
+    "latency_ms_per_round": {
+      "n": 2400,
+      "mean": 1.1254587499999982,
+      "median": 0.995,
+      "min": 0.925,
+      "max": 3.969
+    },
+    "deploy_gas": 667469,
+    "all_final_trust_match": true,
+    "all_history_verified": true,
+    "all_tamper_rejected": true
+  },
+  "runs": [
+    {
+      "file": "earn_rounds_s1_A1_seed42.json",
+      "split": "s1",
+      "attack": "A1",
+      "seed": 42,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 187763.97,
+        "median": 186029,
+        "min": 182848,
+        "max": 281539
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.3123687400000004,
+        "median": 1.097125,
+        "min": 1.007125,
+        "max": 3.819292
+      },
+      "total_gas": 18776397,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s1_A1_seed43.json",
+      "split": "s1",
+      "attack": "A1",
+      "seed": 43,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 188718.01,
+        "median": 186936,
+        "min": 183612,
+        "max": 282365
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.1923104099999993,
+        "median": 1.034792,
+        "min": 0.996666,
+        "max": 3.211875
+      },
+      "total_gas": 18871801,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s1_A1_seed44.json",
+      "split": "s1",
+      "attack": "A1",
+      "seed": 44,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 188465.9,
+        "median": 186560,
+        "min": 184599,
+        "max": 282365
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.17339087,
+        "median": 1.01625,
+        "min": 0.973292,
+        "max": 3.476584
+      },
+      "total_gas": 18846590,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(2, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 2,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s1_A2_seed42.json",
+      "split": "s1",
+      "attack": "A2",
+      "seed": 42,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 185583.98,
+        "median": 183530,
+        "min": 181115,
+        "max": 279259
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.1825550200000001,
+        "median": 1.016583,
+        "min": 0.97025,
+        "max": 3.071792
+      },
+      "total_gas": 18558398,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(2, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 2,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s1_A2_seed43.json",
+      "split": "s1",
+      "attack": "A2",
+      "seed": 43,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 186158.13,
+        "median": 184087,
+        "min": 181493,
+        "max": 281601
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.1496874899999996,
+        "median": 0.997833,
+        "min": 0.961042,
+        "max": 3.05
+      },
+      "total_gas": 18615813,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s1_A2_seed44.json",
+      "split": "s1",
+      "attack": "A2",
+      "seed": 44,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 186438.15,
+        "median": 184361,
+        "min": 181907,
+        "max": 281601
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.1619671200000006,
+        "median": 1.002416,
+        "min": 0.959625,
+        "max": 3.329959
+      },
+      "total_gas": 18643815,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(2, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 2,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s1_A3_seed42.json",
+      "split": "s1",
+      "attack": "A3",
+      "seed": 42,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 186203.74,
+        "median": 184658,
+        "min": 181652,
+        "max": 279259
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.12770209,
+        "median": 1.009083,
+        "min": 0.962709,
+        "max": 2.852333
+      },
+      "total_gas": 18620374,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s1_A3_seed43.json",
+      "split": "s1",
+      "attack": "A3",
+      "seed": 43,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 186105.99,
+        "median": 183939,
+        "min": 181688,
+        "max": 281601
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.0982045599999997,
+        "median": 0.989542,
+        "min": 0.954541,
+        "max": 3.070875
+      },
+      "total_gas": 18610599,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s1_A3_seed44.json",
+      "split": "s1",
+      "attack": "A3",
+      "seed": 44,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 186192.5,
+        "median": 184020,
+        "min": 182078,
+        "max": 281601
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.09594205,
+        "median": 0.982708,
+        "min": 0.951042,
+        "max": 2.960833
+      },
+      "total_gas": 18619250,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(2, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 2,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s1_none_seed42.json",
+      "split": "s1",
+      "attack": "none",
+      "seed": 42,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 186203.14,
+        "median": 184646,
+        "min": 181652,
+        "max": 279259
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.14890741,
+        "median": 0.98525,
+        "min": 0.944125,
+        "max": 3.060708
+      },
+      "total_gas": 18620314,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s1_none_seed43.json",
+      "split": "s1",
+      "attack": "none",
+      "seed": 43,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 186105.63,
+        "median": 183927,
+        "min": 181688,
+        "max": 281601
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.1545012100000003,
+        "median": 0.9845,
+        "min": 0.951416,
+        "max": 3.969
+      },
+      "total_gas": 18610563,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s1_none_seed44.json",
+      "split": "s1",
+      "attack": "none",
+      "seed": 44,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 186191.78,
+        "median": 184025,
+        "min": 182078,
+        "max": 281601
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.09471588,
+        "median": 0.988667,
+        "min": 0.953584,
+        "max": 2.864625
+      },
+      "total_gas": 18619178,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(2, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 2,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s2_A1_seed42.json",
+      "split": "s2",
+      "attack": "A1",
+      "seed": 42,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 184149.73,
+        "median": 182743,
+        "min": 177626,
+        "max": 278495
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.09008375,
+        "median": 0.984334,
+        "min": 0.959417,
+        "max": 2.890042
+      },
+      "total_gas": 18414973,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(2, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 2,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s2_A1_seed43.json",
+      "split": "s2",
+      "attack": "A1",
+      "seed": 43,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 184501.93,
+        "median": 182962,
+        "min": 178064,
+        "max": 276253
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.1030541700000003,
+        "median": 0.993,
+        "min": 0.954833,
+        "max": 2.728834
+      },
+      "total_gas": 18450193,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(2, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 2,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s2_A1_seed44.json",
+      "split": "s2",
+      "attack": "A1",
+      "seed": 44,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 185080.91,
+        "median": 183967,
+        "min": 178497,
+        "max": 274725
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.1031500600000002,
+        "median": 0.994709,
+        "min": 0.946625,
+        "max": 2.862125
+      },
+      "total_gas": 18508091,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(2, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 2,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s2_A2_seed42.json",
+      "split": "s2",
+      "attack": "A2",
+      "seed": 42,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 182230.24,
+        "median": 180429,
+        "min": 177917,
+        "max": 278495
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.0829766199999997,
+        "median": 0.980917,
+        "min": 0.9485,
+        "max": 2.630042
+      },
+      "total_gas": 18223024,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(5, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 5,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s2_A2_seed43.json",
+      "split": "s2",
+      "attack": "A2",
+      "seed": 43,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 183600.12,
+        "median": 181571,
+        "min": 178656,
+        "max": 278545
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.10713999,
+        "median": 0.987,
+        "min": 0.956125,
+        "max": 3.098209
+      },
+      "total_gas": 18360012,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(5, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 5,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s2_A2_seed44.json",
+      "split": "s2",
+      "attack": "A2",
+      "seed": 44,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 184099.82,
+        "median": 181956,
+        "min": 178761,
+        "max": 277017
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.09315584,
+        "median": 0.98625,
+        "min": 0.950916,
+        "max": 3.052166
+      },
+      "total_gas": 18409982,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(5, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 5,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s2_A3_seed42.json",
+      "split": "s2",
+      "attack": "A3",
+      "seed": 42,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 176856.26,
+        "median": 172501,
+        "min": 170420,
+        "max": 278495
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.1026966299999996,
+        "median": 0.969208,
+        "min": 0.935208,
+        "max": 3.291625
+      },
+      "total_gas": 17685626,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s2_A3_seed43.json",
+      "split": "s2",
+      "attack": "A3",
+      "seed": 43,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 178842.32,
+        "median": 176320,
+        "min": 170444,
+        "max": 278533
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.0736617199999996,
+        "median": 0.986333,
+        "min": 0.946625,
+        "max": 2.609833
+      },
+      "total_gas": 17884232,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s2_A3_seed44.json",
+      "split": "s2",
+      "attack": "A3",
+      "seed": 44,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 177774.53,
+        "median": 175244,
+        "min": 169863,
+        "max": 277017
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.0971104200000006,
+        "median": 0.984375,
+        "min": 0.943625,
+        "max": 3.146958
+      },
+      "total_gas": 17777453,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s2_none_seed42.json",
+      "split": "s2",
+      "attack": "none",
+      "seed": 42,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 176855.42,
+        "median": 172501,
+        "min": 170420,
+        "max": 278495
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.0791933199999995,
+        "median": 0.97625,
+        "min": 0.925542,
+        "max": 2.854417
+      },
+      "total_gas": 17685542,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s2_none_seed43.json",
+      "split": "s2",
+      "attack": "none",
+      "seed": 43,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 178841.96,
+        "median": 176320,
+        "min": 170444,
+        "max": 278545
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.1074762600000003,
+        "median": 0.989625,
+        "min": 0.925459,
+        "max": 3.337958
+      },
+      "total_gas": 17884196,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    },
+    {
+      "file": "earn_rounds_s2_none_seed44.json",
+      "split": "s2",
+      "attack": "none",
+      "seed": 44,
+      "rounds": 100,
+      "deploy_gas": 667469,
+      "gas_per_round": {
+        "n": 100,
+        "mean": 177774.65,
+        "median": 175244,
+        "min": 169863,
+        "max": 277017
+      },
+      "latency_ms_per_round": {
+        "n": 100,
+        "mean": 1.07872041,
+        "median": 0.97875,
+        "min": 0.937458,
+        "max": 2.773583
+      },
+      "total_gas": 17777465,
+      "final_trust_matches_python": true,
+      "history_hash_verified": true,
+      "tamper_rejected": true,
+      "tamper_error": "Error: VM Exception while processing transaction: reverted with custom error 'StepTooLarge(0, 0, 3000)'",
+      "tamper_entry": {
+        "client": 0,
+        "class": 0,
+        "from_bps": 0,
+        "to_bps": 3000
+      }
+    }
+  ],
+  "example_per_round": [
+    {
+      "round": 1,
+      "gas": 279259,
+      "latency_ms": 0.998,
+      "block_hash": "0xdd510bd0ae8676112b5856041366018572b542308a19437c3c2a80483c8be9b4"
+    },
+    {
+      "round": 2,
+      "gas": 193476,
+      "latency_ms": 2.469,
+      "block_hash": "0xcc0661a422f1f230de8375fe20d57406049bf505e3864be9a0342e670be7abee"
+    },
+    {
+      "round": 3,
+      "gas": 193933,
+      "latency_ms": 1.034,
+      "block_hash": "0xee0138fdef2b8b9c8a072bf251e40a254c052bec8f893350753733035bab56ae"
+    },
+    {
+      "round": 4,
+      "gas": 193093,
+      "latency_ms": 0.982,
+      "block_hash": "0x24ca4089007e72ab1fc0b526f2614c2e283231984cec938ab5f46d68aad3c8b6"
+    },
+    {
+      "round": 5,
+      "gas": 194466,
+      "latency_ms": 1.027,
+      "block_hash": "0xb9f4a2adb5de72f460762432ea686d021ec3f8aa0c95209b3acb3a2a27dd807f"
+    },
+    {
+      "round": 6,
+      "gas": 193224,
+      "latency_ms": 1.042,
+      "block_hash": "0x81c52a226562b5b38dd5eb2281d36c20ee421bd37f1a487382a36605177a877a"
+    },
+    {
+      "round": 7,
+      "gas": 192555,
+      "latency_ms": 0.97,
+      "block_hash": "0x5a5fb88fd9be2d905330b2291541150bd36f9b1dd85a52d8a4e79e46a941e6b9"
+    },
+    {
+      "round": 8,
+      "gas": 193176,
+      "latency_ms": 0.986,
+      "block_hash": "0x5f1e0aaa34d220b076cc623a9de53f300bf80a4b9f177d7fc54069ecd5cf1b1b"
+    },
+    {
+      "round": 9,
+      "gas": 192519,
+      "latency_ms": 0.983,
+      "block_hash": "0x3585b10e712ee9a8d0383e4720cb23c9ebb350ad985e3d36a6c4f2e8cbc15f70"
+    },
+    {
+      "round": 10,
+      "gas": 192507,
+      "latency_ms": 0.971,
+      "block_hash": "0x566563134ac6def33be24c1604c4547d771beaa979d720d3c003474e268037d8"
+    },
+    {
+      "round": 11,
+      "gas": 189547,
+      "latency_ms": 0.985,
+      "block_hash": "0x3d8f26606a06cbce4a24e2f31502ae449a966ab8ef88fcf6938d3076e34242ae"
+    },
+    {
+      "round": 12,
+      "gas": 189280,
+      "latency_ms": 3.061,
+      "block_hash": "0x05e1e2c9667706a7fdc04ed421e25d1609d55ab51e7fc69de9d3ae68f45602a8"
+    },
+    {
+      "round": 13,
+      "gas": 186565,
+      "latency_ms": 0.973,
+      "block_hash": "0x1f3f1d40ec9f275e97ddd81f8cc4f676ef9badb27c567f295bcbec0db4295aed"
+    },
+    {
+      "round": 14,
+      "gas": 186872,
+      "latency_ms": 0.954,
+      "block_hash": "0x59b9761111f6fb638a1b95688dd3c8c209836d944353b698709e5ede14360708"
+    },
+    {
+      "round": 15,
+      "gas": 187417,
+      "latency_ms": 0.977,
+      "block_hash": "0x39803b2ddac57cf024d8978c05d561af6eb06146e92eed5f477e1fc96ae854f8"
+    },
+    {
+      "round": 16,
+      "gas": 187624,
+      "latency_ms": 0.96,
+      "block_hash": "0xd763bc04fd44722da9a8d67e81fbcebf1f4d43ef3cb4024d2f6ee432bf030070"
+    },
+    {
+      "round": 17,
+      "gas": 185475,
+      "latency_ms": 0.994,
+      "block_hash": "0x78ef2b82d17ecb0ef7c2f0345625d185d9ad07ebd50f88280d8832136aa5a71c"
+    },
+    {
+      "round": 18,
+      "gas": 185201,
+      "latency_ms": 0.959,
+      "block_hash": "0x9746ab28420ccecd16643a364d563cb41031d4f017af2d9693a3259a751034c1"
+    },
+    {
+      "round": 19,
+      "gas": 185065,
+      "latency_ms": 0.982,
+      "block_hash": "0x8727fc6b7a473e9a4a99e727d5bede0f3af386b439447f48000231c54c45e0e3"
+    },
+    {
+      "round": 20,
+      "gas": 185284,
+      "latency_ms": 1.051,
+      "block_hash": "0xd8ff3a8bf04c0077d863d870f32efe14b7f025c0d0f0f9636a2dc36c917a7999"
+    },
+    {
+      "round": 21,
+      "gas": 186343,
+      "latency_ms": 0.983,
+      "block_hash": "0xd68088912f36ad75e15d35caa4f0af91039c019b0e511fd37a3bdf400e4646e7"
+    },
+    {
+      "round": 22,
+      "gas": 185710,
+      "latency_ms": 0.972,
+      "block_hash": "0xe266d0e22ffe4cdf98148fda45e3a93ecec4f1bafa21d34f65203687f8c371da"
+    },
+    {
+      "round": 23,
+      "gas": 185177,
+      "latency_ms": 2.727,
+      "block_hash": "0xc5b68863094e5d3ffbb62a88b18d1f4cc6e860dc602550232a08fa098f619856"
+    },
+    {
+      "round": 24,
+      "gas": 184337,
+      "latency_ms": 0.967,
+      "block_hash": "0x3f74fe157a8a2ccd2d966f64e9ab92b4c238437b002560a26718ccb416fdc2ab"
+    },
+    {
+      "round": 25,
+      "gas": 185455,
+      "latency_ms": 0.956,
+      "block_hash": "0x960d1ae3d7c5a6ce4adeb206ea4f449c316090712d2673b254d5b22867616e3f"
+    },
+    {
+      "round": 26,
+      "gas": 184758,
+      "latency_ms": 0.966,
+      "block_hash": "0xd6c82e7e6bd08b7045ba808d1b3169c780b0992eb88b5e9a7660173955d155de"
+    },
+    {
+      "round": 27,
+      "gas": 183856,
+      "latency_ms": 0.972,
+      "block_hash": "0x6405da071352ef42470b951fea24fc6136321849ed3624ee0ae504cc726eaec0"
+    },
+    {
+      "round": 28,
+      "gas": 183313,
+      "latency_ms": 0.944,
+      "block_hash": "0x76d3220a962d8832a7e00b35e89865f3fba34542d044a7b0bf81a3ac24358693"
+    },
+    {
+      "round": 29,
+      "gas": 182342,
+      "latency_ms": 0.962,
+      "block_hash": "0x535815200d37d6dff76af374af28f340160adac03c4531e7f83b66b64d4d1a83"
+    },
+    {
+      "round": 30,
+      "gas": 183594,
+      "latency_ms": 0.968,
+      "block_hash": "0xed57bf36ade9544fbcfb8a1d59a3d98c0833f52a123b00ff7abed310cb4db373"
+    },
+    {
+      "round": 31,
+      "gas": 183518,
+      "latency_ms": 0.967,
+      "block_hash": "0x26c84205710c1bb23371d24e8bea67d9b9278602203fde3e8740dce5ed0e7cae"
+    },
+    {
+      "round": 32,
+      "gas": 183168,
+      "latency_ms": 0.972,
+      "block_hash": "0x57310dd6e73f701ca8a072f639e96c9737886aca64d40a62fbb6eb2109133666"
+    },
+    {
+      "round": 33,
+      "gas": 183506,
+      "latency_ms": 1,
+      "block_hash": "0x7ca8085c1bf8877ce0ffa066f321a630d3d7add3649b07d335cb0b999cbdffd2"
+    },
+    {
+      "round": 34,
+      "gas": 183299,
+      "latency_ms": 2.905,
+      "block_hash": "0x0b5958642f775b5d143e197255c0c275573dc7f266c034a8a9aeb83e74afcb82"
+    },
+    {
+      "round": 35,
+      "gas": 182861,
+      "latency_ms": 0.991,
+      "block_hash": "0x1f4e1686e104eb3a4f8b15bde253d554a3fbfe79a2017794467fc3313482b72e"
+    },
+    {
+      "round": 36,
+      "gas": 182416,
+      "latency_ms": 0.961,
+      "block_hash": "0xe7b02bf3b6adbbbdf3deecfe86b9e9faff01a1fa70a805007bbd8915f56d3013"
+    },
+    {
+      "round": 37,
+      "gas": 183263,
+      "latency_ms": 0.987,
+      "block_hash": "0x07ab6d5a939b2b3562851c239410834b79adcf6845bdca686f43e9068337ef53"
+    },
+    {
+      "round": 38,
+      "gas": 185622,
+      "latency_ms": 0.999,
+      "block_hash": "0x223eb5eae703a2b3c67f73aa303a65c1621f92785e59ca284292aa630617610c"
+    },
+    {
+      "round": 39,
+      "gas": 185482,
+      "latency_ms": 1.011,
+      "block_hash": "0x1f31783c0d50acdcc2e2d44d8b900176240f625f37add0870d839e9409a8a57d"
+    },
+    {
+      "round": 40,
+      "gas": 184789,
+      "latency_ms": 1.002,
+      "block_hash": "0x0c040fc672c91a8c9a95f59fcff77bdba33dae6975a9d6c6e977b5e985803fba"
+    },
+    {
+      "round": 41,
+      "gas": 184120,
+      "latency_ms": 0.982,
+      "block_hash": "0x83d15c6d55150cb98da82106216559a2e8bbb7b0c6ad98a1adb32f5e58345bee"
+    },
+    {
+      "round": 42,
+      "gas": 184960,
+      "latency_ms": 0.961,
+      "block_hash": "0x6b62257a3e0b1a656b9e7e5d2e9240d484c6a3bfd57e5d8b1466dae4b09b815b"
+    },
+    {
+      "round": 43,
+      "gas": 185398,
+      "latency_ms": 0.977,
+      "block_hash": "0x4379898b5ba80894a7c8744102952fff648700bcdcb48ec66a391f3813d52530"
+    },
+    {
+      "round": 44,
+      "gas": 184777,
+      "latency_ms": 0.958,
+      "block_hash": "0x53d7c9b0266f112cbbf063fa1595ce4adaab0a92cfab86365c1efc2bc9925616"
+    },
+    {
+      "round": 45,
+      "gas": 186319,
+      "latency_ms": 3.052,
+      "block_hash": "0x0c9e80dcf2bb53d6c62114b5766b8dca7c9588b7b292ae601f7205b4f142344b"
+    },
+    {
+      "round": 46,
+      "gas": 185710,
+      "latency_ms": 0.994,
+      "block_hash": "0xdfac44b5abdc9d730482ea6a75cf67bb7d8170a263f26312fb25c5c81536f6bb"
+    },
+    {
+      "round": 47,
+      "gas": 185065,
+      "latency_ms": 0.982,
+      "block_hash": "0x619b2169200192f5da4b97f50f0ab4f6a12b849d0e6419a6d1f48272c99d4bb3"
+    },
+    {
+      "round": 48,
+      "gas": 184910,
+      "latency_ms": 0.961,
+      "block_hash": "0xa91e34f5966f12a9469e7a52c696e6ca5adf278a212afcb3b2f90a3d4695eba1"
+    },
+    {
+      "round": 49,
+      "gas": 185081,
+      "latency_ms": 0.964,
+      "block_hash": "0xe04038f39b0f9a947c3c7db43976af5d10ff86a10932305c5c00a5914e6fac9c"
+    },
+    {
+      "round": 50,
+      "gas": 182813,
+      "latency_ms": 0.958,
+      "block_hash": "0xddf71a4d54821f7f291e032c2e3603bfeb48a6d2486af0ad1c7a791f92c5f2ef"
+    },
+    {
+      "round": 51,
+      "gas": 182066,
+      "latency_ms": 0.961,
+      "block_hash": "0x78ff11e41ba3b197dbf3d1aaba2b568c561c462397ad32506997045db1c829cf"
+    },
+    {
+      "round": 52,
+      "gas": 181652,
+      "latency_ms": 0.959,
+      "block_hash": "0x7c326b89123789eec28590c78192d5bbf86d83e4597548fbcd7d8b4b9802efa3"
+    },
+    {
+      "round": 53,
+      "gas": 183387,
+      "latency_ms": 0.964,
+      "block_hash": "0x6428672aebcf1d8d4ccba2905cd5d254e538c930310d3dd45718a462a7305e99"
+    },
+    {
+      "round": 54,
+      "gas": 182766,
+      "latency_ms": 1.018,
+      "block_hash": "0x6f82faa0132ba46850e34ff86405dfca1c9dda7c554b19fe3cc3e179fbf85931"
+    },
+    {
+      "round": 55,
+      "gas": 182949,
+      "latency_ms": 0.967,
+      "block_hash": "0x4f9d19ce63f486a4d68deeca0c734af1ada4a8162cb90117ef39a00d1bceab5a"
+    },
+    {
+      "round": 56,
+      "gas": 182673,
+      "latency_ms": 2.634,
+      "block_hash": "0xefb85b0c573194e558846c0b311b333a71a812cb04e2413f34f7f61ce3070157"
+    },
+    {
+      "round": 57,
+      "gas": 184189,
+      "latency_ms": 0.987,
+      "block_hash": "0x03ae4156b59719db2dbda454fc01ba6a21bdf97fc08964a61251065bf64cfd8a"
+    },
+    {
+      "round": 58,
+      "gas": 183085,
+      "latency_ms": 0.961,
+      "block_hash": "0x0f94f818d63d28b4dfab954e95b5ebe05e3f3ae82e61fd0eb14b447f60318bdc"
+    },
+    {
+      "round": 59,
+      "gas": 183487,
+      "latency_ms": 1.015,
+      "block_hash": "0x395dc81b3da31acfcb67695d77fa3f1ba5510afa0a75515c905b4af1fb11253b"
+    },
+    {
+      "round": 60,
+      "gas": 183280,
+      "latency_ms": 0.959,
+      "block_hash": "0xfa269444cef548244372281f28400aa2a11e0b486a1741ba34edae30cfe0310f"
+    },
+    {
+      "round": 61,
+      "gas": 185184,
+      "latency_ms": 0.969,
+      "block_hash": "0xebad1e8da699d4a8315bf531050a6072925c2098d85d4395b7470fb3100ba664"
+    },
+    {
+      "round": 62,
+      "gas": 183930,
+      "latency_ms": 0.976,
+      "block_hash": "0x6bd7211f71652897019d3c30953ec0378ce21681d5735a938c168721fd645373"
+    },
+    {
+      "round": 63,
+      "gas": 184646,
+      "latency_ms": 1.002,
+      "block_hash": "0x917e3f42a1d86d5fc51ccd6e5bfae24f0129d06e69c86db2661fa89adaf7f5c6"
+    },
+    {
+      "round": 64,
+      "gas": 183273,
+      "latency_ms": 0.957,
+      "block_hash": "0x51cab1b6385e132e030df67d98662cc69773e1cae90a9537b288cf975bff5b2b"
+    },
+    {
+      "round": 65,
+      "gas": 184515,
+      "latency_ms": 0.97,
+      "block_hash": "0x3dc323ea046e97f4e97745c0067d303e6ac18a38c3994deccf28ce42ed166c3c"
+    },
+    {
+      "round": 66,
+      "gas": 184977,
+      "latency_ms": 0.977,
+      "block_hash": "0xb83e60a103241e825fda38eda7c6d541ca07b165096b80baee5852bb0be5d028"
+    },
+    {
+      "round": 67,
+      "gas": 183528,
+      "latency_ms": 2.51,
+      "block_hash": "0xcc30302ec1eec6ef15ab3bf8356d909eaf81bf8370dd0d892df591b4bbd077fb"
+    },
+    {
+      "round": 68,
+      "gas": 183297,
+      "latency_ms": 1,
+      "block_hash": "0x69ef47809dcef5c5d083e770f1a059ebf1097a265ad70e721b682bb15f0ba877"
+    },
+    {
+      "round": 69,
+      "gas": 185072,
+      "latency_ms": 0.985,
+      "block_hash": "0x7f7edb8520adafe8d1cff0323881bbbd266409ff526de22af235031edd2f5ad7"
+    },
+    {
+      "round": 70,
+      "gas": 184439,
+      "latency_ms": 1.02,
+      "block_hash": "0xbddce3207c014801e389c391449cae8de9dca61321761d94c584ba5e955ad1d6"
+    },
+    {
+      "round": 71,
+      "gas": 182621,
+      "latency_ms": 1.033,
+      "block_hash": "0xdbe5de0f7988855733b22536a89cea4a1ff5554847d6b93a18e806e6d77e2e08"
+    },
+    {
+      "round": 72,
+      "gas": 184391,
+      "latency_ms": 0.967,
+      "block_hash": "0x17b10ba4d558693c51e90123b38b7b902b08c34c2457b999c1233afdf3342af6"
+    },
+    {
+      "round": 73,
+      "gas": 182911,
+      "latency_ms": 0.983,
+      "block_hash": "0x592d769ae7beefce32546537ae6c55a18d18dbca417c71e9979442888b1dd3bd"
+    },
+    {
+      "round": 74,
+      "gas": 183751,
+      "latency_ms": 0.966,
+      "block_hash": "0xdc210a16519e0e09e8dddbc70dd84d9c8cdf2f01259637f7eb64c603865aeec1"
+    },
+    {
+      "round": 75,
+      "gas": 183544,
+      "latency_ms": 0.981,
+      "block_hash": "0x9deb2e176448166fac908ad5bb345a8a4d9c0662957949f8f45ada6f81b28b6e"
+    },
+    {
+      "round": 76,
+      "gas": 185072,
+      "latency_ms": 1.013,
+      "block_hash": "0xd3bb088ff8aa60496ef7cc81f3c076885f40d1375632658288b73d538a5be883"
+    },
+    {
+      "round": 77,
+      "gas": 184589,
+      "latency_ms": 1.032,
+      "block_hash": "0x01ae3bf822df9b7cea4f42d1b5799e27745498df5333808e355618cee38144c6"
+    },
+    {
+      "round": 78,
+      "gas": 185048,
+      "latency_ms": 1.206,
+      "block_hash": "0x925124979fcc2cf59796fd0d42d68ce1b53afc0c2c9f1091d7c4d85f7103e9b5"
+    },
+    {
+      "round": 79,
+      "gas": 184565,
+      "latency_ms": 1.004,
+      "block_hash": "0x2d95e5643a54e7600ebfab3cc5ebf52ff488e4671ad4e10b1f83dc4696f32b51"
+    },
+    {
+      "round": 80,
+      "gas": 185367,
+      "latency_ms": 1.077,
+      "block_hash": "0xa33d1a3919db1063a8f29e657391edd0c7e8295be8846995bf602273902ef146"
+    },
+    {
+      "round": 81,
+      "gas": 183166,
+      "latency_ms": 0.97,
+      "block_hash": "0x64021cfa73a83814c44e83925dee4c5ff43326a9a892181dbb708a8e080fba5f"
+    },
+    {
+      "round": 82,
+      "gas": 183763,
+      "latency_ms": 0.975,
+      "block_hash": "0x2d82c57ba227d3648448b53a6af71c0f878cdea25363d9e7454081acd54a19c1"
+    },
+    {
+      "round": 83,
+      "gas": 184396,
+      "latency_ms": 1.042,
+      "block_hash": "0x2d9be3fd61f01a068c8378237db3f5a65dfc676a836c4a792131ddc0a848939a"
+    },
+    {
+      "round": 84,
+      "gas": 183568,
+      "latency_ms": 1.082,
+      "block_hash": "0x824fbd0525628cf7ce605b3c65fb059c4875533a7317ed221e4814a6f413fef3"
+    },
+    {
+      "round": 85,
+      "gas": 183906,
+      "latency_ms": 0.969,
+      "block_hash": "0x73a0bf042ecaae89738876b8fa2f4502b2fb4e643beb954a9facb9672713ef2c"
+    },
+    {
+      "round": 86,
+      "gas": 183699,
+      "latency_ms": 0.992,
+      "block_hash": "0x8280f6675b2e3b0d4770573e41d43650f1bbe9ae8a2fc28cfdfdeda940003976"
+    },
+    {
+      "round": 87,
+      "gas": 183030,
+      "latency_ms": 0.975,
+      "block_hash": "0x648fa7a9ad4e4dc714a97c538ded12dbae55e0774f5231e58936dc87fff45caf"
+    },
+    {
+      "round": 88,
+      "gas": 185924,
+      "latency_ms": 2.723,
+      "block_hash": "0xe9bc7077379691f33f0063fc62751a300ec017fbddab1ce22f52ed4e9d4dc6b2"
+    },
+    {
+      "round": 89,
+      "gas": 184694,
+      "latency_ms": 1.038,
+      "block_hash": "0xdc17f1fac16da6a12d42a4a904a00b42c79c8f9fad2ebbeb429a5cb6cf1c429d"
+    },
+    {
+      "round": 90,
+      "gas": 185786,
+      "latency_ms": 0.987,
+      "block_hash": "0x4b9a1ac9f89c56ec7f099e8d10b096084e96e7b53d321a59c70fbfe30b1cabe7"
+    },
+    {
+      "round": 91,
+      "gas": 183999,
+      "latency_ms": 1,
+      "block_hash": "0x820e78173a705a897070558ad0ef28fe0a7b9798ad0a05c98ad9f022b7d1667c"
+    },
+    {
+      "round": 92,
+      "gas": 185279,
+      "latency_ms": 1.019,
+      "block_hash": "0x9fdc8fb36f55eef7783099b649a4e33915797ecf132ac5c44f48127e08479b4d"
+    },
+    {
+      "round": 93,
+      "gas": 184734,
+      "latency_ms": 1.003,
+      "block_hash": "0xa6499245abdc7d9a4399cba92fc1f8ace45025c00e12bd1b702ae97f8df6d181"
+    },
+    {
+      "round": 94,
+      "gas": 183687,
+      "latency_ms": 0.999,
+      "block_hash": "0x3f2d9a2aaf84d7009c8f809c42993ce1dd2623707265bd6b85f1427430c9c9a9"
+    },
+    {
+      "round": 95,
+      "gas": 184332,
+      "latency_ms": 0.989,
+      "block_hash": "0xc707a3c40f878b4142718dc19eaf2ec6a46b3f31e58bcdd753f77bc8efb0c38c"
+    },
+    {
+      "round": 96,
+      "gas": 183699,
+      "latency_ms": 0.993,
+      "block_hash": "0x778b498fab2f63c7393cabc20c7bf5ed4cc41c664e605e05c57ddfdf9fd6fc08"
+    },
+    {
+      "round": 97,
+      "gas": 185291,
+      "latency_ms": 0.996,
+      "block_hash": "0x9ffdab86a837b3f30f641fab4ebe305de6be47ded9c4e150432daecebe9f657f"
+    },
+    {
+      "round": 98,
+      "gas": 185510,
+      "latency_ms": 1.046,
+      "block_hash": "0xbbf83dbb5cf0a335d5b46262cce2812b8b981ba6560f1a3caff68ea83f84f095"
+    },
+    {
+      "round": 99,
+      "gas": 184451,
+      "latency_ms": 2.679,
+      "block_hash": "0xa68d903e12a811e7953824169828596c3f06c3452bd75aa82ec9a27616caeb6c"
+    },
+    {
+      "round": 100,
+      "gas": 184646,
+      "latency_ms": 1.004,
+      "block_hash": "0xa4609fe558b234abab9d6a15c3fc887748b4733ca7098c51c718d7615cc455ae"
+    }
+  ]
+}
