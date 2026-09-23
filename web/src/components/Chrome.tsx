@@ -1,23 +1,26 @@
 "use client";
 
 import Link from "next/link";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { StatusLegend } from "@/components/ui/Status";
 import { REPO } from "@/lib/data";
+import { NAV, isActive } from "@/lib/nav";
 
-const LINKS = [
-  ["/", "Home"],
-  ["/problem", "Problem"],
-  ["/method", "Method"],
-  ["/results", "Results"],
-  ["/study", "Study"],
-  ["/ledger", "Ledger"],
-  ["/status", "Status"],
-] as const;
+const LINKS = NAV.map((n) => [n.href, n.label] as const);
 
-function isActive(pathname: string, href: string) {
-  return href === "/" ? pathname === "/" : pathname.startsWith(href);
+/** Thin bar showing how far through the page you are - the site reads as one path. */
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const width = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
+  return (
+    <motion.div
+      aria-hidden
+      className="absolute inset-x-5 bottom-0 h-px origin-left bg-accent md:inset-x-7"
+      style={{ scaleX: width }}
+    />
+  );
 }
 
 export function Header() {
@@ -59,6 +62,7 @@ export function Header() {
         >
           GitHub ↗
         </a>
+        <ScrollProgress />
         <button
           type="button"
           className="ml-auto rounded-full border border-line px-4 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ink lg:hidden"

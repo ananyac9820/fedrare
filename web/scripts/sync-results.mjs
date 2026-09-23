@@ -21,16 +21,49 @@ import { load as loadYaml } from "js-yaml";
 
 const WEB = path.resolve(import.meta.dirname, "..");
 const RESULTS = path.resolve(WEB, "..", "results");
+// results/ is gitignored, so a fresh clone has none: the committed copies in docs/results/ are
+// the fallback, both at the same relative path and flattened (docs/results/runs.csv stands in
+// for results/grid/runs.csv). When both exist the NEWER file wins, so a fresh run is picked up
+// but a stale leftover in results/ cannot silently downgrade the published data.
+const FALLBACK = path.resolve(WEB, "..", "docs", "results");
 const DATA = path.join(WEB, "data");
 const today = new Date().toISOString().slice(0, 10);
 
-const exists = (f) => fs.existsSync(path.join(RESULTS, f));
-const readText = (f) => fs.readFileSync(path.join(RESULTS, f), "utf8");
+const find = (f) =>
+  [path.join(RESULTS, f), path.join(FALLBACK, f), path.join(FALLBACK, path.basename(f))]
+    .filter((c) => fs.existsSync(c))
+    .sort((a, b) => fs.statSync(b).mtimeMs - fs.statSync(a).mtimeMs)[0] ?? null;
+const exists = (f) => find(f) !== null;
+// Newest file in docs/results - anything older in results/ is probably a leftover run.
+const snapshotMs = fs.existsSync(FALLBACK)
+  ? Math.max(...fs.readdirSync(FALLBACK).map((n) => {
+      const s = fs.statSync(path.join(FALLBACK, n));
+      return s.isFile() ? s.mtimeMs : 0;
+    }), 0)
+  : 0;
+const stale = [];
+const readText = (f) => {
+  const chosen = find(f);
+  if (chosen.startsWith(RESULTS) && snapshotMs && fs.statSync(chosen).mtimeMs < snapshotMs - 864e5) {
+    stale.push(f);
+  }
+  return fs.readFileSync(chosen, "utf8");
+};
 const readJson = (f) => JSON.parse(readText(f));
 const readData = (f) =>
   fs.existsSync(path.join(DATA, f)) ? JSON.parse(fs.readFileSync(path.join(DATA, f), "utf8")) : null;
+/** Writes only when something other than the sync date changed, so re-running is a no-op. */
 const writeData = (f, obj) => {
-  fs.writeFileSync(path.join(DATA, f), JSON.stringify(obj, null, 2) + "\n");
+  const target = path.join(DATA, f);
+  const next = JSON.stringify(obj, null, 2) + "\n";
+  if (fs.existsSync(target)) {
+    const strip = (s) => s.replace(/"syncedAt": "[^"]*"/g, '"syncedAt": ""');
+    if (strip(fs.readFileSync(target, "utf8")) === strip(next)) {
+      console.log(`  data/${f} unchanged`);
+      return;
+    }
+  }
+  fs.writeFileSync(target, next);
   console.log(`  wrote data/${f} (${obj._meta.status})`);
 };
 const sha256 = (s) => crypto.createHash("sha256").update(s).digest("hex");
@@ -329,4 +362,13 @@ if (exists("ledger/ledger_rounds.json") && exists(exampleRun)) {
   });
 }
 
+const NL = String.fromCharCode(10);
+if (stale.length) {
+  console.log(
+    NL + "  WARNING: used " + stale.length + " file(s) from results/ that predate the " +
+    "committed docs/results snapshot by more than a day:" + NL + "    " +
+    stale.join(NL + "    ") + NL +
+    "  Re-run the pipeline, or delete them so the committed copies are used." + NL,
+  );
+}
 console.log("Done.");

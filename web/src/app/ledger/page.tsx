@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LedgerExplorer } from "@/components/ledger/LedgerExplorer";
+import { Pager } from "@/components/ui/Pager";
 import { Card, PillLink } from "@/components/ui/Buttons";
 import { HScroll } from "@/components/ui/HScroll";
 import { PageHeader, Reveal, Section } from "@/components/ui/Motion";
@@ -187,6 +188,7 @@ export default function LedgerPage() {
           <PillLink href="/status">Where this fits in the plan →</PillLink>
         </Reveal>
       </Section>
+      <Pager current="/ledger" />
     </>
   );
 }

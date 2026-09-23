@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StudyChart } from "@/components/charts/Charts";
+import { Pager } from "@/components/ui/Pager";
 import { Card, PillLink } from "@/components/ui/Buttons";
 import { HScroll } from "@/components/ui/HScroll";
 import { PageHeader, Reveal, Section } from "@/components/ui/Motion";
@@ -325,6 +326,7 @@ a(k,c) = p(c)     · agree_with_peers
           </Reveal>
         </div>
       </Section>
+      <Pager current="/method" />
     </>
   );
 }

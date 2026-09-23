@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Card } from "@/components/ui/Buttons";
+import { Pager } from "@/components/ui/Pager";
 import { HScroll } from "@/components/ui/HScroll";
 import { PageHeader, Reveal, Section } from "@/components/ui/Motion";
 import { GateBadge, Pill, StatusTag } from "@/components/ui/Status";
@@ -166,6 +167,7 @@ export default function StatusPage() {
           </Reveal>
         </div>
       </Section>
+      <Pager current="/status" />
     </>
   );
 }

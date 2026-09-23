@@ -55,7 +55,10 @@ export function HomeHero({ nodes }: { nodes: NetworkNode[] }) {
             <span className="text-sm text-faint">the evidence signal</span>
           </div>
           <div className="mt-12 flex flex-wrap gap-3">
-            <PillLink href="/problem">See the problem</PillLink>
+            <PillLink href="/flow">Walk the system end to end</PillLink>
+            <PillLink href="/problem" variant="outline">
+              See the problem
+            </PillLink>
             <PillLink href="/status" variant="outline">
               Honest project status
             </PillLink>

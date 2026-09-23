@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { GapBars } from "@/components/charts/Charts";
+import { Pager } from "@/components/ui/Pager";
 import { HomeHero } from "@/components/home/HomeHero";
 import { Ticker } from "@/components/home/Ticker";
 import { Card, PillLink } from "@/components/ui/Buttons";
@@ -207,6 +208,7 @@ export default function Home() {
           </PillLink>
         </Reveal>
       </Section>
+      <Pager current="/" />
     </>
   );
 }

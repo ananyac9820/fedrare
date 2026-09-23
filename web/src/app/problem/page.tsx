@@ -3,6 +3,7 @@ import { GapBars, MismatchChart } from "@/components/charts/Charts";
 import { Card, PillLink } from "@/components/ui/Buttons";
 import { HScroll } from "@/components/ui/HScroll";
 import { CountUp, PageHeader, Reveal, Section } from "@/components/ui/Motion";
+import { Pager } from "@/components/ui/Pager";
 import { Pill, StatusTag } from "@/components/ui/Status";
 import {
   coverage,
@@ -201,6 +202,7 @@ export default function ProblemPage() {
           <PillLink href="/method">How EARN would use this →</PillLink>
         </Reveal>
       </Section>
+      <Pager current="/problem" />
     </>
   );
 }

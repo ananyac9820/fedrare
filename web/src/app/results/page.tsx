@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CompareCurves, CurveChart, G0aChart, RareF1Chart } from "@/components/charts/Charts";
+import { Pager } from "@/components/ui/Pager";
 import { CHART } from "@/components/ui/ChartTooltip";
 import { Card, PillLink } from "@/components/ui/Buttons";
 import { PageHeader, Reveal, Section } from "@/components/ui/Motion";
@@ -363,6 +364,7 @@ export default function ResultsPage() {
           <PillLink href="/status" variant="outline">Full plan and gates</PillLink>
         </Reveal>
       </Section>
+      <Pager current="/results" />
     </>
   );
 }

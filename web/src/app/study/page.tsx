@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { StudyChart } from "@/components/charts/Charts";
+import { Pager } from "@/components/ui/Pager";
 import { Card, PillLink } from "@/components/ui/Buttons";
 import { HScroll } from "@/components/ui/HScroll";
 import { PageHeader, Reveal, Section } from "@/components/ui/Motion";
@@ -294,6 +295,7 @@ export default function StudyPage() {
           <PillLink href="/status" variant="outline">Gates and plan</PillLink>
         </Reveal>
       </Section>
+      <Pager current="/study" />
     </>
   );
 }
