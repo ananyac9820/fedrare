@@ -308,3 +308,37 @@ export function CompareCurves({ series, threshold, label }: {
     </div>
   );
 }
+
+/** Per-round trust (0-1) for several series, with a marker at the round the attacker turns. */
+export function TrustCurves({ series, turnRound }: {
+  series: { name: string; color: string; values: number[] }[];
+  turnRound: number;
+}) {
+  const reduced = useReducedMotionSafe();
+  const rounds = Math.max(...series.map((s) => s.values.length));
+  const data = Array.from({ length: rounds }, (_, i) => {
+    const row: Record<string, number> = { round: i + 1 };
+    series.forEach((s) => { row[s.name] = +s.values[i].toFixed(3); });
+    return row;
+  });
+  return (
+    <div className="h-72">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data} margin={{ top: 24, right: 16, bottom: 8, left: -16 }}>
+          <CartesianGrid stroke={CHART.grid} vertical={false} />
+          <XAxis dataKey="round" type="number" domain={[1, rounds]} tick={axis} axisLine={false} tickLine={false}
+            label={{ value: "round", position: "insideBottomRight", offset: -4, fill: CHART.axis, fontSize: 11 }} />
+          <YAxis domain={[0, 1]} ticks={[0, 0.25, 0.5, 0.75, 1]} tick={axis} axisLine={false} tickLine={false} />
+          <Tooltip content={<ChartTooltip digits={2} />} />
+          <Legend wrapperStyle={{ fontSize: 12 }} iconType="circle" />
+          <ReferenceLine x={turnRound} stroke={CHART.failed} strokeDasharray="6 4"
+            label={{ value: "specialist turns", position: "insideTopRight", fill: CHART.failed, fontSize: 11 }} />
+          {series.map((s) => (
+            <Line key={s.name} type="monotone" dataKey={s.name} stroke={s.color} strokeWidth={2.2} dot={false}
+              isAnimationActive={!reduced} />
+          ))}
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}

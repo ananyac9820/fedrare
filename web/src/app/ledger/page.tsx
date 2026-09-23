@@ -5,6 +5,8 @@ import { Card, PillLink } from "@/components/ui/Buttons";
 import { HScroll } from "@/components/ui/HScroll";
 import { PageHeader, Reveal, Section } from "@/components/ui/Motion";
 import { DataBadge, Pill, SampleBadge, StatusTag } from "@/components/ui/Status";
+import { TrustCurves } from "@/components/charts/Charts";
+import { CHART } from "@/components/ui/ChartTooltip";
 import { SHORT, dataset, fmt, ledger, study } from "@/lib/data";
 
 export const metadata: Metadata = { title: "The ledger" };
@@ -22,6 +24,7 @@ export default function LedgerPage() {
   const sample = ledger._meta.status === "sample";
   const t = chain?.tamperExample;
   const overhead = study.overheadMs;
+  const fu = study.ledgerFollowup;
   const revert = chain?.tamperError?.match(/custom error '([^']+)'/)?.[1] ?? chain?.tamperError;
 
   return (
@@ -178,12 +181,68 @@ export default function LedgerPage() {
           <Card>
             <Pill tone="paper">What the ablation found</Pill>
             <p className="mt-6 max-w-3xl text-pretty leading-relaxed text-muted">
-              Making the history editable (the &quot;no ledger&quot; ablation) changed nothing measurable in our
-              runs: the attackers we tested never needed to rewrite their past. The chain&apos;s other job -
-              stopping a coordinator from boosting trust - held on every real round. We report both plainly.
+              Against attacks A1-A3, making the history editable (the &quot;no ledger&quot; ablation) changed
+              nothing measurable: those attackers never needed to rewrite their past. The chain&apos;s other
+              job - stopping a coordinator from boosting trust - held on every real round.
             </p>
           </Card>
         </Reveal>
+      </Section>
+
+      {fu && (
+        <Section
+          label="Follow-up · when the specialist turns"
+          title="The lock catches the insider - but can't stop the damage."
+          tags={
+            <>
+              <StatusTag status="verified" />
+              <Pill tone="paper">Exploratory · oracle evidence</Pill>
+            </>
+          }
+          intro={`Pre-registered after the main study (${fu.entry}): the only hospital holding the rare diseases on the specialist split (centre ${fu.attacker}) is honest for 15 rounds, then attacks. With one holder, EARN can only check a hospital against its own locked history. Mean of seeds ${fu.seeds.join(", ")}.`}
+        >
+          <div className="grid grid-cols-1 [&>*]:min-w-0 gap-8 lg:grid-cols-[1.35fr_1fr]">
+            <Reveal>
+              <Card className="h-full">
+                <h3 className="font-display text-2xl font-medium text-ink">The turned specialist&apos;s trust</h3>
+                <p className="mt-2 text-sm text-muted">Vascular-lesion row, per round.</p>
+                <div className="mt-8">
+                  <TrustCurves turnRound={16} series={[
+                    { name: "Locked history (ledger)", color: CHART.accent, values: fu.trajectory.earn.trust },
+                    { name: "Editable history (no ledger)", color: CHART.failed, values: fu.trajectory.noLedger.trust },
+                  ]} />
+                </div>
+              </Card>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <Card className="h-full">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Pill>Detected</Pill>
+                  <StatusTag status="verified" />
+                </div>
+                <p className="mt-6 text-pretty leading-relaxed text-ink">
+                  With the locked history, trust falls to <span className="font-mono">{fu.trajectory.earn.minTrust.toFixed(2)}</span>{" "}
+                  by round {fu.trajectory.earn.roundOfMin}. With an editable history it never leaves{" "}
+                  <span className="font-mono">{fu.trajectory.noLedger.minTrust.toFixed(2)}</span>.
+                </p>
+                <div className="mt-8 flex flex-wrap items-center gap-2">
+                  <Pill>Not protected</Pill>
+                  <StatusTag status="failed" />
+                </div>
+                <p className="mt-6 text-pretty leading-relaxed text-muted">
+                  Rare-disease F1 still falls from {fu.splits.s2.rareF1.earn.none.toFixed(3)} to{" "}
+                  {fu.splits.s2.rareF1.earn.attacked.toFixed(3)} - as it does under FedAvg - and trust climbs back
+                  to {fu.trajectory.earn.trustRound30.toFixed(2)} by round 30. EARN&apos;s trust only removes a bonus, so the
+                  attacker keeps its normal share; and a running-average history slowly absorbs the new behaviour.
+                  The pre-registered bar (a {fu.criterion.f1_margin} rare-F1 gain from the lock) was not met.
+                </p>
+              </Card>
+            </Reveal>
+          </div>
+        </Section>
+      )}
+
+      <Section>
         <Reveal className="mt-14">
           <PillLink href="/status">Where this fits in the plan →</PillLink>
         </Reveal>

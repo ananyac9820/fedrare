@@ -264,6 +264,23 @@ export interface Study {
   earn: Record<Split, StudyRow[]>;
   g2Oracle: Record<Split, { passed: boolean; checks: Record<string, boolean>; values: Record<string, number> }>;
   overheadMs: Record<string, { mean: number; sd: number; n: number }>;
+  ledgerFollowup?: {
+    entry: string;
+    attacker: number;
+    seeds: number[];
+    criterion: { f1_margin: number; weight_factor: number };
+    splits: Record<Split, { lockMatters: boolean; rareF1Gain: number;
+      rareF1: Record<string, { none: number; attacked: number }> }>;
+    trajectory: { split: Split; earn: TrustTrajectory; noLedger: TrustTrajectory };
+  };
+}
+
+export interface TrustTrajectory {
+  trust: number[];
+  rareF1: number[];
+  minTrust: number;
+  roundOfMin: number;
+  trustRound30: number;
 }
 
 export interface PendingItem {

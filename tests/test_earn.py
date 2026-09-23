@@ -216,7 +216,8 @@ def test_attack_schedules_and_scaling():
                                              honest_train=lambda x=None, y=None: honest)
     assert torch.allclose(out["classifier.bias"] - g["classifier.bias"],
                           torch.full((C,), 0.1), atol=1e-6)
-    assert set(DEFAULT_ATTACKS) == {"none", "A1", "A2", "A3"}
+    assert {"none", "A1", "A2", "A3", "A2s"} == set(DEFAULT_ATTACKS)
+    assert DEFAULT_ATTACKS["A2s"].attacker == 2 and DEFAULT_ATTACKS["A2s"].hooks([5, 6])[2].start_round == 16
 
 
 def test_attacks_and_earn_run_in_the_tier_a_loop():

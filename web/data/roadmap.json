@@ -127,8 +127,8 @@
           "state": "done"
         },
         {
-          "item": "Tier B confirmation runs",
-          "state": "blocked"
+          "item": "Tier B confirmation pre-registered and smoke-tested (not run, ~6.5 h)",
+          "state": "pending"
         }
       ]
     },
@@ -147,11 +147,19 @@
           "state": "done"
         },
         {
-          "item": "Final literature re-check (CELM, CARE-FL, BOBA, ACE in full)",
-          "state": "pending"
+          "item": "Final literature re-check (CELM, CARE-FL, BOBA, ACE + focused search)",
+          "state": "done"
         },
         {
-          "item": "Team review of the F1 framing and the draft",
+          "item": "Follow-up D7: does the locked history catch a turned specialist? (detects, doesn't protect)",
+          "state": "done"
+        },
+        {
+          "item": "PR #1 merged into main",
+          "state": "done"
+        },
+        {
+          "item": "Team review of the paper draft",
           "state": "pending"
         }
       ]

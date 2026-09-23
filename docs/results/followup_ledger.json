@@ -1,0 +1,112 @@
+{
+  "entry": "D7",
+  "attack": "A2s",
+  "attacker": 2,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "criterion": {
+    "f1_margin": 0.05,
+    "weight_factor": 0.5
+  },
+  "splits": {
+    "s1": {
+      "methods": {
+        "fedavg": {
+          "rare_f1_no_attack": 0.5924154251194408,
+          "rare_f1_A2s": 0.4839545581771992,
+          "balanced_accuracy_A2s": 0.48801628272288716,
+          "to_nevus_A2s": 0.3052959501557632,
+          "attacker_weight_5": 0.1447007581868043,
+          "attacker_weight_6": 0.1447007581868043,
+          "attacker_fedavg_weight": 0.14470075818680433
+        },
+        "camp_a_reported": {
+          "rare_f1_no_attack": 0.6053755050839061,
+          "rare_f1_A2s": 0.505033133760904,
+          "balanced_accuracy_A2s": 0.49457737595374535,
+          "to_nevus_A2s": 0.29595015576323985,
+          "attacker_weight_5": 0.2735951923714105,
+          "attacker_weight_6": 0.2665468076648308,
+          "attacker_fedavg_weight": 0.14470075818680433
+        },
+        "earn": {
+          "rare_f1_no_attack": 0.5963056393118809,
+          "rare_f1_A2s": 0.5521873107479326,
+          "balanced_accuracy_A2s": 0.51506280722698,
+          "to_nevus_A2s": 0.24610591900311526,
+          "attacker_weight_5": 0.15838340269493925,
+          "attacker_weight_6": 0.20178001060416326,
+          "attacker_fedavg_weight": 0.14470075818680433,
+          "attacker_trust_5_final": 0.0002229135874019998,
+          "attacker_trust_6_final": 0.09472496895842852
+        },
+        "earn_no_ledger": {
+          "rare_f1_no_attack": 0.5963056393118809,
+          "rare_f1_A2s": 0.5519391194885054,
+          "balanced_accuracy_A2s": 0.5151837880509518,
+          "to_nevus_A2s": 0.24610591900311526,
+          "attacker_weight_5": 0.15925588180581043,
+          "attacker_weight_6": 0.20461736555242638,
+          "attacker_fedavg_weight": 0.14470075818680433,
+          "attacker_trust_5_final": 0.0002229135874019998,
+          "attacker_trust_6_final": 0.11288314358489138
+        }
+      },
+      "rare_f1_gain_from_lock": 0.00024819125942721065,
+      "attacker_weight_earn": 0.18008170664955125,
+      "attacker_weight_no_ledger": 0.1819366236791184,
+      "lock_matters": false
+    },
+    "s2": {
+      "methods": {
+        "fedavg": {
+          "rare_f1_no_attack": 0.4902513799051791,
+          "rare_f1_A2s": 0.0,
+          "balanced_accuracy_A2s": 0.39293799812310254,
+          "to_nevus_A2s": 0.7133956386292835,
+          "attacker_weight_5": 0.15835887508737972,
+          "attacker_weight_6": 0.15835887508737972,
+          "attacker_fedavg_weight": 0.1583588750873797
+        },
+        "camp_a_reported": {
+          "rare_f1_no_attack": 0.5601752365686448,
+          "rare_f1_A2s": 0.0,
+          "balanced_accuracy_A2s": 0.4052063559593862,
+          "to_nevus_A2s": 0.5950155763239874,
+          "attacker_weight_5": 0.5,
+          "attacker_weight_6": 0.5,
+          "attacker_fedavg_weight": 0.1583588750873797
+        },
+        "earn": {
+          "rare_f1_no_attack": 0.5545547582748097,
+          "rare_f1_A2s": 0.0,
+          "balanced_accuracy_A2s": 0.4025785273930753,
+          "to_nevus_A2s": 0.5700934579439252,
+          "attacker_weight_5": 0.47905897857689067,
+          "attacker_weight_6": 0.4808268253834986,
+          "attacker_fedavg_weight": 0.1583588750873797,
+          "attacker_trust_5_final": 1.0,
+          "attacker_trust_6_final": 1.0
+        },
+        "earn_no_ledger": {
+          "rare_f1_no_attack": 0.5545547582748097,
+          "rare_f1_A2s": 0.0,
+          "balanced_accuracy_A2s": 0.4025467252167605,
+          "to_nevus_A2s": 0.573208722741433,
+          "attacker_weight_5": 0.5,
+          "attacker_weight_6": 0.5,
+          "attacker_fedavg_weight": 0.1583588750873797,
+          "attacker_trust_5_final": 1.0,
+          "attacker_trust_6_final": 1.0
+        }
+      },
+      "rare_f1_gain_from_lock": 0.0,
+      "attacker_weight_earn": 0.4799429019801946,
+      "attacker_weight_no_ledger": 0.5,
+      "lock_matters": false
+    }
+  }
+}

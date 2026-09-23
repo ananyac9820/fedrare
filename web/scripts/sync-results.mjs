@@ -291,6 +291,19 @@ if (exists("analysis.json")) {
     f1: { s1: slim(a.f1_tables.s1), s2: slim(a.f1_tables.s2) },
     earn: { s1: slim(a.earn_tables.s1), s2: slim(a.earn_tables.s2) },
     g2Oracle: a.g2_oracle, overheadMs: a.overhead_ms_per_round,
+    ...(exists("followup_ledger.json") && exists("followup_ledger_trajectory.json") ? {
+      ledgerFollowup: (() => {
+        const f = readJson("followup_ledger.json");
+        const t = readJson("followup_ledger_trajectory.json");
+        const pick = (m) => ({ trust: t.methods[m].trust_6, rareF1: t.methods[m].rare_f1,
+          minTrust: t.methods[m].min_trust_6_after_turn, roundOfMin: t.methods[m].round_of_min,
+          trustRound30: t.methods[m].trust_6_round_30 });
+        return { entry: f.entry, attacker: f.attacker, seeds: f.seeds, criterion: f.criterion,
+          splits: Object.fromEntries(Object.entries(f.splits).map(([sp, v]) => [sp, {
+            lockMatters: v.lock_matters, rareF1Gain: v.rare_f1_gain_from_lock,
+            rareF1: Object.fromEntries(Object.entries(v.methods).map(([m, r]) => [m, { none: r.rare_f1_no_attack, attacked: r.rare_f1_A2s }])) }])),
+          trajectory: { split: t.split, earn: pick("earn"), noLedger: pick("earn_no_ledger") } };
+      })() } : {}),
   });
 } else {
   console.log("  study.json: results/analysis.json missing, left unchanged");

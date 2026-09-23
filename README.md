@@ -41,12 +41,19 @@ built and was run on an **oracle** evidence signal, clearly labelled exploratory
    history check rewards *consistency*, so the A1 attacker earns full trust.
 7. **The ledger works as a constraint.** 2,400 real EARN rounds replayed on the `EarnLedger` contract
    (local Hardhat): ~184k gas and ~1.1 ms per round; a forged trust boost is rejected in every run.
-   The "no ledger" ablation changed nothing measurable - the tested attackers never needed to
+   The "no ledger" ablation changed nothing measurable for A1-A3 - those attackers never needed to
    rewrite history.
+8. **Follow-up (D7): the lock detects, but does not protect.** When the specialist itself turns
+   after 15 honest rounds on S2, the locked history drives its trust from 1.00 to 0.06 within four
+   rounds; with an editable history trust never moves. But EARN's trust only removes a bonus (the
+   attacker keeps its FedAvg share) and a running-mean history drifts, so rare F1 still collapses
+   and trust returns to 1.00 by round 30. At coverage 1 no aggregation rule can recover a class
+   whose only holder turns.
 
 Full tables: [`docs/results/analysis.md`](docs/results/analysis.md) · figures:
 [`docs/results/figures/`](docs/results/figures) · paper draft: [`docs/paper/draft.md`](docs/paper/draft.md) ·
-status report: [`docs/STATUS_2026-09-23.md`](docs/STATUS_2026-09-23.md).
+status report: [`docs/STATUS_2026-09-23.md`](docs/STATUS_2026-09-23.md) · literature re-check:
+[`docs/LITERATURE_RECHECK.md`](docs/LITERATURE_RECHECK.md).
 
 ## Reproduce
 
@@ -64,6 +71,9 @@ python scripts/08_g0b_retry.py               # G0b retry: fine-tune last dense b
 python scripts/09_run_grid.py --grid all     # the 408-run study (~10 min, 7 CPU workers)
 (cd ledger && npm install && npx hardhat test && npx hardhat run scripts/measure.js)
 python scripts/10_analyse.py                 # G1, framing, tables, figures, overhead
+python scripts/11_ledger_followup.py         # D7: the specialist turns - does the locked history matter?
+python scripts/11b_ledger_trajectory.py      # D7 diagnostic: trust per round, locked vs editable
+python scripts/12_tier_b.py                  # D8 Tier B confirmation (~6.5 h, resumable) - not yet run
 python -m pytest                             # 44 tests
 
 cd web && npm install && npm run sync-data && npm run dev   # the site, http://localhost:3000
@@ -96,7 +106,10 @@ site's `web/data/`.
 
 - **EARN is not validated.** Its evidence signal failed G0a; its results use an oracle signal.
 - **All results are Tier A** (a classifier head on DenseNet-121 features, last block fine-tuned
-  once by FedAvg). Tier B full fine-tuning and the BOBA baseline were cut (design doc cut lines 1-2).
+  once by FedAvg). A Tier B confirmation is pre-registered and smoke-tested (`scripts/12_tier_b.py`,
+  D8) but not run: ~6.5 h on the laptop GPU.
+- **BOBA is not applicable as specified** with 6 clients and 8 classes, and needs clean server data
+  for every class (`docs/LITERATURE_RECHECK.md`).
 - **S2 is constructed** (90% of other hospitals' rare images moved to centre 2) and disclosed.
 - **The rare-class rule was chosen after seeing the counts** (under 1/25 of the largest class).
 - **Design doc correction:** it says common diseases have 5-6 holders; on the real counts basal

@@ -14,9 +14,9 @@ that appear to hold a disease, and *Byzantine-robust* aggregation, which distrus
 pre-registered a study of both under three attacks - a hospital faking rare-disease expertise, a
 sleeper that turns after 15 honest rounds, and update scaling - on the natural split and on a
 constructed split in which a single specialist holds almost every rare case. In 408 runs we find
-that (i) reading a hospital's disease holdings from its model update, the signal several
-contribution-estimation methods rely on, is inverted on real data (Spearman -0.21): hospitals that
-never see a disease change its classifier row the most; (ii) weighting by that signal gives the
+that (i) reading a hospital's disease holdings from the size of its classifier-layer update - a
+signal modelled on label-inference work - is inverted on real data (Spearman -0.21): hospitals
+that never see a disease change its classifier row the most; (ii) weighting by that signal gives the
 specialist *less* say than FedAvg; (iii) weighting by reported class counts is the most accurate
 method without attack but lets a lying hospital capture up to 7.4x its fair weight when coverage is
 low; (iv) Byzantine-robust filters can exclude a lone specialist entirely. We also built EARN, a
@@ -37,9 +37,11 @@ Existing work pulls in two directions. *Camp A* - per-class or contribution-awar
 be an expert on a class. *Camp B* - Byzantine-robust aggregation (Krum, trimmed mean, median, BOBA
 [6]) - reduces the influence of whoever looks unusual. Camp A is exposed to a hospital that merely
 *looks* like an expert; Camp B is exposed to the fact that a genuine expert on a rare disease looks
-unusual by nature. The quantity both skip is **coverage**: how many hospitals are able to check a
-claim about a disease. It is a property of the disease, and it is lowest exactly where data is
-scarcest.
+unusual by nature. The quantity that matters is **coverage**: how many hospitals are able to check
+a claim about a disease. It is a property of the disease, and it is lowest exactly where data is
+scarcest. CELM [1] normalises class evidence across clients and calls this class coverage, but uses
+it only as a weighting denominator; no method we found changes *how a claim is verified* as coverage
+falls, or tests what attackers can do there.
 
 Our original plan was to build EARN, which blends peer checking and self-history checking in
 proportion to coverage and anchors the history on a blockchain. We fixed pass/fail gates before
@@ -53,20 +55,30 @@ holdings is inverted under standard local training, with the mechanism. (2) A pr
 comparison of eight aggregation rules under three attacks on a natural and a specialist split,
 reporting rare-class F1, attack success, and the specialist's share of influence. (3) A negative,
 mechanistic result for coverage-aware trust (EARN) even with an oracle signal. (4) Gas and latency
-for an on-chain maximum-trust-step rule on 2,400 real rounds.
+for an on-chain maximum-trust-step rule on 2,400 real rounds, and a measured case where the locked
+history detects an insider that an editable one cannot - without that detection translating into
+protection.
 
 ## 2 Related work
 
-*Per-class weighting* (MLFCIL, cwFedAvg, FedSat, C3E) assumes honest clients. *Contribution
-estimation without validation data* (CELM, logit-maximisation probes) freezes weights after
-warm-up. *Maverick-aware valuation* (FedEMD, FedMS) uses Shapley values without an attack model.
+*Per-class weighting* (MLFCIL, cwFedAvg, FedSat, C3E) assumes honest clients; CARE-FL combines a
+validation-derived quality score, per-class sample counts and a rarity factor (our "reported
+counts" baseline stands in for this family). *Contribution estimation without validation data*
+(CELM) probes each client model by class-wise logit maximisation, normalises the evidence across
+clients ("class coverage"), freezes the weights after a 5% warm-up and explicitly leaves Byzantine
+clients out of scope; its evidence comes from probes, so our finding in 7.1 about update-size
+evidence does not transfer to it. *Per-class peer agreement* appears in CALM (decentralised
+distillation, 2026), without trust accumulation, coverage adaptation or an attack model. *Maverick-aware valuation* (FedEMD, FedMS) uses Shapley values without an attack model.
 *Label-distribution inference* from output-layer updates (Ramakrishna & Dan; HiCS-FL) is the signal
 our evidence measure was modelled on. *Reputation* (FLARE, TAIM) keeps one score per client;
 BRFLATA uses slow-increase/fast-decrease trust at client level; attestedFL compares a client with
 its own past but needs server-side validation data. *Attacks on contribution scores* (ACE, USENIX
 Security 2024) inflate client-level reward scores. *Blockchain FL* (BFLC, BFEL) uses committees or
-logs. We found no method that measures per-disease coverage and adapts verification to it; we do not
-claim this is proof that none exists (final literature re-check pending).
+logs. BOBA [6] handles label skew by fitting a (c-1)-dimensional subspace of honest gradients and
+using clean server data for every class; with 6 clients and 8 classes the subspace cannot be fitted
+from the n-f = 5 retained gradients, and server data for rare classes is exactly what is scarce, so
+it is not applicable as specified here. We found no method that adapts verification to per-disease
+coverage; this is not proof that none exists (search documented in `docs/LITERATURE_RECHECK.md`).
 
 ## 3 Setting
 
@@ -200,7 +212,19 @@ meet the G2 conditions: on S1 it loses 0.055 rare F1 under A2 and centre 2's tru
   Peer-only checking (no blend) holds the attacker to 1.05x but also zeroes the honest specialist.
 
 Ablations: removing the slow ramp raises the attacker's weight (S1 A1 4.0x vs 2.2x); making the
-history editable changes nothing measurable, because neither attacker needed to rewrite its past.
+history editable changes nothing measurable for A1-A3, because none of those attackers needed to
+rewrite its past.
+
+*Follow-up (pre-registered as D7 after the main grid): the specialist turns.* The one case the
+ledger argument rests on is the sole holder of a disease turning malicious. With centre 2 as a
+sleeper on S2, the locked history detects the turn - the attacker's vascular-lesion trust falls from
+1.00 to 0.06 by round 19 (mean of 3 seeds), while with an editable history it never leaves 1.00.
+Detection does not become protection, and the pre-registered criterion (a 0.05 rare-F1 gain from the
+lock) is not met: EARN's trust only removes a bonus, so the attacker keeps its FedAvg share and, as
+sole holder, drives rare F1 to 0.000 under every rule; and a running-mean history absorbs the new
+malicious updates, so trust returns to 1.00 by round 30. Two design lessons follow: trust must be
+able to push a hospital *below* its size share, and the reference history must stop drifting once
+established. At coverage 1 the best any rule can do is detect and flag.
 Using EARN on the real (failed) signal is worse than FedAvg (S1 0.563; S2 0.442).
 
 ### 7.6 Cost of the ledger
@@ -229,8 +253,8 @@ hospitals is the setting in which no such party exists.
 
 ## 9 Limitations
 
-Tier A only (a head on features; the last block fine-tuned once, seed 42, without attackers); Tier B
-and BOBA were cut. One attacker at a time; no collusion. S2 is constructed. The rare-class rule
+Tier A only (a head on features; the last block fine-tuned once, seed 42, without attackers); a
+one-seed Tier B confirmation is pre-registered (D8) but not yet run, and BOBA is not applicable as specified with 6 clients and 8 classes (Section 2). One attacker at a time; no collusion. S2 is constructed. The rare-class rule
 was chosen after seeing counts. The 100-round schedule and the sign-aware evidence variant are
 amendments made after seeing earlier results (logged beforehand). Local chain only. The design
 doc's statement that common diseases have 5-6 holders is wrong for three of them (BCC and AK 3,
