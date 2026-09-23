@@ -108,6 +108,8 @@ export function LedgerExplorer({ ledger, classShort }: { ledger: Ledger; classSh
             value={<span className="text-xs leading-relaxed">{rec.coverage.map((n, i) => `${classShort[i]} ${n}`).join(" · ")}</span>}
           />
           <Field label="Largest trust rise" value={`${rec.maxTrustRise.toFixed(3)} ≤ ${ledger.rules.maxTrustStep} ✓`} />
+          {rec.chainBlockHash && <Field label="On-chain block hash (keccak)" value={short(rec.chainBlockHash)} />}
+          {rec.gas !== undefined && <Field label="Gas to commit" value={rec.gas.toLocaleString("en-US")} />}
         </div>
         {isEdited && (
           <p className="mt-6 rounded-2xl bg-failed-soft p-5 text-sm leading-relaxed text-failed">

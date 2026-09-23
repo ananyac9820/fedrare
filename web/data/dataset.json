@@ -7,7 +7,7 @@
       "results/gate_g0a.json (train_counts)"
     ],
     "producedBy": "scripts/02_explore_data.py, scripts/06_gate_g0a.py",
-    "syncedAt": "2026-09-19"
+    "syncedAt": "2026-09-23"
   },
   "name": "Fed-ISIC2019",
   "source": "huggingface.co/datasets/flwrlabs/fed-isic2019",

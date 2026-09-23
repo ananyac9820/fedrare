@@ -19,6 +19,7 @@ import {
   rareTrainTotal,
   specialist,
   specialistRatio,
+  study,
   totalImages,
 } from "@/lib/data";
 
@@ -38,8 +39,8 @@ export default function Home() {
       href: "/method",
       n: "02",
       title: "The method",
-      body: "EARN's six-step round and the coverage blend - specified, not yet built.",
-      tags: ["in-progress"],
+      body: "EARN's six-step round and the coverage blend - built and tested, but its evidence signal failed, so it is not validated.",
+      tags: ["in-progress", "failed"],
     },
     {
       href: "/results",
@@ -49,15 +50,22 @@ export default function Home() {
       tags: ["baseline", "failed"],
     },
     {
-      href: "/ledger",
+      href: "/study",
       n: "04",
+      title: "The attack study",
+      body: `${study.runs} runs: what happens when a hospital lies about rare diseases, across eight aggregation methods.`,
+      tags: ["verified"],
+    },
+    {
+      href: "/ledger",
+      n: "05",
       title: "The ledger",
-      body: "Why the trust record has to be tamper-proof, with a 3D chain you can try to break.",
-      tags: ["in-progress"],
+      body: "The trust record on a real (local) chain: every EARN round committed, forged boosts rejected.",
+      tags: ["verified"],
     },
     {
       href: "/status",
-      n: "05",
+      n: "06",
       title: "The status",
       body: `The six-week plan, every gate's state, and the ${notRun} pieces that haven't run yet.`,
       tags: ["verified"],
@@ -117,7 +125,7 @@ export default function Home() {
       <Section
         tone="sand"
         label="Explore"
-        title="Five pages, one honest picture."
+        title="Six pages, one honest picture."
         intro="Each page carries its own status labels, so you always know whether you're looking at a measurement, a baseline, or a proposal."
       >
         <HScroll label="Project pages">
@@ -145,9 +153,9 @@ export default function Home() {
       <Section
         label="Where it stands"
         title={failedGates.length
-          ? `${WORDS[failedGates.length] ?? failedGates.length} early check${failedGates.length === 1 ? "" : "s"} failed. We say so up front.`
+          ? `${WORDS[failedGates.length] ?? failedGates.length} check${failedGates.length === 1 ? "" : "s"} failed. We say so up front.`
           : "No gate has failed so far."}
-        intro="Every decision point was fixed before any result existed. When a check fails, it's reported as a failure - not tuned until it passes."
+        intro="Every decision point was fixed before any result existed. When a check fails, it's reported as a failure - not tuned until it passes. One retry was allowed per gate: G0b passed on its retry, G0a did not."
       >
         <div className="grid grid-cols-1 [&>*]:min-w-0 gap-8 md:grid-cols-3">
           <Reveal>
@@ -168,21 +176,26 @@ export default function Home() {
                 <span className="font-display text-2xl text-ink">Gate {g0b.gate}</span>
                 <GateBadge state={gate("G0b")?.state ?? "failed"} />
               </div>
-              <p className="mt-8 font-display text-5xl text-failed">{g0b.statistic.toFixed(3)}</p>
+              <p className={`mt-8 font-display text-5xl ${g0b.retry?.passed ? "text-verified" : "text-failed"}`}>
+                {(g0b.retry?.statistic ?? g0b.statistic).toFixed(3)}
+              </p>
               <p className="mt-3 text-sm leading-relaxed text-muted">
-                FedAvg balanced accuracy. Needed at least {g0b.threshold}.
+                FedAvg balanced accuracy{g0b.retry ? ` after the retry (first attempt ${g0b.statistic.toFixed(3)})` : ""}. Needed at least {g0b.threshold}.
               </p>
             </Card>
           </Reveal>
           <Reveal delay={0.16}>
-            <Card dashed className="h-full">
+            <Card className="h-full">
               <div className="flex items-center justify-between gap-2">
-                <span className="font-display text-2xl text-ink">EARN itself</span>
-                <StatusTag status="not-run" />
+                <span className="font-display text-2xl text-ink">Gate G1</span>
+                <GateBadge state={gate("G1")?.state ?? "pending"} />
               </div>
-              <p className="mt-8 font-display text-5xl text-notrun">-</p>
+              <p className="mt-8 font-display text-5xl text-failed">
+                {study.gateG1.s2.balanced_accuracy_drop.toFixed(3)}
+              </p>
               <p className="mt-3 text-sm leading-relaxed text-muted">
-                Not built yet. No trust scores exist, so none are shown anywhere on this site.
+                The attack works on the specialist split, but costs this much balanced accuracy - more than the
+                0.03 that would keep it hidden. On the natural split it barely dents rare F1.
               </p>
             </Card>
           </Reveal>

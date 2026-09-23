@@ -41,15 +41,18 @@ export function HomeHero({ nodes }: { nodes: NetworkNode[] }) {
             leaves its hospital.
           </p>
           <p className="mt-5 max-w-xl text-pretty text-lg leading-relaxed text-muted">
-            On top of that, we&apos;re designing a way to decide whose updates should count for the
-            rarest diseases - and we&apos;re open about which parts work yet.
+            We tested who should get a say on the rarest diseases, and what happens when a hospital
+            lies - and we are open about which parts worked and which did not.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-2">
             <StatusTag status="verified" />
             <span className="text-sm text-faint">real hospitals and data</span>
             <span className="mx-1 text-line">|</span>
-            <StatusTag status="in-progress" />
-            <span className="text-sm text-faint">the trust mechanism</span>
+            <StatusTag status="verified" />
+            <span className="text-sm text-faint">the attack study</span>
+            <span className="mx-1 text-line">|</span>
+            <StatusTag status="failed" />
+            <span className="text-sm text-faint">the evidence signal</span>
           </div>
           <div className="mt-12 flex flex-wrap gap-3">
             <PillLink href="/problem">See the problem</PillLink>

@@ -19,7 +19,7 @@ import {
 } from "recharts";
 import { CHART, ChartTooltip } from "@/components/ui/ChartTooltip";
 import { useReducedMotionSafe } from "@/components/ui/Motion";
-import type { BaselineRule, CentreMismatch, G0a } from "@/lib/data";
+import type { Attack, BaselineRule, CentreMismatch, G0a, StudyRow } from "@/lib/data";
 import { sd } from "@/lib/data";
 
 const axis = { fill: CHART.axis, fontSize: 12 };
@@ -216,6 +216,94 @@ export function G0aChart({ g0a }: { g0a: G0a }) {
             <LabelList dataKey="Spearman" position="right" fill={CHART.label} fontSize={11} />
           </Bar>
         </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+const ATTACK_COLOR: Record<Attack, string> = {
+  none: CHART.accent,
+  A1: "#b5543c",
+  A2: "#c9962b",
+  A3: "#5b6f95",
+};
+
+/** One metric for several methods, one bar per attack, with the spread across seeds. */
+export function StudyChart({ rows, methods, attacks, metric, domain = [0, 0.7] }: {
+  rows: StudyRow[];
+  methods: string[];
+  attacks: Attack[];
+  metric: "rare_macro_f1" | "balanced_accuracy";
+  domain?: [number, number];
+}) {
+  const reduced = useReducedMotionSafe();
+  const data = methods.map((m) => {
+    const row: Record<string, string | number> = {};
+    attacks.forEach((a) => {
+      const r = rows.find((x) => x.method === m && x.attack === a);
+      if (r) {
+        row.name = r.label;
+        row[a] = +r[metric].mean.toFixed(3);
+        row[`${a}__sd`] = +r[metric].sd.toFixed(3);
+      }
+    });
+    return row;
+  });
+  return (
+    <div className="h-96">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} barGap={2} margin={{ top: 16, right: 8, bottom: 56, left: -16 }}>
+          <CartesianGrid stroke={CHART.grid} vertical={false} />
+          <XAxis dataKey="name" tick={{ ...axis, fontSize: 11 }} axisLine={false} tickLine={false}
+            interval={0} angle={-30} textAnchor="end" height={70} />
+          <YAxis domain={domain} allowDataOverflow tick={axis} axisLine={false} tickLine={false}
+            ticks={Array.from({ length: Math.floor((domain[1] - domain[0]) / 0.1 + 1e-9) + 1 }, (_, i) => +(domain[0] + i * 0.1).toFixed(1))} />
+          <Tooltip content={<ChartTooltip digits={3} />} cursor={{ fill: "rgb(29 41 41 / 0.04)" }} />
+          <Legend verticalAlign="top" wrapperStyle={{ fontSize: 12, paddingBottom: 12 }} iconType="circle" />
+          {attacks.map((a) => (
+            <Bar key={a} dataKey={a} name={a === "none" ? "no attack" : a} fill={ATTACK_COLOR[a]}
+              radius={[4, 4, 0, 0]} maxBarSize={28} isAnimationActive={!reduced}>
+              <ErrorBar dataKey={`${a}__sd`} width={4} stroke={CHART.ink} strokeWidth={1} />
+            </Bar>
+          ))}
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+/** Several balanced-accuracy curves against a gate's bar. */
+export function CompareCurves({ series, threshold, label }: {
+  series: { name: string; color: string; curve: { round: number; balancedAccuracy: number }[] }[];
+  threshold: number;
+  label: string;
+}) {
+  const reduced = useReducedMotionSafe();
+  const rounds = Math.max(...series.map((s) => s.curve.length));
+  const data = Array.from({ length: rounds }, (_, i) => {
+    const row: Record<string, number> = { round: i + 1 };
+    series.forEach((s) => {
+      if (s.curve[i]) row[s.name] = +s.curve[i].balancedAccuracy.toFixed(3);
+    });
+    return row;
+  });
+  return (
+    <div className="h-72">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data} margin={{ top: 24, right: 16, bottom: 8, left: -16 }}>
+          <CartesianGrid stroke={CHART.grid} vertical={false} />
+          <XAxis dataKey="round" type="number" domain={[1, rounds]} tick={axis} axisLine={false} tickLine={false}
+            label={{ value: "round", position: "insideBottomRight", offset: -4, fill: CHART.axis, fontSize: 11 }} />
+          <YAxis domain={[0, 0.6]} ticks={[0, 0.15, 0.3, 0.45, 0.6]} tick={axis} axisLine={false} tickLine={false} />
+          <Tooltip content={<ChartTooltip digits={3} />} />
+          <Legend wrapperStyle={{ fontSize: 12 }} iconType="circle" />
+          <ReferenceLine y={threshold} stroke={CHART.failed} strokeDasharray="6 4"
+            label={{ value: label, position: "insideTopLeft", fill: CHART.failed, fontSize: 11 }} />
+          {series.map((s) => (
+            <Line key={s.name} type="monotone" dataKey={s.name} stroke={s.color} strokeWidth={2.2} dot={false}
+              isAnimationActive={!reduced} connectNulls />
+          ))}
+        </LineChart>
       </ResponsiveContainer>
     </div>
   );

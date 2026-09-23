@@ -4,7 +4,7 @@ import { HScroll } from "@/components/ui/HScroll";
 import { PageHeader, Reveal, Section } from "@/components/ui/Motion";
 import { GateBadge, Pill, StatusTag } from "@/components/ui/Status";
 import type { ProgressState } from "@/lib/data";
-import { failedGates, pending, roadmap } from "@/lib/data";
+import { pending, roadmap } from "@/lib/data";
 
 export const metadata: Metadata = { title: "Status" };
 
@@ -27,11 +27,18 @@ export default function StatusPage() {
 
   return (
     <>
-      <PageHeader eyebrow="05 · Status" title="Where the project honestly stands.">
+      <PageHeader eyebrow="06 · Status" title="Where the project honestly stands.">
         Every decision point below was fixed before any result existed. As of {asOf},{" "}
-        {failedGates.length === 0
-          ? "no gate has failed."
-          : `${failedGates.length} of ${roadmap.gates.length} gates have run and failed; the rest are still ahead.`}
+        {(() => {
+          const n = (st: string) => roadmap.gates.filter((g) => g.state === st).length;
+          const parts = [
+            n("passed") && `${n("passed")} passed`,
+            n("failed") && `${n("failed")} failed`,
+            n("not-run") && `${n("not-run")} could not be evaluated`,
+            n("pending") && `${n("pending")} still ahead`,
+          ].filter(Boolean);
+          return `of ${roadmap.gates.length} gates, ${parts.join(", ")}.`;
+        })()}
       </PageHeader>
 
       <Section label="Gates" title="Four decision points.">

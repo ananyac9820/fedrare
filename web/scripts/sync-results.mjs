@@ -100,7 +100,19 @@ if (exists("gate_g0a.json")) {
     gate: "G0a", passed: g.passed, statistic: g.statistic, threshold: g.threshold,
     definition: g.definition, classNames: g.class_names, rareIds: g.rare_ids,
     perClassSpearman: g.per_class_spearman, evidence: g.evidence, trainCounts: g.train_counts,
+    ...(exists("gate_g0a_retry.json") ? { retry: g0aRetry(readJson("gate_g0a_retry.json")) } : {}),
   });
+}
+
+function g0aRetry(r) {
+  return {
+    source: "results/gate_g0a_retry.json (scripts/06b_gate_g0a_retry.py)",
+    verdict: r.verdict, passed: r.passed, next: r.next,
+    definitions: Object.entries(r.definitions).map(([key, d]) => ({
+      key, role: d.role, statistic: d.statistic, holderAuroc: d.holder_auroc, passed: d.passed,
+      perClassSpearman: d.per_class_spearman,
+    })),
+  };
 }
 
 // ------------------------------------------------------------------ g0b.json
@@ -113,7 +125,22 @@ if (exists("gate_g0b.json")) {
     definition: g.definition,
     perSeed: Object.entries(g.per_seed).map(([seed, value]) => ({ seed: Number(seed), value })),
     config: g.tier_a_config,
+    ...(exists("gate_g0b_retry.json") ? { retry: g0bRetry(readJson("gate_g0b_retry.json")) } : {}),
   });
+}
+
+function g0bRetry(r) {
+  const run = (x) => ({ rounds: x.rounds, variant: x.variant, mean: x.balanced_accuracy_mean,
+    sd: x.balanced_accuracy_std, rareMacroF1: x.rare_macro_f1_mean,
+    perSeed: Object.entries(x.per_seed).map(([seed, value]) => ({ seed: Number(seed), value })),
+    curve: x.curve_mean.map((v, i) => ({ round: i + 1, balancedAccuracy: v })) });
+  return {
+    source: "results/gate_g0b_retry.json (scripts/08_g0b_retry.py)",
+    passed: r.passed, statistic: r.statistic, threshold: r.threshold, definition: r.definition,
+    retry: run(r.retry),
+    amended: { frozen: run(r.amendment_D4_100_rounds.frozen), ft4: run(r.amendment_D4_100_rounds.ft4) },
+    fineTuningMinutes: r.fine_tuning.fine_tuning.seconds / 60,
+  };
 }
 
 // ------------------------------------------------------------------ baseline_results.json
@@ -177,26 +204,102 @@ if (roadmap) {
   };
   if (exists("gate_g0a.json")) {
     const g = readJson("gate_g0a.json");
-    setGate("G0a", { state: g.passed ? "passed" : "failed",
-      result: `Mean Spearman ${g.statistic.toFixed(2)} (needs >= ${g.threshold})`,
-      resultStatus: "verified" });
+    const r = exists("gate_g0a_retry.json") ? readJson("gate_g0a_retry.json") : null;
+    const retry = r?.definitions.retry_bias_round1;
+    setGate("G0a", { state: (r ? r.passed : g.passed) ? "passed" : "failed",
+      result: `Mean Spearman ${g.statistic.toFixed(2)}` +
+        (retry ? `; one retry (bias row) ${retry.statistic.toFixed(2)}` : "") + ` (needs >= ${g.threshold})`,
+      resultStatus: "verified",
+      note: r ? "Failed after its one allowed retry, so the project took Fallback F1. A sign-aware " +
+        "amendment (M1) scored " + r.definitions.M1_signed_bias_round1.statistic.toFixed(2) +
+        " and failed too." : undefined });
   }
   if (exists("gate_g0b.json")) {
     const g = readJson("gate_g0b.json");
-    setGate("G0b", { state: g.passed ? "passed" : "failed",
-      result: `FedAvg balanced accuracy ${g.statistic.toFixed(3)} (needs >= ${g.threshold})`,
-      resultStatus: "verified" });
+    const r = exists("gate_g0b_retry.json") ? readJson("gate_g0b_retry.json") : null;
+    setGate("G0b", { state: (r ? r.passed : g.passed) ? "passed" : "failed",
+      result: r ? `Retry ${r.statistic.toFixed(3)}; first attempt ${g.statistic.toFixed(3)} (needs >= ${g.threshold})`
+        : `FedAvg balanced accuracy ${g.statistic.toFixed(3)} (needs >= ${g.threshold})`,
+      resultStatus: "verified",
+      note: r ? "Passed on the design doc's retry: the last dense block fine-tuned by FedAvg, " +
+        "features re-extracted." : undefined });
+  }
+  if (exists("analysis.json")) {
+    const a = readJson("analysis.json");
+    const g1 = a.gate_g1;
+    const worst = (split) => Object.values(g1[split].per_class).reduce((b, v) => (v.f1_drop > b.f1_drop ? v : b));
+    setGate("G1", { state: g1.s1.passed || g1.s2.passed ? "passed" : "failed",
+      result: `S1: F1 drop ${worst("s1").f1_drop.toFixed(2)} (needs >= 0.15) · S2: F1 drop ` +
+        `${worst("s2").f1_drop.toFixed(2)} but balanced accuracy -${g1.s2.balanced_accuracy_drop.toFixed(3)} (must be < 0.03)`,
+      resultStatus: "verified",
+      note: a.framing.decision });
+    const g2 = a.g2_oracle;
+    setGate("G2", { state: "not-run",
+      result: "Not evaluable - G0a failed, so EARN has no working signal",
+      note: `Exploratory re-run on an oracle evidence signal: conditions ${g2.s1.passed ? "met" : "not met"} ` +
+        `on S1, ${g2.s2.passed ? "met" : "not met"} on S2. Reported as exploratory, never as the gate.` });
   }
   roadmap._meta.syncedAt = today;
   writeData("roadmap.json", roadmap);
 }
 
+// ------------------------------------------------------------------ study.json
+if (exists("analysis.json")) {
+  const a = readJson("analysis.json");
+  const slim = (rows) => rows.map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) =>
+    [k, v && typeof v === "object" && "mean" in v ? { mean: v.mean, sd: v.sd } : v])));
+  writeData("study.json", {
+    _meta: { status: "verified", sources: ["results/analysis.json", "results/grid/runs.csv"],
+      producedBy: "scripts/09_run_grid.py, scripts/10_analyse.py", syncedAt: today,
+      note: `${a._meta.runs} runs, pre-registered in docs/DEVIATIONS.md D6. Tier A on the ` +
+        `fine-tuned features, ${a._meta.rounds} rounds, seeds ${a._meta.seeds.join(", ")}.` },
+    runs: a._meta.runs, rounds: a._meta.rounds, seeds: a._meta.seeds,
+    shares: a.shares, gateG1: a.gate_g1, gateG1Reported: a.gate_g1_camp_a_reported, framing: a.framing,
+    f1: { s1: slim(a.f1_tables.s1), s2: slim(a.f1_tables.s2) },
+    earn: { s1: slim(a.earn_tables.s1), s2: slim(a.earn_tables.s2) },
+    g2Oracle: a.g2_oracle, overheadMs: a.overhead_ms_per_round,
+  });
+} else {
+  console.log("  study.json: results/analysis.json missing, left unchanged");
+}
+
 // ------------------------------------------------------------------ ledger.json
 const ledger = readData("ledger.json");
-if (exists("ledger_rounds.json")) {
-  const real = readJson("ledger_rounds.json");
-  writeData("ledger.json", { ...ledger, _meta: { status: "verified",
-    sources: ["results/ledger_rounds.json"], syncedAt: today }, rounds: real.rounds });
+const exampleRun = "ledger/earn_rounds_s1_none_seed42.json";
+if (exists("ledger/ledger_rounds.json") && exists(exampleRun)) {
+  const chain = readJson("ledger/ledger_rounds.json");
+  const run = readJson(exampleRun);
+  const onChain = new Map(chain.example_per_round.map((p) => [p.round, p]));
+  let prevTrust = Array(run.rounds[0].trust_bps.length).fill(0);
+  let prev = "0".repeat(64);
+  const rounds = run.rounds.map((b) => {
+    const rise = Math.max(0, ...b.trust_bps.map((t, i) => t - prevTrust[i])) / 10000;
+    const rec = { round: b.round, trustTableHash: sha256(JSON.stringify(b.trust_bps)),
+      coverage: b.coverage, historyHash: b.history_hash, maxTrustRise: rise, prevHash: prev,
+      blockHash: b.block_hash, chainBlockHash: onChain.get(b.round)?.block_hash,
+      gas: onChain.get(b.round)?.gas, trustBps: b.trust_bps };
+    prevTrust = b.trust_bps;
+    prev = b.block_hash;
+    return rec;
+  });
+  const sm = chain.summary;
+  writeData("ledger.json", {
+    _meta: { status: "verified", sources: ["results/ledger/ledger_rounds.json", `results/${exampleRun}`],
+      producedBy: "EARN (oracle evidence, exploratory) via scripts/09_run_grid.py; ledger/scripts/measure.js",
+      note: "Real EARN rounds (S1, no attack, seed 42) from the exploratory oracle-evidence run, " +
+        "replayed on the EarnLedger contract on a local Hardhat chain. Hashes are the Python ledger's " +
+        "SHA-256 chain; the on-chain keccak block hash is shown too.",
+      syncedAt: today },
+    rules: { maxTrustStep: run.max_step, halvingFactor: 0.5 },
+    rounds,
+    onChain: { network: chain._meta.network, solc: chain._meta.solc, runs: sm.runs,
+      roundsCommitted: sm.rounds_committed, gasPerRound: sm.gas_per_round,
+      latencyMsPerRound: sm.latency_ms_per_round, deployGas: sm.deploy_gas,
+      allFinalTrustMatch: sm.all_final_trust_match, allHistoryVerified: sm.all_history_verified,
+      allTamperRejected: sm.all_tamper_rejected,
+      tamperExample: chain.runs.find((r) => r.split === "s1" && r.attack === "none" && r.seed === 42)?.tamper_entry,
+      tamperError: chain.runs[0].tamper_error },
+  });
 } else if (!ledger || ledger._meta.status === "sample") {
   // Deterministic sample chain: real SHA-256 linking, made-up contents.
   const coverage = [6, 6, 3, 3, 5, 4, 3, 2];
