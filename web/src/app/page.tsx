@@ -112,7 +112,8 @@ export default function Home() {
               </p>
             </Card>
           </Reveal>
-          <Reveal className="mt-14 flex justify-center">
+          <Reveal className="mt-14 flex flex-wrap justify-center gap-3">
+            <PillLink href="/demo">Run the live demo →</PillLink>
             <PillLink href="/problem" variant="outline">
               How this breaks down per hospital →
             </PillLink>
@@ -125,7 +126,7 @@ export default function Home() {
         tone="sand"
         label="Explore"
         title="Six pages, one honest picture."
-        intro="Each page carries its own status labels, so you always know whether you're looking at a measurement, a baseline, or a proposal."
+        intro="Every page says in plain words where its numbers came from, so you always know whether you're looking at a measurement, a baseline, or a proposal."
       >
         <HScroll label="Project pages">
           {pages.map((p) => (

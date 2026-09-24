@@ -46,7 +46,7 @@ import torch.nn.functional as F
 import torchvision
 
 from src.data.loader import build_transforms
-from src.models.densenet import build_model
+from src.models.densenet import build_model, densenet_features
 from src.utils.config import load_config
 from src.utils.seed import get_device
 
@@ -54,12 +54,6 @@ FEATURE_DIM = 1024
 PREFIX = "fed_isic2019_densenet121"
 # Published per-centre training counts (same check as scripts/01_verify_setup.py).
 EXPECTED_TRAIN = {0: 9930, 1: 3163, 2: 2691, 3: 1807, 4: 655, 5: 351}
-
-
-def densenet_features(model: nn.Module, x: torch.Tensor) -> torch.Tensor:
-    """The 1024-d input to DenseNet-121's classifier (mirrors torchvision's forward)."""
-    out = F.relu(model.features(x), inplace=True)
-    return torch.flatten(F.adaptive_avg_pool2d(out, (1, 1)), 1)
 
 
 def check_against_torchvision(model: nn.Module, x: torch.Tensor) -> float:

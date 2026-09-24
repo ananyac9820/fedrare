@@ -134,6 +134,7 @@ def run_federated(aggregator_factory: AggregatorFactory, clients: Sequence[Clien
         round_infos     list of round_info dicts, one per round (validated)
         round_metrics   list of test metrics of the global head after each round
         final           test metrics after the last round
+        final_state     the global head after the last round (tensors, not JSON-serialisable)
         seconds         wall time
     """
     set_seed(seed)
@@ -176,4 +177,5 @@ def run_federated(aggregator_factory: AggregatorFactory, clients: Sequence[Clien
 
     return {"config": asdict(cfg), "seed": seed, "rule": round_infos[-1]["rule"],
             "round_infos": round_infos, "round_metrics": round_metrics,
-            "final": round_metrics[-1], "seconds": time.time() - t0}
+            "final": round_metrics[-1], "final_state": global_state,
+            "seconds": time.time() - t0}

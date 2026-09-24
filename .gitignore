@@ -12,6 +12,11 @@
 *.pth
 checkpoints/
 
+# The live demo's own two exceptions, so a fresh clone can run it without the 93 MB
+# feature files: a 36 kB linear head, and eight test images (see demo/README.md).
+!models/tier_a_s1_fedavg_head.pt
+!demo/samples/*.png
+
 # Results (keep the folder, not the contents)
 results/*
 !results/.gitkeep

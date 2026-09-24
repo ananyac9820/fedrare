@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torchvision import models
 
 
@@ -25,6 +26,17 @@ def build_model(n_classes: int = 8, pretrained: bool = True,
     in_features = model.classifier.in_features
     model.classifier = nn.Linear(in_features, n_classes)
     return model
+
+
+def densenet_features(model: nn.Module, x: torch.Tensor) -> torch.Tensor:
+    """The 1024-d vector DenseNet-121's classifier receives: features -> ReLU -> avg pool.
+
+    This mirrors torchvision's own forward pass, so a Tier A head trained on saved features
+    is a drop-in replacement for the classifier layer. Feature extraction (scripts/05) and
+    the live demo (demo/server.py) both call this, so the two cannot drift apart.
+    """
+    out = F.relu(model.features(x), inplace=True)
+    return torch.flatten(F.adaptive_avg_pool2d(out, (1, 1)), 1)
 
 
 def classifier_keys(model: nn.Module) -> list[str]:

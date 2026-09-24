@@ -53,6 +53,13 @@ export function Header() {
             );
           })}
         </ul>
+        <Link
+          href="/demo"
+          className="hidden items-center gap-2 rounded-full bg-accent px-4 py-2 text-xs font-semibold text-cream transition hover:bg-ink lg:inline-flex"
+        >
+          <span aria-hidden className="block h-1.5 w-1.5 rounded-full bg-cream/80" />
+          Run demo
+        </Link>
         <a
           href={REPO}
           target="_blank"
@@ -92,6 +99,15 @@ export function Header() {
                 </li>
               );
             })}
+            <li>
+              <Link
+                href="/demo"
+                onClick={() => setOpen(false)}
+                className="block rounded-xl bg-accent px-4 py-3 font-mono text-xs uppercase tracking-[0.16em] text-cream"
+              >
+                Run demo
+              </Link>
+            </li>
             <li>
               <a href={REPO} target="_blank" rel="noreferrer" className="block rounded-xl px-4 py-3 font-mono text-xs uppercase tracking-[0.16em] text-muted hover:bg-sand">
                 GitHub ↗

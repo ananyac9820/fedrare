@@ -1,0 +1,128 @@
+{
+  "note": "Held-out Fed-ISIC2019 test-split images. Selection rule fixed before the model was run: for each listed class, the earliest images in dataset order, preferring different hospitals. No image was chosen for being classified correctly.",
+  "split": "test",
+  "selection": [
+    {
+      "class": "Dermatofibroma",
+      "count": 2
+    },
+    {
+      "class": "Vascular lesion",
+      "count": 2
+    },
+    {
+      "class": "Melanoma",
+      "count": 1
+    },
+    {
+      "class": "Melanocytic nevus",
+      "count": 1
+    },
+    {
+      "class": "Basal cell carcinoma",
+      "count": 1
+    },
+    {
+      "class": "Benign keratosis",
+      "count": 1
+    }
+  ],
+  "samples": [
+    {
+      "id": "sample_01",
+      "row": 39,
+      "true_label": 5,
+      "true_label_name": "Dermatofibroma",
+      "centre": 0,
+      "file": "sample_01.png",
+      "size": [
+        224,
+        224
+      ]
+    },
+    {
+      "id": "sample_02",
+      "row": 2522,
+      "true_label": 5,
+      "true_label_name": "Dermatofibroma",
+      "centre": 1,
+      "file": "sample_02.png",
+      "size": [
+        298,
+        224
+      ]
+    },
+    {
+      "id": "sample_03",
+      "row": 93,
+      "true_label": 6,
+      "true_label_name": "Vascular lesion",
+      "centre": 0,
+      "file": "sample_03.png",
+      "size": [
+        224,
+        224
+      ]
+    },
+    {
+      "id": "sample_04",
+      "row": 2588,
+      "true_label": 6,
+      "true_label_name": "Vascular lesion",
+      "centre": 1,
+      "file": "sample_04.png",
+      "size": [
+        298,
+        224
+      ]
+    },
+    {
+      "id": "sample_05",
+      "row": 4,
+      "true_label": 0,
+      "true_label_name": "Melanoma",
+      "centre": 0,
+      "file": "sample_05.png",
+      "size": [
+        224,
+        224
+      ]
+    },
+    {
+      "id": "sample_06",
+      "row": 2,
+      "true_label": 1,
+      "true_label_name": "Melanocytic nevus",
+      "centre": 0,
+      "file": "sample_06.png",
+      "size": [
+        224,
+        224
+      ]
+    },
+    {
+      "id": "sample_07",
+      "row": 0,
+      "true_label": 2,
+      "true_label_name": "Basal cell carcinoma",
+      "centre": 0,
+      "file": "sample_07.png",
+      "size": [
+        224,
+        224
+      ]
+    },
+    {
+      "id": "sample_08",
+      "row": 1,
+      "true_label": 4,
+      "true_label_name": "Benign keratosis",
+      "centre": 0,
+      "file": "sample_08.png",
+      "size": [
+        224,
+        224
+      ]
+    }
+  ]
+}
