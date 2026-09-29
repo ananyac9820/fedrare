@@ -1,0 +1,17 @@
+{
+  "gate": "DG0",
+  "question": "is the DermaCon-IN baseline good enough to study?",
+  "threshold": 0.4,
+  "fixed_in": "docs/DERMACON_PLAN.md, before any run",
+  "split": "D1",
+  "rule": "fedavg",
+  "rounds": 40,
+  "seed": 42,
+  "statistic": 0.408150229188989,
+  "passed": true,
+  "attempt": "first",
+  "rare_macro_f1": 0.13171399247348614,
+  "accuracy": 0.5119617224880383,
+  "n_classes": 7,
+  "measured_utc": "2026-09-29T05:59:42+00:00"
+}

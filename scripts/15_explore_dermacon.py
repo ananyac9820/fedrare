@@ -24,6 +24,7 @@ import argparse
 import csv
 import sys
 from collections import Counter, defaultdict
+from zlib import crc32
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -73,7 +74,10 @@ def candidate_splits(rows, label_key):
     by["age band"] = [r["Age"] or "N/A" for r in rows]
     by["body region (first listed)"] = [(r["Body_part"].split(",")[0].strip() or "N/A")
                                         for r in rows]
-    by["patient id (hash)"] = [f"c{hash(r['Subject_ID']) % N_CENTRES}" for r in rows]
+    # zlib.crc32, not hash(): Python salts hash() per process, so the groups would
+    # differ between runs and the split would not be reproducible.
+    by["patient id (hash)"] = [f"c{crc32(r['Subject_ID'].encode()) % N_CENTRES}"
+                               for r in rows]
     return by
 
 
