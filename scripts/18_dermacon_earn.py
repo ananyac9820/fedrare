@@ -47,6 +47,8 @@ RARE_NAMES = ("Keratanisation Disorders", "Neoplasms and tumors")
 SPECIALIST = {"d1": 4, "d0": None}   # D1 centre 4 = the 60-80 band, named in the plan
 ORACLE_TAU = HOLDER_MIN_IMAGES - 0.5
 ROUNDS, SEED, MARGIN = 40, 42, 0.05
+SEEDS = (42, 43, 44)   # the gate is decided on SEED alone, as pre-registered;
+                       # the others are reported so no claim rests on one run
 N_CENTRES = 6
 
 
@@ -88,39 +90,63 @@ def main() -> int:
             "camp_a_reported": lambda: partial(baselines.camp_a, evidence_fn=oracle,
                                                rule_name="camp_a_reported"),
             "earn": lambda: EARN(EARNConfig(tau=ORACLE_TAU), evidence_fn=oracle, name="earn"),
+            # Amendment M2 (DEVIATIONS.md D9), post-hoc and labelled as such: a holder
+            # threshold relative to the round's own evidence rather than an absolute count
+            # of 20 images, which is what stops EARN engaging at this dataset's scale.
+            "earn_tau_mean": lambda: EARN(EARNConfig(tau="mean"), evidence_fn=oracle,
+                                          name="earn_tau_mean"),
         }
 
         print(f"\n{split_key.upper()}  sizes {sizes.astype(int).tolist()}  "
               f"rare counts per centre {counts[:, rare_ids].sum(axis=1).tolist()}")
         summary[split_key] = {}
         for name, factory in methods.items():
-            res = run_federated(factory, clients, test_x, test_y, cfg, seed=SEED,
-                                rare_ids=rare_ids, verbose=False)
-            final = res["final"]
+            per_seed = {}
+            for seed in SEEDS:
+                res = run_federated(factory, clients, test_x, test_y, cfg, seed=seed,
+                                    rare_ids=rare_ids, verbose=False)
+                final = res["final"]
+                last = res["round_infos"][-1]
+                head_w = last.get("head_row_weights")
+                rare_w = (head_w[:, rare_ids].mean(axis=1) if head_w is not None
+                          else size_share)
+                per_seed[seed] = {
+                    "balanced_accuracy": final["balanced_accuracy"],
+                    "rare_macro_f1": final["rare_macro_f1"],
+                    "accuracy": final["accuracy"],
+                    "rare_weight_share": rare_w.tolist(),
+                    "size_share": size_share.tolist(),
+                }
+                for r, m in enumerate(res["round_metrics"], start=1):
+                    rows.append({"split": split_key, "method": name, "seed": seed,
+                                 "round": r, "accuracy": m["accuracy"],
+                                 "balanced_accuracy": m["balanced_accuracy"],
+                                 "macro_f1": m["macro_f1"],
+                                 "rare_macro_f1": m["rare_macro_f1"]})
 
-            # Weight the method ended up giving each centre on the rare rows.
-            last = res["round_infos"][-1]
-            head_w = last.get("head_row_weights")
-            rare_w = (head_w[:, rare_ids].mean(axis=1) if head_w is not None else size_share)
-            summary[split_key][name] = {
-                "balanced_accuracy": final["balanced_accuracy"],
-                "rare_macro_f1": final["rare_macro_f1"],
-                "accuracy": final["accuracy"],
-                "rare_weight_share": rare_w.tolist(),
-                "size_share": size_share.tolist(),
-            }
-            print(f"  {name:<16} balanced acc {final['balanced_accuracy']:.4f} | "
-                  f"rare macro-F1 {final['rare_macro_f1']:.4f}")
+            # The gate reads seed 42; the spread across seeds is carried alongside it.
+            entry = dict(per_seed[SEED])
+            for key in ("balanced_accuracy", "rare_macro_f1"):
+                vals = [per_seed[s][key] for s in SEEDS]
+                entry[f"{key}_mean"] = float(np.mean(vals))
+                entry[f"{key}_sd"] = float(np.std(vals, ddof=1))
             spec = SPECIALIST[split_key]
             if spec is not None:
+                w = [per_seed[s]["rare_weight_share"][spec] for s in SEEDS]
+                entry["specialist_weight_mean"] = float(np.mean(w))
+                entry["specialist_weight_sd"] = float(np.std(w, ddof=1))
+            summary[split_key][name] = entry
+
+            print(f"  {name:<16} balanced acc {entry['balanced_accuracy']:.4f} "
+                  f"(3 seeds {entry['balanced_accuracy_mean']:.4f} "
+                  f"+-{entry['balanced_accuracy_sd']:.4f}) | rare macro-F1 "
+                  f"{entry['rare_macro_f1']:.4f} (3 seeds "
+                  f"{entry['rare_macro_f1_mean']:.4f} +-{entry['rare_macro_f1_sd']:.4f})")
+            if spec is not None:
                 print(f"      centre {spec}: size share {size_share[spec]:.3f} -> "
-                      f"rare-row weight {rare_w[spec]:.3f}")
-            for r, m in enumerate(res["round_metrics"], start=1):
-                rows.append({"split": split_key, "method": name, "seed": SEED, "round": r,
-                             "accuracy": m["accuracy"],
-                             "balanced_accuracy": m["balanced_accuracy"],
-                             "macro_f1": m["macro_f1"],
-                             "rare_macro_f1": m["rare_macro_f1"]})
+                      f"rare-row weight {entry['rare_weight_share'][spec]:.3f} "
+                      f"(3 seeds {entry['specialist_weight_mean']:.3f} "
+                      f"+-{entry['specialist_weight_sd']:.3f})")
 
     csv_path = OUT / "dermacon_earn.csv"
     with open(csv_path, "w", newline="", encoding="utf-8") as fh:
@@ -138,11 +164,15 @@ def main() -> int:
                        - d0["fedavg"]["rare_macro_f1"]) <= MARGIN
     passed = bool(not_worse and lifts_specialist and quiet_on_iid)
 
+    m2 = {"amendment": "M2 (DEVIATIONS.md D9), post-hoc: tau='mean' instead of 19.5",
+          "d1": summary["d1"].get("earn_tau_mean"), "d0": summary["d0"].get("earn_tau_mean"),
+          "decides_the_gate": False}
     record = {
         "gate": "DG2", "question": "does EARN help on DermaCon-IN?",
+        "amendment_reported_alongside": m2,
         "fixed_in": "docs/DERMACON_PLAN.md, before any run",
         "setting": "oracle evidence (exploratory) - the measured signal did not clear G0a",
-        "margin": MARGIN, "rounds": ROUNDS, "seed": SEED,
+        "margin": MARGIN, "rounds": ROUNDS, "seed": SEED, "seeds_reported": list(SEEDS),
         "conditions": {
             "D1 rare macro-F1 not worse than FedAvg by more than the margin": {
                 "earn": d1["earn"]["rare_macro_f1"],

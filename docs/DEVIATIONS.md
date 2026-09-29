@@ -388,3 +388,46 @@ threshold relative to the round's own evidence is scale-free, is already impleme
 and knowing why. Its result is therefore exploratory and is reported next to the pre-registered
 DG2 result, never in place of it, and the DG2 verdict stands as recorded in R6 whatever M2 shows.
 It does not change any Fed-ISIC2019 result, where the absolute threshold stays as pre-registered.
+
+## R7 - Result: amendment M2 on DermaCon-IN, three seeds (29 Sep 2026) - POST-HOC
+
+M2 (D9) run on D0 and D1, seeds 42/43/44, 40 rounds, oracle evidence. DG2 remains decided by
+seed 42 under the pre-registered threshold and remains NOT CLEARED (R6); nothing here changes it.
+
+**D1 (age bands), mean +- sd over 3 seeds**
+
+| method | balanced accuracy | rare macro-F1 | specialist's rare-row weight |
+| --- | --- | --- | --- |
+| FedAvg | 0.4217 +- 0.0127 | 0.1557 +- 0.0208 | 0.079 = its size share |
+| Camp A (oracle evidence) | 0.4377 +- 0.0097 | 0.1633 +- 0.0161 | 0.137 |
+| EARN, tau = 19.5 (pre-registered) | 0.4181 +- 0.0165 | 0.1478 +- 0.0261 | 0.068 |
+| EARN, tau = mean (M2) | 0.4307 +- 0.0085 | 0.1714 +- 0.0125 | 0.142 +- 0.003 |
+
+**D0 (near-IID control)**: FedAvg 0.1992 +- 0.0213 rare macro-F1, Camp A 0.1879 +- 0.0174,
+EARN 0.1883 +- 0.0207, M2 0.1730 +- 0.0119. All within the 0.05 margin of FedAvg.
+
+**What holds and what does not.** Two different claims have to be separated here.
+
+*The weighting behaves as intended, and that part is solid.* Under M2 the specialist centre
+receives 0.142 +- 0.003 of the rare rows against a size share of 0.079 - 1.8x - while under the
+pre-registered threshold it receives 0.068, below its size share. The spread across seeds is
+0.003 because the weight is a function of the evidence and the trust schedule, not of training
+noise. The diagnosis in R6 is confirmed: an absolute holder threshold of 20 images is what stops
+the mechanism engaging at this dataset's scale.
+
+*The downstream benefit is not established.* M2's rare macro-F1 on D1 is 0.1714 +- 0.0125 against
+FedAvg's 0.1557 +- 0.0208. The gap of 0.016 is smaller than either standard deviation, so on three
+seeds it cannot be separated from noise. On seed 42 alone the same comparison reads 0.1642 vs
+0.1317, a gap of 0.033, because seed 42 happens to be a low draw for FedAvg - which is exactly the
+reason a single-seed claim was not good enough to report. On D0, M2 is consistently slightly below
+FedAvg (0.1730 vs 0.1992), inside the margin but in the wrong direction.
+
+**Therefore.** The honest statement is: the holder threshold does not transfer across dataset
+scales, a scale-relative threshold restores the intended weighting, and whether that converts into
+better rare-class accuracy on DermaCon-IN is not answered by three seeds. Establishing it would
+need more seeds and a pre-registered threshold on data not yet looked at. Nothing here is claimed
+as EARN working on Indian data.
+
+`docs/results/dermacon_earn.csv`, `docs/results/gate_dg2.json` (M2 carried under
+`amendment_reported_alongside`, with `decides_the_gate: false`).
+
