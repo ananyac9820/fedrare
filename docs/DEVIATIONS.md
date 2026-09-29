@@ -333,3 +333,58 @@ wording narrowed); CALM (Sep 2026) does per-class peer agreement without trust, 
 or attacks; BOBA needs a (c-1)-dimensional subspace (7) from n-f = 5 gradients and server data for
 every class, so it cannot be run as published with 6 clients and 8 classes. Our cut of BOBA
 (design doc cut line 2) therefore stands on substance. CARE-FL's full text could not be accessed.
+
+## R6 - Result: DermaCon-IN, gates DG0 and DG2 (29 Sep 2026)
+
+Pre-registered in `docs/DERMACON_PLAN.md`, committed before any run on this dataset.
+
+**DG0 cleared, narrowly.** FedAvg on D1 (age bands), 40 rounds, seed 42: balanced accuracy
+**0.4082** against a bar of 0.40, over 7 classes. The margin is 0.008 and is reported as such;
+the near-IID control D0 reached 0.4569. Rare-class macro-F1 is 0.1317 on D1 and 0.1929 on D0.
+`docs/results/gate_dg0.json`, `docs/results/dermacon_baselines_fedavg.csv`.
+
+**DG2 not cleared.** Of the three conditions, two were met and one was not:
+
+| condition | result |
+| --- | --- |
+| D1 rare macro-F1 within 0.05 of FedAvg | met - EARN 0.1240 vs FedAvg 0.1317 |
+| D1 specialist weight share above its size share | **not met** - centre 4 got 0.068 of the rare rows against a size share of 0.079 |
+| D0 within 0.05 of FedAvg (no effect expected) | met - 0.1778 vs 0.1929 |
+
+**Why it failed, measured rather than guessed.** EARN's holder threshold is an absolute count:
+tau = HOLDER_MIN_IMAGES - 0.5 = 19.5, i.e. a centre must hold 20 images of a class before it can
+be a holder of it. That was calibrated on Fed-ISIC2019, where 4 of 6 centres clear it for the rare
+classes. On DermaCon-IN's D1, only centre 3 clears it, and only for Keratinisation (24 images); the
+designated specialist, centre 4, holds 11 Keratinisation and 8 Neoplasms and so is a holder of
+neither. With no holders, EARN's trust and evidence terms never engage and it reduces to capped
+FedAvg - the small shortfall against the size share is the cap and renormalisation, not a decision
+about the specialist.
+
+Camp A, which uses the same oracle evidence proportionally and has no holder threshold, does lift
+the specialist on the same split: rare-row weight 0.137 against a size share of 0.079, with rare
+macro-F1 0.1470 and balanced accuracy 0.4315, both above FedAvg.
+
+**What this is worth.** This is what a second dataset is for. The finding is that the mechanism's
+holder threshold does not transfer across dataset scales - an absolute image count is the wrong
+unit when the rarest class has 52 images instead of 216 - while the evidence-proportional part of
+the idea does transfer. It is reported as a failure of the gate as written, not softened.
+
+`docs/results/gate_dg2.json`, `docs/results/dermacon_earn.csv`, `scripts/18_dermacon_earn.py`.
+
+---
+
+## D9 - Amendment M2: a scale-relative holder threshold, for DermaCon-IN only (29 Sep 2026) - POST-HOC
+
+**What.** Re-run the DG2 comparison on DermaCon-IN with `EARNConfig(tau="mean")` - a centre is a
+holder of class c when its evidence for c is above this round's mean across centres - in place of
+the absolute tau = 19.5. Nothing else changes: same splits, same oracle evidence, same 40 rounds,
+same seed 42, same three DG2 conditions.
+
+**Why.** R6 shows the absolute threshold is the reason EARN does nothing on this dataset. A
+threshold relative to the round's own evidence is scale-free, is already implemented in
+`src/federated/earn.py` (it exists for evidence with no natural unit), and needs no new code.
+
+**Status when written.** Not yet run. This is **post-hoc**: it was chosen after seeing DG2 fail
+and knowing why. Its result is therefore exploratory and is reported next to the pre-registered
+DG2 result, never in place of it, and the DG2 verdict stands as recorded in R6 whatever M2 shows.
+It does not change any Fed-ISIC2019 result, where the absolute threshold stays as pre-registered.
