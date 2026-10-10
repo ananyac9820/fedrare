@@ -17,7 +17,7 @@ export function Pager({ current }: { current: string }) {
             className="group rounded-[24px] border border-line bg-paper p-7 transition hover:border-ink/30"
           >
             <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-faint">
-              &larr; Previous · step {i} of {NAV.length - 1}
+              &larr; Previous · step {i} of {NAV.length}
             </span>
             <p className="mt-3 font-display text-2xl font-medium text-ink group-hover:text-accent">{prev.label}</p>
             <p className="mt-1 text-sm text-muted">{prev.blurb}</p>
