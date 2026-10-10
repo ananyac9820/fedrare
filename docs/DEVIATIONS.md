@@ -431,3 +431,48 @@ as EARN working on Indian data.
 `docs/results/dermacon_earn.csv`, `docs/results/gate_dg2.json` (M2 carried under
 `amendment_reported_alongside`, with `decides_the_gate: false`).
 
+## D10 - Amendment M2 tested on Fed-ISIC2019, pre-registered (10 Oct 2026) - NOT YET RUN
+
+**What.** Run EARN twice on Fed-ISIC2019, identical in every respect except the holder threshold:
+
+  - *absolute* (as pre-registered everywhere so far): a centre is a holder of class c once it holds
+    at least HOLDER_MIN_IMAGES = 20 images of c, i.e. `EARNConfig(tau=19.5)`;
+  - *relative* (M2): a centre is a holder of c when its evidence for c is above this round's mean
+    across centres, i.e. `EARNConfig(tau="mean")`.
+
+Splits S1 and S2, attacks `none` and `A1`, seeds 42/43/44, 100 rounds, oracle evidence. A1 is
+included deliberately: lowering the bar for who counts as a holder could make a *claiming* attacker
+easier to admit, and that risk has to be measured, not assumed away.
+
+**Why.** On DermaCon-IN the absolute threshold admitted almost nobody and EARN silently became
+capped FedAvg (R6); a relative threshold restored the intended weighting (R7). That was post-hoc
+on that dataset. This entry asks the opposite question on the dataset where the absolute threshold
+does work: does the relative rule break anything, and does it make spoofing easier? Answering it
+before changing the method is the difference between a fix and a rescue.
+
+**Feature set - a limitation stated up front.** The published 408-run grid uses the `ft4` features
+(D3). Those files live in a gitignored `data/` and are not on the machine doing this run, and
+re-deriving them means fine-tuning a dense block, which is not feasible here. This amendment
+therefore runs on the **frozen** features for both arms. The comparison is like for like and
+answers the question asked; it does **not** restate any grid number, and the two arms must never be
+quoted next to ft4 results. `scripts/19_earn_threshold.py --variant ft4` re-runs the whole thing
+unchanged if those features become available.
+
+**Criteria, fixed now.** Mean over the three seeds, per split:
+
+1. *No harm without attack.* Under `none`, the relative arm's rare macro-F1 is within 0.05 of the
+   absolute arm's, in either direction, on both S1 and S2.
+2. *No easier to spoof.* Under A1, the attacker (centre 4, which holds no rare images on either
+   split) gains no more than 0.05 additional weight share on the rare rows under the relative rule
+   than under the absolute one, on both splits.
+3. *The specialist is still served.* On S2, where centre 2 is the sole rare holder, its rare-row
+   weight under the relative rule is at least its weight under the absolute rule minus 0.05.
+
+**What each outcome means, decided now.** All three hold -> the relative threshold is adopted as
+EARN's default and that change is logged as a method change, with the DermaCon-IN result as its
+motivation. Any one fails -> the absolute threshold stays, and R6/R7 are reported as a
+dataset-specific finding about units rather than a defect to be fixed. Either way both arms are
+reported.
+
+**Status.** Written before the first run. Script: `scripts/19_earn_threshold.py`.
+
