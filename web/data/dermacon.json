@@ -1,0 +1,1108 @@
+{
+  "_meta": {
+    "status": "verified",
+    "sources": [
+      "docs/results/dermacon_dataset.json",
+      "docs/results/gate_dg0.json",
+      "docs/results/gate_dg2.json",
+      "docs/results/dermacon_earn.csv"
+    ],
+    "producedBy": "scripts/15-18_*dermacon*.py",
+    "syncedAt": "2026-10-10",
+    "note": "Second dataset. The six centres are CONSTRUCTED from age bands - DermaCon-IN does not record which hospital took an image - and are never called hospitals."
+  },
+  "dataset": {
+    "name": "DermaCon-IN",
+    "doi": "10.7910/DVN/W7OUZM",
+    "licence": "CC BY-NC-SA 4.0",
+    "citation": "Madarkar et al., NeurIPS 2025 Datasets & Benchmarks",
+    "origin": "three tertiary-care hospitals and affiliated clinics, North Karnataka",
+    "images": 5450,
+    "patients": 3002,
+    "usable": 5413,
+    "droppedClass": "No Definite Diagnosis",
+    "subClasses": 19,
+    "diseaseLabels": 245,
+    "siteColumn": false,
+    "classes": [
+      {
+        "name": "Infectious Disorders",
+        "count": 2227,
+        "rare": false
+      },
+      {
+        "name": "Inflammatory Disorders",
+        "count": 1592,
+        "rare": false
+      },
+      {
+        "name": "Pigmentary Disorders",
+        "count": 831,
+        "rare": false
+      },
+      {
+        "name": "Skin Appendages Disorders",
+        "count": 480,
+        "rare": false
+      },
+      {
+        "name": "Other skin disorders",
+        "count": 159,
+        "rare": false
+      },
+      {
+        "name": "Keratanisation Disorders",
+        "count": 72,
+        "rare": true
+      },
+      {
+        "name": "Neoplasms and tumors",
+        "count": 52,
+        "rare": true
+      }
+    ],
+    "rareClasses": [
+      {
+        "name": "Neoplasms and tumors",
+        "count": 52
+      },
+      {
+        "name": "Keratanisation Disorders",
+        "count": 72
+      }
+    ],
+    "fitzpatrick": [
+      {
+        "type": "FST 4",
+        "count": 2620
+      },
+      {
+        "type": "FST 3",
+        "count": 1403
+      },
+      {
+        "type": "FST 5",
+        "count": 1285
+      },
+      {
+        "type": "FST 6",
+        "count": 136
+      }
+    ]
+  },
+  "splits": {
+    "specialistCentre": 4,
+    "d1": [
+      {
+        "centre": 0,
+        "band": "0 - 10",
+        "images": 416,
+        "rare": 5,
+        "ratio": 0.5357
+      },
+      {
+        "centre": 1,
+        "band": "10 - 20",
+        "images": 500,
+        "rare": 6,
+        "ratio": 0.5349
+      },
+      {
+        "centre": 2,
+        "band": "20 - 40",
+        "images": 1738,
+        "rare": 24,
+        "ratio": 0.6155
+      },
+      {
+        "centre": 3,
+        "band": "40 - 60",
+        "images": 1356,
+        "rare": 39,
+        "ratio": 1.2819
+      },
+      {
+        "centre": 4,
+        "band": "60 - 80",
+        "images": 344,
+        "rare": 19,
+        "ratio": 2.4618
+      },
+      {
+        "centre": 5,
+        "band": "80 - 100",
+        "images": 14,
+        "rare": 5,
+        "ratio": 15.9184
+      }
+    ],
+    "d0Note": "patient id hashed into six groups - the near-IID control"
+  },
+  "gates": {
+    "dg0": {
+      "threshold": 0.4,
+      "statistic": 0.408150229188989,
+      "passed": true,
+      "rule": "fedavg",
+      "rounds": 40,
+      "seed": 42,
+      "nClasses": 7,
+      "margin": 0.008150229188989
+    },
+    "dg2": {
+      "passed": false,
+      "margin": 0.05,
+      "rounds": 40,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "setting": "oracle evidence (exploratory) - the measured signal did not clear G0a",
+      "conditions": [
+        {
+          "label": "D1 rare macro-F1 not worse than FedAvg by more than the margin",
+          "met": true,
+          "detail": {
+            "earn": 0.12398190045248869,
+            "fedavg": 0.13171399247348614
+          }
+        },
+        {
+          "label": "D1 specialist weight share on rare rows above its size share",
+          "met": false,
+          "detail": {
+            "sizeShare": 0.07875457875457875,
+            "weightShare": 0.06792974621659881
+          }
+        },
+        {
+          "label": "D0 within the margin of FedAvg (no effect expected)",
+          "met": true,
+          "detail": {
+            "earn": 0.17777777777777778,
+            "fedavg": 0.19285309132161088
+          }
+        }
+      ]
+    }
+  },
+  "amendment": {
+    "id": "M2",
+    "postHoc": true,
+    "what": "M2 (DEVIATIONS.md D9), post-hoc: tau='mean' instead of 19.5",
+    "decidesTheGate": false
+  },
+  "methods": {
+    "d1": [
+      {
+        "id": "fedavg",
+        "label": "FedAvg",
+        "preRegistered": true,
+        "balancedAccuracy": 0.4216980368960561,
+        "balancedAccuracySd": 0.012749356704537083,
+        "rareMacroF1": 0.1556982759514405,
+        "rareMacroF1Sd": 0.020796212554736675,
+        "specialistWeight": 0.07875457875457875,
+        "specialistWeightSd": 0,
+        "sizeShare": 0.07875457875457875
+      },
+      {
+        "id": "camp_a_reported",
+        "label": "Camp A (evidence weighting)",
+        "preRegistered": true,
+        "balancedAccuracy": 0.43767200264416806,
+        "balancedAccuracySd": 0.009723486565633863,
+        "rareMacroF1": 0.16331918272601287,
+        "rareMacroF1Sd": 0.01608052254520805,
+        "specialistWeight": 0.13679108248073765,
+        "specialistWeightSd": 0,
+        "sizeShare": 0.07875457875457875
+      },
+      {
+        "id": "earn",
+        "label": "EARN, threshold as pre-registered",
+        "preRegistered": true,
+        "balancedAccuracy": 0.41810515270066184,
+        "balancedAccuracySd": 0.016460244688953244,
+        "rareMacroF1": 0.14777586217785155,
+        "rareMacroF1Sd": 0.026096471565334168,
+        "specialistWeight": 0.06792974621659881,
+        "specialistWeightSd": 0,
+        "sizeShare": 0.07875457875457875
+      },
+      {
+        "id": "earn_tau_mean",
+        "label": "EARN, scale-relative threshold (post-hoc)",
+        "preRegistered": false,
+        "balancedAccuracy": 0.4306506618923425,
+        "balancedAccuracySd": 0.008481991862311135,
+        "rareMacroF1": 0.1714428968844444,
+        "rareMacroF1Sd": 0.012518003751251842,
+        "specialistWeight": 0.14195530473885787,
+        "specialistWeightSd": 0.0025602399045928535,
+        "sizeShare": 0.07875457875457875
+      }
+    ],
+    "d0": [
+      {
+        "id": "fedavg",
+        "label": "FedAvg",
+        "preRegistered": true,
+        "balancedAccuracy": 0.44969595532866397,
+        "balancedAccuracySd": 0.006284329935979043,
+        "rareMacroF1": 0.19921782976068783,
+        "rareMacroF1Sd": 0.021307319212118016,
+        "specialistWeight": null,
+        "specialistWeightSd": null,
+        "sizeShare": 0.18246336996336995
+      },
+      {
+        "id": "camp_a_reported",
+        "label": "Camp A (evidence weighting)",
+        "preRegistered": true,
+        "balancedAccuracy": 0.45869223944904075,
+        "balancedAccuracySd": 0.009297896072584173,
+        "rareMacroF1": 0.187937763897887,
+        "rareMacroF1Sd": 0.017417941769270542,
+        "specialistWeight": null,
+        "specialistWeightSd": null,
+        "sizeShare": 0.18246336996336995
+      },
+      {
+        "id": "earn",
+        "label": "EARN, threshold as pre-registered",
+        "preRegistered": true,
+        "balancedAccuracy": 0.4481784268038586,
+        "balancedAccuracySd": 0.0048286016795510865,
+        "rareMacroF1": 0.18825940565071,
+        "rareMacroF1Sd": 0.02071568862245705,
+        "specialistWeight": null,
+        "specialistWeightSd": null,
+        "sizeShare": 0.18246336996336995
+      },
+      {
+        "id": "earn_tau_mean",
+        "label": "EARN, scale-relative threshold (post-hoc)",
+        "preRegistered": false,
+        "balancedAccuracy": 0.45251499958966296,
+        "balancedAccuracySd": 0.0053987659112060896,
+        "rareMacroF1": 0.1730295006758992,
+        "rareMacroF1Sd": 0.011879442087976288,
+        "specialistWeight": null,
+        "specialistWeightSd": null,
+        "sizeShare": 0.18246336996336995
+      }
+    ]
+  },
+  "curves": {
+    "fedavg": [
+      {
+        "round": 1,
+        "rareMacroF1": 0.017543859649122806,
+        "balancedAccuracy": 0.25823686576546917
+      },
+      {
+        "round": 2,
+        "rareMacroF1": 0.07196474549415725,
+        "balancedAccuracy": 0.3044121580141064
+      },
+      {
+        "round": 3,
+        "rareMacroF1": 0.051968287493811625,
+        "balancedAccuracy": 0.33151890604853324
+      },
+      {
+        "round": 4,
+        "rareMacroF1": 0.05638247201714694,
+        "balancedAccuracy": 0.34034870618441054
+      },
+      {
+        "round": 5,
+        "rareMacroF1": 0.06863318426785919,
+        "balancedAccuracy": 0.34689037123342364
+      },
+      {
+        "round": 6,
+        "rareMacroF1": 0.06269680515672242,
+        "balancedAccuracy": 0.3594053605429393
+      },
+      {
+        "round": 7,
+        "rareMacroF1": 0.095814798462299,
+        "balancedAccuracy": 0.37505035504496004
+      },
+      {
+        "round": 8,
+        "rareMacroF1": 0.1368048478935038,
+        "balancedAccuracy": 0.3988809800691507
+      },
+      {
+        "round": 9,
+        "rareMacroF1": 0.1477431768321262,
+        "balancedAccuracy": 0.40543905717035006
+      },
+      {
+        "round": 10,
+        "rareMacroF1": 0.11251342247326539,
+        "balancedAccuracy": 0.3858138904214603
+      },
+      {
+        "round": 11,
+        "rareMacroF1": 0.14234450954442543,
+        "balancedAccuracy": 0.4102868052282516
+      },
+      {
+        "round": 12,
+        "rareMacroF1": 0.12914680436261536,
+        "balancedAccuracy": 0.4055922167131474
+      },
+      {
+        "round": 13,
+        "rareMacroF1": 0.13606237816764133,
+        "balancedAccuracy": 0.4204871740033566
+      },
+      {
+        "round": 14,
+        "rareMacroF1": 0.1516216910148595,
+        "balancedAccuracy": 0.43023404145666194
+      },
+      {
+        "round": 15,
+        "rareMacroF1": 0.1451080327678793,
+        "balancedAccuracy": 0.412825654634001
+      },
+      {
+        "round": 16,
+        "rareMacroF1": 0.16517183196880927,
+        "balancedAccuracy": 0.4274663943848695
+      },
+      {
+        "round": 17,
+        "rareMacroF1": 0.15609315872473767,
+        "balancedAccuracy": 0.42963344126457814
+      },
+      {
+        "round": 18,
+        "rareMacroF1": 0.1566763004282895,
+        "balancedAccuracy": 0.42198597573365376
+      },
+      {
+        "round": 19,
+        "rareMacroF1": 0.16226312648909347,
+        "balancedAccuracy": 0.4286774211157134
+      },
+      {
+        "round": 20,
+        "rareMacroF1": 0.148466772287527,
+        "balancedAccuracy": 0.42258325143335274
+      },
+      {
+        "round": 21,
+        "rareMacroF1": 0.1737695103883247,
+        "balancedAccuracy": 0.4386710592827936
+      },
+      {
+        "round": 22,
+        "rareMacroF1": 0.12652190402795652,
+        "balancedAccuracy": 0.40297882027699594
+      },
+      {
+        "round": 23,
+        "rareMacroF1": 0.12307347601466256,
+        "balancedAccuracy": 0.40111216503322433
+      },
+      {
+        "round": 24,
+        "rareMacroF1": 0.13106506472734544,
+        "balancedAccuracy": 0.4086810391185886
+      },
+      {
+        "round": 25,
+        "rareMacroF1": 0.15124644191425013,
+        "balancedAccuracy": 0.40635182568060896
+      },
+      {
+        "round": 26,
+        "rareMacroF1": 0.15418394106499356,
+        "balancedAccuracy": 0.4151962730330059
+      },
+      {
+        "round": 27,
+        "rareMacroF1": 0.13533677838951672,
+        "balancedAccuracy": 0.40778070370952396
+      },
+      {
+        "round": 28,
+        "rareMacroF1": 0.1539728179728602,
+        "balancedAccuracy": 0.42088419488796025
+      },
+      {
+        "round": 29,
+        "rareMacroF1": 0.15208249507147528,
+        "balancedAccuracy": 0.42008926524663687
+      },
+      {
+        "round": 30,
+        "rareMacroF1": 0.15919534666337734,
+        "balancedAccuracy": 0.4177777203147735
+      },
+      {
+        "round": 31,
+        "rareMacroF1": 0.1633323264448515,
+        "balancedAccuracy": 0.4193158871234479
+      },
+      {
+        "round": 32,
+        "rareMacroF1": 0.12033963083871786,
+        "balancedAccuracy": 0.39575358430030344
+      },
+      {
+        "round": 33,
+        "rareMacroF1": 0.16768869624088875,
+        "balancedAccuracy": 0.4169814316353672
+      },
+      {
+        "round": 34,
+        "rareMacroF1": 0.17251182768751314,
+        "balancedAccuracy": 0.42151525966695497
+      },
+      {
+        "round": 35,
+        "rareMacroF1": 0.16860289049130686,
+        "balancedAccuracy": 0.4222633637010484
+      },
+      {
+        "round": 36,
+        "rareMacroF1": 0.15499187426256147,
+        "balancedAccuracy": 0.41150724501054475
+      },
+      {
+        "round": 37,
+        "rareMacroF1": 0.132010582010582,
+        "balancedAccuracy": 0.40640478229878435
+      },
+      {
+        "round": 38,
+        "rareMacroF1": 0.1498853496090047,
+        "balancedAccuracy": 0.4108681350578469
+      },
+      {
+        "round": 39,
+        "rareMacroF1": 0.13423033485351324,
+        "balancedAccuracy": 0.40469851897693593
+      },
+      {
+        "round": 40,
+        "rareMacroF1": 0.1556982759514405,
+        "balancedAccuracy": 0.4216980368960561
+      }
+    ],
+    "camp_a_reported": [
+      {
+        "round": 1,
+        "rareMacroF1": 0.05730994152046783,
+        "balancedAccuracy": 0.2756074939221809
+      },
+      {
+        "round": 2,
+        "rareMacroF1": 0.07980940123797266,
+        "balancedAccuracy": 0.3172831909417344
+      },
+      {
+        "round": 3,
+        "rareMacroF1": 0.10996810207336523,
+        "balancedAccuracy": 0.35316850236601766
+      },
+      {
+        "round": 4,
+        "rareMacroF1": 0.131857207120365,
+        "balancedAccuracy": 0.3803203632298126
+      },
+      {
+        "round": 5,
+        "rareMacroF1": 0.17568945988042853,
+        "balancedAccuracy": 0.4019699252773723
+      },
+      {
+        "round": 6,
+        "rareMacroF1": 0.14917041206769036,
+        "balancedAccuracy": 0.392271737602264
+      },
+      {
+        "round": 7,
+        "rareMacroF1": 0.17722467472688633,
+        "balancedAccuracy": 0.4183527760385821
+      },
+      {
+        "round": 8,
+        "rareMacroF1": 0.1702942156066383,
+        "balancedAccuracy": 0.42782232363970635
+      },
+      {
+        "round": 9,
+        "rareMacroF1": 0.15394240372271714,
+        "balancedAccuracy": 0.4276828283622531
+      },
+      {
+        "round": 10,
+        "rareMacroF1": 0.18361425359536354,
+        "balancedAccuracy": 0.4373459169606373
+      },
+      {
+        "round": 11,
+        "rareMacroF1": 0.18728946127323542,
+        "balancedAccuracy": 0.4444348820392978
+      },
+      {
+        "round": 12,
+        "rareMacroF1": 0.18155092233720457,
+        "balancedAccuracy": 0.45439435478156187
+      },
+      {
+        "round": 13,
+        "rareMacroF1": 0.17238292394257382,
+        "balancedAccuracy": 0.44631711705212657
+      },
+      {
+        "round": 14,
+        "rareMacroF1": 0.1688750862663906,
+        "balancedAccuracy": 0.4532355708591745
+      },
+      {
+        "round": 15,
+        "rareMacroF1": 0.18466103359372862,
+        "balancedAccuracy": 0.45096560060007845
+      },
+      {
+        "round": 16,
+        "rareMacroF1": 0.17468762174644525,
+        "balancedAccuracy": 0.45419024912460726
+      },
+      {
+        "round": 17,
+        "rareMacroF1": 0.16585670086347534,
+        "balancedAccuracy": 0.44575179207338794
+      },
+      {
+        "round": 18,
+        "rareMacroF1": 0.17513912079924568,
+        "balancedAccuracy": 0.4470761626810294
+      },
+      {
+        "round": 19,
+        "rareMacroF1": 0.17075787849781657,
+        "balancedAccuracy": 0.446173171736469
+      },
+      {
+        "round": 20,
+        "rareMacroF1": 0.16405897655897658,
+        "balancedAccuracy": 0.445542406910042
+      },
+      {
+        "round": 21,
+        "rareMacroF1": 0.15764950752720067,
+        "balancedAccuracy": 0.4478493983809189
+      },
+      {
+        "round": 22,
+        "rareMacroF1": 0.19194339977769018,
+        "balancedAccuracy": 0.44159470675078766
+      },
+      {
+        "round": 23,
+        "rareMacroF1": 0.18457270646600424,
+        "balancedAccuracy": 0.4416521666271332
+      },
+      {
+        "round": 24,
+        "rareMacroF1": 0.18413933226280546,
+        "balancedAccuracy": 0.4403639287386985
+      },
+      {
+        "round": 25,
+        "rareMacroF1": 0.17601880145997795,
+        "balancedAccuracy": 0.4386402452354541
+      },
+      {
+        "round": 26,
+        "rareMacroF1": 0.190633536490741,
+        "balancedAccuracy": 0.4477973935100998
+      },
+      {
+        "round": 27,
+        "rareMacroF1": 0.17463205685658864,
+        "balancedAccuracy": 0.4340992724423409
+      },
+      {
+        "round": 28,
+        "rareMacroF1": 0.19102541124604722,
+        "balancedAccuracy": 0.4427816713927304
+      },
+      {
+        "round": 29,
+        "rareMacroF1": 0.16711308530433125,
+        "balancedAccuracy": 0.438297983565358
+      },
+      {
+        "round": 30,
+        "rareMacroF1": 0.19619767468737717,
+        "balancedAccuracy": 0.44957324335115795
+      },
+      {
+        "round": 31,
+        "rareMacroF1": 0.19066492031431057,
+        "balancedAccuracy": 0.443895888710099
+      },
+      {
+        "round": 32,
+        "rareMacroF1": 0.19485018119164463,
+        "balancedAccuracy": 0.4310663190516431
+      },
+      {
+        "round": 33,
+        "rareMacroF1": 0.1783850892187361,
+        "balancedAccuracy": 0.4364704279578409
+      },
+      {
+        "round": 34,
+        "rareMacroF1": 0.17264342573267055,
+        "balancedAccuracy": 0.43455364497328924
+      },
+      {
+        "round": 35,
+        "rareMacroF1": 0.18503713253927453,
+        "balancedAccuracy": 0.44157112544229066
+      },
+      {
+        "round": 36,
+        "rareMacroF1": 0.1700107796372652,
+        "balancedAccuracy": 0.42669343551458105
+      },
+      {
+        "round": 37,
+        "rareMacroF1": 0.1548321359949267,
+        "balancedAccuracy": 0.4207535158048335
+      },
+      {
+        "round": 38,
+        "rareMacroF1": 0.16696436696436692,
+        "balancedAccuracy": 0.4265097246910414
+      },
+      {
+        "round": 39,
+        "rareMacroF1": 0.16286824194265212,
+        "balancedAccuracy": 0.4304268563201843
+      },
+      {
+        "round": 40,
+        "rareMacroF1": 0.16331918272601287,
+        "balancedAccuracy": 0.43767200264416806
+      }
+    ],
+    "earn": [
+      {
+        "round": 1,
+        "rareMacroF1": 0.024390243902439022,
+        "balancedAccuracy": 0.26145207302527274
+      },
+      {
+        "round": 2,
+        "rareMacroF1": 0.0751395909736677,
+        "balancedAccuracy": 0.3056320303349351
+      },
+      {
+        "round": 3,
+        "rareMacroF1": 0.05096076451113204,
+        "balancedAccuracy": 0.33066580990909206
+      },
+      {
+        "round": 4,
+        "rareMacroF1": 0.05422309223641077,
+        "balancedAccuracy": 0.33860511316186165
+      },
+      {
+        "round": 5,
+        "rareMacroF1": 0.0787743950039032,
+        "balancedAccuracy": 0.3564266184630129
+      },
+      {
+        "round": 6,
+        "rareMacroF1": 0.07976864646292982,
+        "balancedAccuracy": 0.3657986471894697
+      },
+      {
+        "round": 7,
+        "rareMacroF1": 0.13290628991060024,
+        "balancedAccuracy": 0.3886326175688552
+      },
+      {
+        "round": 8,
+        "rareMacroF1": 0.1258345945310152,
+        "balancedAccuracy": 0.39983923230320767
+      },
+      {
+        "round": 9,
+        "rareMacroF1": 0.15144352426961122,
+        "balancedAccuracy": 0.4180684029248613
+      },
+      {
+        "round": 10,
+        "rareMacroF1": 0.12191816570244729,
+        "balancedAccuracy": 0.3933491659996411
+      },
+      {
+        "round": 11,
+        "rareMacroF1": 0.13573100496682103,
+        "balancedAccuracy": 0.4113413831165429
+      },
+      {
+        "round": 12,
+        "rareMacroF1": 0.15683499422629857,
+        "balancedAccuracy": 0.42522711800115937
+      },
+      {
+        "round": 13,
+        "rareMacroF1": 0.15648633495019038,
+        "balancedAccuracy": 0.43191180869285
+      },
+      {
+        "round": 14,
+        "rareMacroF1": 0.1543472688142832,
+        "balancedAccuracy": 0.43846434651054
+      },
+      {
+        "round": 15,
+        "rareMacroF1": 0.1566515148604701,
+        "balancedAccuracy": 0.42122391104688733
+      },
+      {
+        "round": 16,
+        "rareMacroF1": 0.15698423308717427,
+        "balancedAccuracy": 0.4302385311509617
+      },
+      {
+        "round": 17,
+        "rareMacroF1": 0.15961471491309137,
+        "balancedAccuracy": 0.43389370847084047
+      },
+      {
+        "round": 18,
+        "rareMacroF1": 0.14838972894171867,
+        "balancedAccuracy": 0.42283252325245185
+      },
+      {
+        "round": 19,
+        "rareMacroF1": 0.1562587059994657,
+        "balancedAccuracy": 0.4271187953472207
+      },
+      {
+        "round": 20,
+        "rareMacroF1": 0.15111884305710294,
+        "balancedAccuracy": 0.4296614989333826
+      },
+      {
+        "round": 21,
+        "rareMacroF1": 0.16359688646817527,
+        "balancedAccuracy": 0.4413022489190146
+      },
+      {
+        "round": 22,
+        "rareMacroF1": 0.15496064817730004,
+        "balancedAccuracy": 0.4206006348529714
+      },
+      {
+        "round": 23,
+        "rareMacroF1": 0.14955788339934684,
+        "balancedAccuracy": 0.41379460706641646
+      },
+      {
+        "round": 24,
+        "rareMacroF1": 0.13606177364487768,
+        "balancedAccuracy": 0.4119031596527014
+      },
+      {
+        "round": 25,
+        "rareMacroF1": 0.14563770928021316,
+        "balancedAccuracy": 0.41418982247163383
+      },
+      {
+        "round": 26,
+        "rareMacroF1": 0.1473918437803431,
+        "balancedAccuracy": 0.41397859509949453
+      },
+      {
+        "round": 27,
+        "rareMacroF1": 0.12245862245862245,
+        "balancedAccuracy": 0.40489479125132294
+      },
+      {
+        "round": 28,
+        "rareMacroF1": 0.1539227307803159,
+        "balancedAccuracy": 0.41946827510285417
+      },
+      {
+        "round": 29,
+        "rareMacroF1": 0.1716276233247942,
+        "balancedAccuracy": 0.4301437779010362
+      },
+      {
+        "round": 30,
+        "rareMacroF1": 0.1522719480271922,
+        "balancedAccuracy": 0.4172695522564982
+      },
+      {
+        "round": 31,
+        "rareMacroF1": 0.1626915705617591,
+        "balancedAccuracy": 0.42503001803375495
+      },
+      {
+        "round": 32,
+        "rareMacroF1": 0.12887084848445426,
+        "balancedAccuracy": 0.3942953059358638
+      },
+      {
+        "round": 33,
+        "rareMacroF1": 0.17516912516912517,
+        "balancedAccuracy": 0.4264782751851559
+      },
+      {
+        "round": 34,
+        "rareMacroF1": 0.1637457109467179,
+        "balancedAccuracy": 0.4202814757670998
+      },
+      {
+        "round": 35,
+        "rareMacroF1": 0.17285390990309024,
+        "balancedAccuracy": 0.4309127630500587
+      },
+      {
+        "round": 36,
+        "rareMacroF1": 0.14717751065259477,
+        "balancedAccuracy": 0.4109434351507128
+      },
+      {
+        "round": 37,
+        "rareMacroF1": 0.140725689248896,
+        "balancedAccuracy": 0.40800452508260676
+      },
+      {
+        "round": 38,
+        "rareMacroF1": 0.14733383638307238,
+        "balancedAccuracy": 0.4113189896220873
+      },
+      {
+        "round": 39,
+        "rareMacroF1": 0.15476790149967837,
+        "balancedAccuracy": 0.4164588848251656
+      },
+      {
+        "round": 40,
+        "rareMacroF1": 0.14777586217785155,
+        "balancedAccuracy": 0.41810515270066184
+      }
+    ],
+    "earn_tau_mean": [
+      {
+        "round": 1,
+        "rareMacroF1": 0.017543859649122806,
+        "balancedAccuracy": 0.2573350595997082
+      },
+      {
+        "round": 2,
+        "rareMacroF1": 0.07845707349283734,
+        "balancedAccuracy": 0.307881005704357
+      },
+      {
+        "round": 3,
+        "rareMacroF1": 0.06355392156862745,
+        "balancedAccuracy": 0.3359597411300272
+      },
+      {
+        "round": 4,
+        "rareMacroF1": 0.12357122790717874,
+        "balancedAccuracy": 0.36729308462714694
+      },
+      {
+        "round": 5,
+        "rareMacroF1": 0.11379145204451895,
+        "balancedAccuracy": 0.3664541586359264
+      },
+      {
+        "round": 6,
+        "rareMacroF1": 0.10318103888967546,
+        "balancedAccuracy": 0.37975299808533497
+      },
+      {
+        "round": 7,
+        "rareMacroF1": 0.1720133760574937,
+        "balancedAccuracy": 0.41161120902986087
+      },
+      {
+        "round": 8,
+        "rareMacroF1": 0.1565704170878902,
+        "balancedAccuracy": 0.41628408770043873
+      },
+      {
+        "round": 9,
+        "rareMacroF1": 0.1772711277366853,
+        "balancedAccuracy": 0.4327541799135261
+      },
+      {
+        "round": 10,
+        "rareMacroF1": 0.18173030425069236,
+        "balancedAccuracy": 0.42854255235364547
+      },
+      {
+        "round": 11,
+        "rareMacroF1": 0.17410241148599184,
+        "balancedAccuracy": 0.43228333170312166
+      },
+      {
+        "round": 12,
+        "rareMacroF1": 0.19493194549525794,
+        "balancedAccuracy": 0.45071195542733206
+      },
+      {
+        "round": 13,
+        "rareMacroF1": 0.16694934328277378,
+        "balancedAccuracy": 0.43787739454235514
+      },
+      {
+        "round": 14,
+        "rareMacroF1": 0.17164825481426238,
+        "balancedAccuracy": 0.44735639849501724
+      },
+      {
+        "round": 15,
+        "rareMacroF1": 0.19124085790752457,
+        "balancedAccuracy": 0.4380591575408994
+      },
+      {
+        "round": 16,
+        "rareMacroF1": 0.18493081501170985,
+        "balancedAccuracy": 0.4429469134460596
+      },
+      {
+        "round": 17,
+        "rareMacroF1": 0.17956062203762516,
+        "balancedAccuracy": 0.44091971499079596
+      },
+      {
+        "round": 18,
+        "rareMacroF1": 0.16553371597099734,
+        "balancedAccuracy": 0.4323813740878437
+      },
+      {
+        "round": 19,
+        "rareMacroF1": 0.1871253865042938,
+        "balancedAccuracy": 0.44367965909644785
+      },
+      {
+        "round": 20,
+        "rareMacroF1": 0.17825973309844279,
+        "balancedAccuracy": 0.4400074146219044
+      },
+      {
+        "round": 21,
+        "rareMacroF1": 0.18964445523370688,
+        "balancedAccuracy": 0.45254249792255424
+      },
+      {
+        "round": 22,
+        "rareMacroF1": 0.1843498022685215,
+        "balancedAccuracy": 0.4303271642899937
+      },
+      {
+        "round": 23,
+        "rareMacroF1": 0.17665653383854152,
+        "balancedAccuracy": 0.42527575210279683
+      },
+      {
+        "round": 24,
+        "rareMacroF1": 0.16813568376068377,
+        "balancedAccuracy": 0.42835138998565414
+      },
+      {
+        "round": 25,
+        "rareMacroF1": 0.19506003651712753,
+        "balancedAccuracy": 0.43445040907892335
+      },
+      {
+        "round": 26,
+        "rareMacroF1": 0.1748552387542103,
+        "balancedAccuracy": 0.4285500487189995
+      },
+      {
+        "round": 27,
+        "rareMacroF1": 0.15167349167349167,
+        "balancedAccuracy": 0.41835785708889456
+      },
+      {
+        "round": 28,
+        "rareMacroF1": 0.18202942487768356,
+        "balancedAccuracy": 0.436242927093586
+      },
+      {
+        "round": 29,
+        "rareMacroF1": 0.18899952875612105,
+        "balancedAccuracy": 0.4401382741295168
+      },
+      {
+        "round": 30,
+        "rareMacroF1": 0.1764108136963319,
+        "balancedAccuracy": 0.42926321037126486
+      },
+      {
+        "round": 31,
+        "rareMacroF1": 0.19818527800983943,
+        "balancedAccuracy": 0.44025148577427614
+      },
+      {
+        "round": 32,
+        "rareMacroF1": 0.16423020180850081,
+        "balancedAccuracy": 0.4126254315016378
+      },
+      {
+        "round": 33,
+        "rareMacroF1": 0.19511931582262795,
+        "balancedAccuracy": 0.43632109995140206
+      },
+      {
+        "round": 34,
+        "rareMacroF1": 0.1967820706984794,
+        "balancedAccuracy": 0.43601972155853025
+      },
+      {
+        "round": 35,
+        "rareMacroF1": 0.17692897466239668,
+        "balancedAccuracy": 0.4353331995679402
+      },
+      {
+        "round": 36,
+        "rareMacroF1": 0.18315953226337955,
+        "balancedAccuracy": 0.430848619800887
+      },
+      {
+        "round": 37,
+        "rareMacroF1": 0.16131960317044283,
+        "balancedAccuracy": 0.4257607258895541
+      },
+      {
+        "round": 38,
+        "rareMacroF1": 0.18821125234918337,
+        "balancedAccuracy": 0.4315625373316225
+      },
+      {
+        "round": 39,
+        "rareMacroF1": 0.19674082734997697,
+        "balancedAccuracy": 0.439323638579132
+      },
+      {
+        "round": 40,
+        "rareMacroF1": 0.1714428968844444,
+        "balancedAccuracy": 0.4306506618923425
+      }
+    ]
+  }
+}

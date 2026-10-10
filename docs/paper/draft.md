@@ -22,8 +22,11 @@ method without attack but lets a lying hospital capture up to 7.4x its fair weig
 low; (iv) Byzantine-robust filters can exclude a lone specialist entirely. We also built EARN, a
 coverage-aware, ledger-anchored trust mechanism we had proposed; because its evidence signal failed
 its pre-registered check, we report it only on an oracle signal, where it too fails, and we explain
-why. A smart contract enforcing a maximum trust step costs about 184k gas and 1.1 ms per round on a
-local chain.
+why. Repeating the pipeline on a second dataset - DermaCon-IN, 5,450 Indian clinical photographs, none
+of them Fitzpatrick 1-2 - shows that EARN's holder threshold, an absolute count of 20 images, does
+not survive the change of scale: it admits almost no one, and the mechanism silently reduces to
+capped FedAvg. A smart contract enforcing a maximum trust step costs about 184k gas and 1.1 ms per
+round on a local chain.
 
 ## 1 Introduction
 
@@ -86,6 +89,9 @@ coverage; this is not proof that none exists (search documented in `docs/LITERAT
 centres, 8 classes, 18,597 train / 4,650 test. Rare classes are selected by an imbalance-ratio
 rule (share under 1/25 of the largest class, cutoff 1.95%) chosen after seeing the counts; we
 disclose this. Centre 4 holds no image of either rare class.
+
+**Second dataset.** DermaCon-IN [20] (Section 7.7): 5,450 Indian clinical photographs, 7 classes
+after dropping a non-disease bucket, with constructed centres because the release records no site.
 
 **Splits.** *S1*: the natural split (rare coverage 4 and 3). *S2*: constructed - 90% of every
 other centre's rare-class training images moved to centre 2 (fixed seed), so coverage is 1 for both
@@ -235,6 +241,53 @@ to-receipt (local automine; a public chain adds its block time). On-chain trust 
 Python ledger's in every run, and a forged +0.3 boost was rejected in every run. EARN's aggregation
 takes 3.8 ms per round against 0.3 ms for FedAvg.
 
+### 7.7 A second dataset: does the mechanism travel? (DermaCon-IN)
+
+Every result above comes from one dataset. To test whether the mechanism depends on it, we repeated
+the Tier A pipeline on **DermaCon-IN** [20]: 5,450 smartphone clinical photographs from 3,002
+patients across three tertiary-care hospitals in North Karnataka, India, with 8 main classes, 19
+sub-classes and 245 disease labels (CC BY-NC-SA 4.0). Its population is the complement of ISIC
+2019's: 74% of its images are Fitzpatrick 4-6 and **none** is Fitzpatrick 1 or 2.
+
+**The split is constructed, and this bounds the claim.** The release records no collection site, so
+which of the three hospitals took an image cannot be recovered. We therefore build six centres from
+age bands (*D1*) and, as a near-IID control, six groups by hashed patient id (*D0*), and we call
+them constructed centres throughout - the real-hospital claim in this paper rests on Fed-ISIC2019
+alone, and the two datasets are never pooled. Classes are `Main_class` with the non-disease bucket
+"No Definite Diagnosis" dropped (7 classes, 5,413 images, the dataset's own subject-wise split of
+4,368 train / 1,045 test, verified to put no patient on both sides). The same imbalance-ratio rule
+selects **Neoplasms and tumors** (52) and **Keratinisation Disorders** (72) as rare. On D1 the 60-80
+band is the specialist: 8% of the training images and 2.46x its share of the rare cases.
+Thresholds were fixed before any run (`docs/DERMACON_PLAN.md`).
+
+**DG0 (baseline quality) cleared, narrowly.** FedAvg on D1, 40 rounds, seed 42: balanced accuracy
+**0.4082** over 7 classes against a pre-set bar of 0.40, a margin of 0.008; D0 reached 0.4569.
+
+**DG2 (does EARN help?) did not clear.** Two of three pre-set conditions were met - EARN stayed
+within the 0.05 margin of FedAvg on D1 and did nothing on the near-IID control, as intended - but
+the third failed: the specialist ended with **0.068** of the rare rows against a size share of
+0.079, so EARN slightly *under*-weighted the centre it exists to find.
+
+The cause is mechanical. EARN admits a centre as a holder of class *c* only once it holds at least
+20 images of *c*. On Fed-ISIC2019 four of six centres clear this for the rare classes; on
+DermaCon-IN only one centre clears it, for one class, and the specialist (11 and 8) clears it for
+neither. With no holders, trust and evidence never engage and EARN reduces to capped FedAvg. Camp A,
+which uses the same oracle evidence proportionally and has no holder threshold, does lift the
+specialist on the same split (rare-row weight 0.137) with rare macro-F1 0.1633 +- 0.0161 against
+FedAvg's 0.1557 +- 0.0208.
+
+**A post-hoc check of the diagnosis.** Replacing the absolute threshold with one relative to the
+round's own evidence (amendment M2, logged before running, and post-hoc by construction) restores
+the intended weighting: the specialist receives 0.142 +- 0.003 of the rare rows, 1.8x its size
+share. Rare macro-F1 is then 0.1714 +- 0.0125 against FedAvg's 0.1557 +- 0.0208 - a gap smaller
+than either standard deviation, so on three seeds we cannot separate it from noise and do not
+claim an accuracy benefit. The DG2 verdict stands as recorded.
+
+The transferable finding is therefore about units, not about EARN's accuracy: **a holder threshold
+expressed as an absolute image count does not survive a change of dataset scale**, while the
+evidence-proportional part of the idea does. We did not re-tune Fed-ISIC2019 to match; adopting the
+relative threshold there would need its own pre-registration.
+
 ## 8 Discussion
 
 The common thread is **coverage**. When three or four hospitals hold a disease, honest holders
@@ -258,7 +311,10 @@ one-seed Tier B confirmation is pre-registered (D8) but not yet run, and BOBA is
 was chosen after seeing counts. The 100-round schedule and the sign-aware evidence variant are
 amendments made after seeing earlier results (logged beforehand). Local chain only. The design
 doc's statement that common diseases have 5-6 holders is wrong for three of them (BCC and AK 3,
-SCC 2), which strengthens rather than weakens the coverage argument.
+SCC 2), which strengthens rather than weakens the coverage argument. On DermaCon-IN the six centres
+are constructed from age bands because the release records no collection site, so that dataset
+tests whether the mechanism travels across data, not across real institutions; its smallest band
+holds 14 training images, and its EARN comparison is three seeds at one setting.
 
 ## 10 Conclusion
 
@@ -271,7 +327,8 @@ all 408 runs, the contract, and a site that shows every result including the fai
 
 See EARN Project Design v2, References [1]-[19]; FLamby (Ogier du Terrail et al., NeurIPS 2022
 Datasets & Benchmarks); Blanchard et al., Krum (NeurIPS 2017); Yin et al., trimmed mean / median
-(ICML 2018); Cui et al., class-balanced loss (CVPR 2019).
+(ICML 2018); Cui et al., class-balanced loss (CVPR 2019); [20] Madarkar et al., DermaCon-IN
+(NeurIPS 2025 Datasets & Benchmarks, doi:10.7910/DVN/W7OUZM).
 
 ## Figures
 

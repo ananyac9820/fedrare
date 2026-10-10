@@ -342,3 +342,51 @@ export function TrustCurves({ series, turnRound }: {
     </div>
   );
 }
+
+/** Rare-class F1 per round for the DermaCon-IN methods, mean over seeds.
+ *  The post-hoc variant is drawn dashed so it cannot be read as a pre-registered result. */
+export function DermaconCurves({ curves, methods }: {
+  curves: Record<string, { round: number; rareMacroF1: number }[]>;
+  methods: { id: string; label: string; preRegistered: boolean }[];
+}) {
+  const reduced = useReducedMotionSafe();
+  const colours: Record<string, string> = {
+    fedavg: CHART.axis,
+    camp_a_reported: CHART.baseline ?? "#2c5b9a",
+    earn: CHART.failed,
+    earn_tau_mean: CHART.accent ?? "#2c6a64",
+  };
+  const ids = methods.map((m) => m.id).filter((id) => curves[id]?.length);
+  const rounds = Math.max(0, ...ids.map((id) => curves[id].length));
+  const data = Array.from({ length: rounds }, (_, i) => {
+    const row: Record<string, number> = { round: i + 1 };
+    ids.forEach((id) => {
+      const point = curves[id][i];
+      if (point) row[id] = +point.rareMacroF1.toFixed(4);
+    });
+    return row;
+  });
+  const label = (id: string) => methods.find((m) => m.id === id)?.label ?? id;
+
+  return (
+    <div className="mt-6 h-64">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data} margin={{ top: 12, right: 12, bottom: 8, left: -20 }}>
+          <CartesianGrid stroke={CHART.grid} vertical={false} />
+          <XAxis dataKey="round" type="number" domain={[1, rounds]} tick={axis}
+            axisLine={false} tickLine={false}
+            label={{ value: "round", position: "insideBottomRight", offset: -4,
+              fill: CHART.axis, fontSize: 11 }} />
+          <YAxis domain={[0, 0.25]} ticks={[0, 0.05, 0.1, 0.15, 0.2, 0.25]} tick={axis}
+            axisLine={false} tickLine={false} />
+          <Tooltip content={<ChartTooltip digits={3} />} />
+          {ids.map((id) => (
+            <Line key={id} type="monotone" dataKey={id} name={label(id)} stroke={colours[id]}
+              strokeWidth={2.2} dot={false} connectNulls isAnimationActive={!reduced}
+              strokeDasharray={methods.find((m) => m.id === id)?.preRegistered ? undefined : "6 4"} />
+          ))}
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}

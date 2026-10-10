@@ -6,6 +6,7 @@ export const NAV = [
   { href: "/method", label: "Method", blurb: "What EARN would do" },
   { href: "/results", label: "Results", blurb: "Every check, exactly as measured" },
   { href: "/study", label: "Study", blurb: "408 runs: methods under attack" },
+  { href: "/dermacon", label: "Indian data", blurb: "A second dataset, and what it exposed" },
   { href: "/ledger", label: "Ledger", blurb: "The tamper-proof record" },
   { href: "/status", label: "Status", blurb: "Where it stands, what is left" },
 ] as const;

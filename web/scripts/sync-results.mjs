@@ -34,20 +34,23 @@ const find = (f) =>
     .filter((c) => fs.existsSync(c))
     .sort((a, b) => fs.statSync(b).mtimeMs - fs.statSync(a).mtimeMs)[0] ?? null;
 const exists = (f) => find(f) !== null;
-// Newest file in docs/results - anything older in results/ is probably a leftover run.
-const snapshotMs = fs.existsSync(FALLBACK)
-  ? Math.max(...fs.readdirSync(FALLBACK).map((n) => {
-      const s = fs.statSync(path.join(FALLBACK, n));
-      return s.isFile() ? s.mtimeMs : 0;
-    }), 0)
-  : 0;
+// When a local results/ file is used instead of the committed copy of the SAME file, say so
+// and show both dates. An earlier version of this compared against the newest file anywhere in
+// docs/results, which meant adding any unrelated result made every other file look stale.
 const stale = [];
 const readText = (f) => {
   const chosen = find(f);
-  if (chosen.startsWith(RESULTS) && snapshotMs && fs.statSync(chosen).mtimeMs < snapshotMs - 864e5) {
-    stale.push(f);
+  const text = fs.readFileSync(chosen, "utf8");
+  if (chosen.startsWith(RESULTS)) {
+    const committed = [path.join(FALLBACK, f), path.join(FALLBACK, path.basename(f))]
+      .find((c) => fs.existsSync(c));
+    if (committed && fs.readFileSync(committed, "utf8") !== text) {
+      const when = (p) => fs.statSync(p).mtime.toISOString().slice(0, 10);
+      stale.push(`${f}: using results/ copy (${when(chosen)}), which differs from the `
+        + `committed docs/results copy (${when(committed)})`);
+    }
   }
-  return fs.readFileSync(chosen, "utf8");
+  return text;
 };
 const readJson = (f) => JSON.parse(readText(f));
 const readData = (f) =>
@@ -375,13 +378,125 @@ if (exists("ledger/ledger_rounds.json") && exists(exampleRun)) {
   });
 }
 
+// ------------------------------------------------------------- dermacon.json (Indian data)
+// The second dataset. Its centre splits are constructed by us - DermaCon-IN does not record
+// which of its three hospitals took an image - so everything here is labelled that way and is
+// never merged with the Fed-ISIC2019 numbers.
+const dermaconFiles = ["dermacon_dataset.json", "gate_dg0.json", "gate_dg2.json"];
+if (dermaconFiles.every(exists)) {
+  const facts = readJson("dermacon_dataset.json");
+  const dg0 = readJson("gate_dg0.json");
+  const dg2 = readJson("gate_dg2.json");
+
+  const BANDS = ["0 - 10", "10 - 20", "20 - 40", "40 - 60", "60 - 80", "80 - 100"];
+  const trainBands = facts.train_splits?.["age band"] ?? {};
+  const centres = BANDS.map((band, i) => ({
+    centre: i, band,
+    images: trainBands[band]?.images ?? 0,
+    rare: trainBands[band]?.rare ?? 0,
+    ratio: trainBands[band]?.ratio ?? 0,
+  }));
+
+  const METHOD_LABELS = {
+    fedavg: "FedAvg",
+    camp_a_reported: "Camp A (evidence weighting)",
+    earn: "EARN, threshold as pre-registered",
+    earn_tau_mean: "EARN, scale-relative threshold (post-hoc)",
+  };
+  const methodsFor = (split) =>
+    Object.entries(dg2.all_methods?.[split] ?? {}).map(([id, m]) => ({
+      id, label: METHOD_LABELS[id] ?? id,
+      preRegistered: id !== "earn_tau_mean",
+      balancedAccuracy: m.balanced_accuracy_mean ?? m.balanced_accuracy,
+      balancedAccuracySd: m.balanced_accuracy_sd ?? null,
+      rareMacroF1: m.rare_macro_f1_mean ?? m.rare_macro_f1,
+      rareMacroF1Sd: m.rare_macro_f1_sd ?? null,
+      specialistWeight: m.specialist_weight_mean ?? null,
+      specialistWeightSd: m.specialist_weight_sd ?? null,
+      sizeShare: m.size_share?.[dg2.conditions?.["D1 specialist weight share on rare rows above its size share"]?.centre ?? 4] ?? null,
+    }));
+
+  // Mean over seeds at each round, for the curve on the page.
+  const curves = {};
+  if (exists("dermacon_earn.csv")) {
+    const rows = parseCsv(readText("dermacon_earn.csv")).filter((r) => r.split === "d1");
+    const rounds = [...new Set(rows.map((r) => Number(r.round)))].sort((a, b) => a - b);
+    for (const id of Object.keys(METHOD_LABELS)) {
+      const mine = rows.filter((r) => r.method === id);
+      if (!mine.length) continue;
+      curves[id] = rounds.map((round) => {
+        const at = mine.filter((r) => Number(r.round) === round);
+        return { round, rareMacroF1: mean(at.map((r) => Number(r.rare_macro_f1))),
+          balancedAccuracy: mean(at.map((r) => Number(r.balanced_accuracy))) };
+      });
+    }
+  }
+
+  writeData("dermacon.json", {
+    _meta: {
+      status: "verified",
+      sources: ["docs/results/dermacon_dataset.json", "docs/results/gate_dg0.json",
+        "docs/results/gate_dg2.json", "docs/results/dermacon_earn.csv"],
+      producedBy: "scripts/15-18_*dermacon*.py",
+      syncedAt: today,
+      note: "Second dataset. The six centres are CONSTRUCTED from age bands - DermaCon-IN "
+        + "does not record which hospital took an image - and are never called hospitals.",
+    },
+    dataset: {
+      name: facts.dataset, doi: facts.doi, licence: facts.licence,
+      citation: facts.citation, origin: facts.origin,
+      images: facts.images, patients: facts.patients,
+      usable: facts.images - (facts.classes?.[facts.dropped_class] ?? 0),
+      droppedClass: facts.dropped_class,
+      subClasses: facts.sub_classes, diseaseLabels: facts.disease_labels,
+      siteColumn: facts.site_column_available,
+      classes: Object.entries(facts.classes)
+        .filter(([name]) => name !== facts.dropped_class)
+        .map(([name, count]) => ({ name, count, rare: name in (facts.rare_classes_used ?? {}) })),
+      rareClasses: Object.entries(facts.rare_classes_used ?? {}).map(([name, count]) => ({ name, count })),
+      fitzpatrick: Object.entries(facts.fitzpatrick ?? {})
+        .filter(([k]) => k.trim())
+        .map(([type, count]) => ({ type, count })),
+    },
+    splits: {
+      specialistCentre: dg2.conditions?.["D1 specialist weight share on rare rows above its size share"]?.centre ?? 4,
+      d1: centres,
+      d0Note: "patient id hashed into six groups - the near-IID control",
+    },
+    gates: {
+      dg0: { threshold: dg0.threshold, statistic: dg0.statistic, passed: dg0.passed,
+        rule: dg0.rule, rounds: dg0.rounds, seed: dg0.seed, nClasses: dg0.n_classes,
+        margin: dg0.statistic - dg0.threshold },
+      dg2: { passed: dg2.passed, margin: dg2.margin, rounds: dg2.rounds,
+        seeds: dg2.seeds_reported ?? [dg2.seed],
+        setting: dg2.setting,
+        conditions: Object.entries(dg2.conditions ?? {}).map(([label, c]) => ({
+          label, met: c.met,
+          detail: c.centre !== undefined
+            ? { sizeShare: c.size_share, weightShare: c.rare_weight_share }
+            : { earn: c.earn, fedavg: c.fedavg },
+        })),
+      },
+    },
+    amendment: {
+      id: "M2", postHoc: true,
+      what: dg2.amendment_reported_alongside?.amendment ?? "tau = mean instead of a fixed count",
+      decidesTheGate: false,
+    },
+    methods: { d1: methodsFor("d1"), d0: methodsFor("d0") },
+    curves,
+  });
+} else {
+  console.log("  dermacon.json: Indian-dataset results not present, skipped");
+}
+
 const NL = String.fromCharCode(10);
 if (stale.length) {
   console.log(
-    NL + "  WARNING: used " + stale.length + " file(s) from results/ that predate the " +
-    "committed docs/results snapshot by more than a day:" + NL + "    " +
-    stale.join(NL + "    ") + NL +
-    "  Re-run the pipeline, or delete them so the committed copies are used." + NL,
+    NL + "  NOTE: " + stale.length + " file(s) came from a local run rather than the " +
+    "committed snapshot:" + NL + "    " + stale.join(NL + "    ") + NL +
+    "  That is correct after a fresh pipeline run. If it was not one, check the diff " +
+    "before committing data/ - or delete the local copy so the committed one is used." + NL,
   );
 }
 console.log("Done.");

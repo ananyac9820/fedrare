@@ -5,6 +5,7 @@
  */
 import baselineJson from "../../data/baseline_results.json";
 import datasetJson from "../../data/dataset.json";
+import dermaconJson from "../../data/dermacon.json";
 import g0aJson from "../../data/g0a.json";
 import g0bJson from "../../data/g0b.json";
 import ledgerJson from "../../data/ledger.json";
@@ -294,7 +295,44 @@ export interface PendingItem {
   blockedBy?: string;
 }
 
+/** The second dataset: DermaCon-IN. Its six centres are CONSTRUCTED from age bands -
+ *  the release does not record which hospital took an image - so nothing here is ever
+ *  called a hospital, and these numbers are never pooled with Fed-ISIC2019's. */
+export interface Dermacon {
+  _meta: Meta;
+  dataset: {
+    name: string; doi: string; licence: string; citation: string; origin: string;
+    images: number; patients: number; usable: number; droppedClass: string;
+    subClasses: number; diseaseLabels: number; siteColumn: boolean;
+    classes: { name: string; count: number; rare: boolean }[];
+    rareClasses: { name: string; count: number }[];
+    fitzpatrick: { type: string; count: number }[];
+  };
+  splits: {
+    specialistCentre: number;
+    d1: { centre: number; band: string; images: number; rare: number; ratio: number }[];
+    d0Note: string;
+  };
+  gates: {
+    dg0: { threshold: number; statistic: number; passed: boolean; rule: string;
+      rounds: number; seed: number; nClasses: number; margin: number };
+    dg2: { passed: boolean; margin: number; rounds: number; seeds: number[]; setting: string;
+      conditions: { label: string; met: boolean;
+        detail: { sizeShare?: number; weightShare?: number; earn?: number; fedavg?: number } }[] };
+  };
+  amendment: { id: string; postHoc: boolean; what: string; decidesTheGate: boolean };
+  methods: Record<"d0" | "d1", {
+    id: string; label: string; preRegistered: boolean;
+    balancedAccuracy: number; balancedAccuracySd: number | null;
+    rareMacroF1: number; rareMacroF1Sd: number | null;
+    specialistWeight: number | null; specialistWeightSd: number | null;
+    sizeShare: number | null;
+  }[]>;
+  curves: Record<string, { round: number; rareMacroF1: number; balancedAccuracy: number }[]>;
+}
+
 export const dataset = datasetJson as Dataset;
+export const dermacon = dermaconJson as unknown as Dermacon;
 export const g0a = g0aJson as G0a;
 export const g0b = g0bJson as G0b;
 export const baselines = baselineJson as BaselineResults;
@@ -406,3 +444,22 @@ export const SHORT: Record<string, string> = {
   "Vascular lesion": "VASC",
   "Squamous cell carcinoma": "SCC",
 };
+
+// ------------------------------------------------------------------ second dataset, derived
+
+/** The constructed centre the plan named as the specialist, and what it actually got. */
+export const dermaconSpecialist = (() => {
+  const id = dermacon.splits.specialistCentre;
+  const band = dermacon.splits.d1.find((c) => c.centre === id);
+  const method = (m: string) => dermacon.methods.d1.find((x) => x.id === m);
+  return {
+    id, band,
+    fedavg: method("fedavg"),
+    earn: method("earn"),
+    earnTauMean: method("earn_tau_mean"),
+    campA: method("camp_a_reported"),
+  };
+})();
+
+/** How many of the six constructed centres hold enough of a rare class to be checkable. */
+export const dermaconHolders = dermacon.splits.d1.filter((c) => c.rare >= 20).length;

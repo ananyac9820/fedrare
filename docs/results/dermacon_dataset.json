@@ -1,0 +1,737 @@
+{
+  "dataset": "DermaCon-IN",
+  "doi": "10.7910/DVN/W7OUZM",
+  "licence": "CC BY-NC-SA 4.0",
+  "citation": "Madarkar et al., NeurIPS 2025 Datasets & Benchmarks",
+  "origin": "three tertiary-care hospitals and affiliated clinics, North Karnataka",
+  "images": 5450,
+  "patients": 3002,
+  "gradable": 5450,
+  "site_column_available": false,
+  "level": "Main_class",
+  "classes": {
+    "Infectious Disorders": 2227,
+    "Inflammatory Disorders": 1592,
+    "Pigmentary Disorders": 831,
+    "Skin Appendages Disorders": 480,
+    "Other skin disorders": 159,
+    "Keratanisation Disorders": 72,
+    "Neoplasms and tumors": 52,
+    "No Definite Diagnosis": 37
+  },
+  "sub_classes": 19,
+  "disease_labels": 245,
+  "rare_classes": {
+    "No Definite Diagnosis": 37,
+    "Neoplasms and tumors": 52,
+    "Keratanisation Disorders": 72
+  },
+  "head_class": "Infectious Disorders",
+  "rare_rule": "share below the head class's share divided by 25",
+  "fitzpatrick": {
+    "FST 4": 2620,
+    "FST 3": 1403,
+    "FST 5": 1285,
+    "FST 6": 136,
+    "": 6
+  },
+  "monk_skin_tone": {
+    "MST 6": 1961,
+    "MST 7": 1684,
+    "MST 5": 1272,
+    "MST 8": 368,
+    "MST 4": 152,
+    "MST 9": 7,
+    "": 6
+  },
+  "splits": {
+    "skin tone (Monk)": {
+      "MST 4": {
+        "images": 152,
+        "rare": 5,
+        "ratio": 1.1135
+      },
+      "MST 5": {
+        "images": 1272,
+        "rare": 37,
+        "ratio": 0.9847
+      },
+      "MST 6": {
+        "images": 1961,
+        "rare": 58,
+        "ratio": 1.0012
+      },
+      "MST 7": {
+        "images": 1684,
+        "rare": 50,
+        "ratio": 1.0051
+      },
+      "MST 8": {
+        "images": 368,
+        "rare": 9,
+        "ratio": 0.8279
+      },
+      "MST 9": {
+        "images": 7,
+        "rare": 1,
+        "ratio": 4.8358
+      },
+      "N/A": {
+        "images": 6,
+        "rare": 1,
+        "ratio": 5.6418
+      }
+    },
+    "age band": {
+      "0 - 10": {
+        "images": 532,
+        "rare": 17,
+        "ratio": 1.0817
+      },
+      "10 - 20": {
+        "images": 642,
+        "rare": 20,
+        "ratio": 1.0545
+      },
+      "20 - 40": {
+        "images": 2131,
+        "rare": 38,
+        "ratio": 0.6036
+      },
+      "40 - 60": {
+        "images": 1685,
+        "rare": 55,
+        "ratio": 1.1049
+      },
+      "60 - 80": {
+        "images": 434,
+        "rare": 25,
+        "ratio": 1.9499
+      },
+      "80 - 100": {
+        "images": 26,
+        "rare": 6,
+        "ratio": 7.8118
+      }
+    },
+    "body region (first listed)": {
+      "Armpits (Axillary Region)": {
+        "images": 84,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Back": {
+        "images": 209,
+        "rare": 9,
+        "ratio": 1.4577
+      },
+      "Back of the Knees (Popliteal Region)": {
+        "images": 22,
+        "rare": 1,
+        "ratio": 1.5387
+      },
+      "Breasts (Mammary Region)": {
+        "images": 15,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Calves (Sural Region)": {
+        "images": 25,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Genital Area (Pubic Region)": {
+        "images": 372,
+        "rare": 5,
+        "ratio": 0.455
+      },
+      "Groin (Inguinal Region)": {
+        "images": 293,
+        "rare": 1,
+        "ratio": 0.1155
+      },
+      "Head Cheeks": {
+        "images": 768,
+        "rare": 31,
+        "ratio": 1.3664
+      },
+      "Head Chin": {
+        "images": 45,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Head Ears": {
+        "images": 43,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Head Eye": {
+        "images": 39,
+        "rare": 5,
+        "ratio": 4.3399
+      },
+      "Head Forehead": {
+        "images": 194,
+        "rare": 9,
+        "ratio": 1.5704
+      },
+      "Head Lips": {
+        "images": 64,
+        "rare": 2,
+        "ratio": 1.0578
+      },
+      "Head Nose": {
+        "images": 20,
+        "rare": 4,
+        "ratio": 6.7702
+      },
+      "Head Scalp": {
+        "images": 247,
+        "rare": 3,
+        "ratio": 0.4111
+      },
+      "Head Temples": {
+        "images": 24,
+        "rare": 3,
+        "ratio": 4.2314
+      },
+      "Lower Extremities Ankles (Tarsal Region)": {
+        "images": 128,
+        "rare": 2,
+        "ratio": 0.5289
+      },
+      "Lower Extremities Feet (Pedal Region)": {
+        "images": 160,
+        "rare": 2,
+        "ratio": 0.4231
+      },
+      "Lower Extremities Feet (Pedal Region) Toes (Digits)": {
+        "images": 91,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Lower Extremities Hips (Coxal Region)": {
+        "images": 4,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Lower Extremities Knees (Patellar Region)": {
+        "images": 78,
+        "rare": 1,
+        "ratio": 0.434
+      },
+      "Lower Extremities Lower Legs": {
+        "images": 187,
+        "rare": 3,
+        "ratio": 0.5431
+      },
+      "Lower Extremities Lower Legs (Crural Region)": {
+        "images": 123,
+        "rare": 1,
+        "ratio": 0.2752
+      },
+      "Lower Extremities Soles (Plantar Region)": {
+        "images": 79,
+        "rare": 26,
+        "ratio": 11.1408
+      },
+      "Lower Extremities Thighs (Femoral Region)": {
+        "images": 269,
+        "rare": 6,
+        "ratio": 0.755
+      },
+      "Lower Extremities Toes (Digits)": {
+        "images": 14,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "LowerBack (Lumbus)": {
+        "images": 32,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Mucous Membranes Oral Cavity": {
+        "images": 7,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Nails Fingernails": {
+        "images": 13,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Navel (Umbilicus)": {
+        "images": 3,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Neck": {
+        "images": 164,
+        "rare": 2,
+        "ratio": 0.4128
+      },
+      "Palms": {
+        "images": 87,
+        "rare": 15,
+        "ratio": 5.8364
+      },
+      "Perianal Area": {
+        "images": 7,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Tongue": {
+        "images": 6,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Trunk Abdomen": {
+        "images": 199,
+        "rare": 1,
+        "ratio": 0.1701
+      },
+      "Trunk Abdomen Navel (Umbilicus)": {
+        "images": 16,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Trunk Abdomen anterior": {
+        "images": 188,
+        "rare": 4,
+        "ratio": 0.7202
+      },
+      "Trunk Abdomen posterior": {
+        "images": 76,
+        "rare": 1,
+        "ratio": 0.4454
+      },
+      "Trunk Back (Dorsum)": {
+        "images": 28,
+        "rare": 1,
+        "ratio": 1.209
+      },
+      "Trunk Buttocks (Gluteal Region)": {
+        "images": 230,
+        "rare": 2,
+        "ratio": 0.2944
+      },
+      "Trunk Chest (Thorax)": {
+        "images": 95,
+        "rare": 1,
+        "ratio": 0.3563
+      },
+      "Upper Extremities Elbows": {
+        "images": 81,
+        "rare": 1,
+        "ratio": 0.4179
+      },
+      "Upper Extremities Forearms (Antebrachium)": {
+        "images": 222,
+        "rare": 3,
+        "ratio": 0.4574
+      },
+      "Upper Extremities Hands (Manus)": {
+        "images": 77,
+        "rare": 4,
+        "ratio": 1.7585
+      },
+      "Upper Extremities Hands (Manus) Fingers (Digits)": {
+        "images": 204,
+        "rare": 5,
+        "ratio": 0.8297
+      },
+      "Upper Extremities Shoulders": {
+        "images": 38,
+        "rare": 3,
+        "ratio": 2.6724
+      },
+      "Upper Extremities Upper Arms (Brachium)": {
+        "images": 59,
+        "rare": 3,
+        "ratio": 1.7212
+      },
+      "Upper Extremities Wrists (Carpus)": {
+        "images": 21,
+        "rare": 1,
+        "ratio": 1.6119
+      }
+    },
+    "patient id (hash)": {
+      "c0": {
+        "images": 917,
+        "rare": 28,
+        "ratio": 1.0336
+      },
+      "c1": {
+        "images": 920,
+        "rare": 24,
+        "ratio": 0.8831
+      },
+      "c2": {
+        "images": 964,
+        "rare": 12,
+        "ratio": 0.4214
+      },
+      "c3": {
+        "images": 844,
+        "rare": 20,
+        "ratio": 0.8022
+      },
+      "c4": {
+        "images": 940,
+        "rare": 39,
+        "ratio": 1.4045
+      },
+      "c5": {
+        "images": 865,
+        "rare": 38,
+        "ratio": 1.4871
+      }
+    }
+  },
+  "dropped_class": "No Definite Diagnosis",
+  "rare_classes_used": {
+    "Neoplasms and tumors": 52,
+    "Keratanisation Disorders": 72
+  },
+  "train_splits": {
+    "skin tone (Monk)": {
+      "MST 4": {
+        "images": 121,
+        "rare": 2,
+        "ratio": 0.7367
+      },
+      "MST 5": {
+        "images": 1017,
+        "rare": 24,
+        "ratio": 1.0518
+      },
+      "MST 6": {
+        "images": 1571,
+        "rare": 36,
+        "ratio": 1.0214
+      },
+      "MST 7": {
+        "images": 1363,
+        "rare": 27,
+        "ratio": 0.8829
+      },
+      "MST 8": {
+        "images": 284,
+        "rare": 8,
+        "ratio": 1.2555
+      },
+      "MST 9": {
+        "images": 6,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "N/A": {
+        "images": 6,
+        "rare": 1,
+        "ratio": 7.4286
+      }
+    },
+    "age band": {
+      "0 - 10": {
+        "images": 416,
+        "rare": 5,
+        "ratio": 0.5357
+      },
+      "10 - 20": {
+        "images": 500,
+        "rare": 6,
+        "ratio": 0.5349
+      },
+      "20 - 40": {
+        "images": 1738,
+        "rare": 24,
+        "ratio": 0.6155
+      },
+      "40 - 60": {
+        "images": 1356,
+        "rare": 39,
+        "ratio": 1.2819
+      },
+      "60 - 80": {
+        "images": 344,
+        "rare": 19,
+        "ratio": 2.4618
+      },
+      "80 - 100": {
+        "images": 14,
+        "rare": 5,
+        "ratio": 15.9184
+      }
+    },
+    "body region (first listed)": {
+      "Armpits (Axillary Region)": {
+        "images": 67,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Back": {
+        "images": 161,
+        "rare": 6,
+        "ratio": 1.661
+      },
+      "Back of the Knees (Popliteal Region)": {
+        "images": 15,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Breasts (Mammary Region)": {
+        "images": 12,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Calves (Sural Region)": {
+        "images": 23,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Genital Area (Pubic Region)": {
+        "images": 287,
+        "rare": 1,
+        "ratio": 0.1553
+      },
+      "Groin (Inguinal Region)": {
+        "images": 249,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Head Cheeks": {
+        "images": 625,
+        "rare": 21,
+        "ratio": 1.4976
+      },
+      "Head Chin": {
+        "images": 35,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Head Ears": {
+        "images": 33,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Head Eye": {
+        "images": 30,
+        "rare": 3,
+        "ratio": 4.4571
+      },
+      "Head Forehead": {
+        "images": 153,
+        "rare": 6,
+        "ratio": 1.7479
+      },
+      "Head Lips": {
+        "images": 52,
+        "rare": 1,
+        "ratio": 0.8571
+      },
+      "Head Nose": {
+        "images": 18,
+        "rare": 4,
+        "ratio": 9.9048
+      },
+      "Head Scalp": {
+        "images": 195,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Head Temples": {
+        "images": 21,
+        "rare": 2,
+        "ratio": 4.2449
+      },
+      "Lower Extremities Ankles (Tarsal Region)": {
+        "images": 101,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Lower Extremities Feet (Pedal Region)": {
+        "images": 141,
+        "rare": 1,
+        "ratio": 0.3161
+      },
+      "Lower Extremities Feet (Pedal Region) Toes (Digits)": {
+        "images": 82,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Lower Extremities Knees (Patellar Region)": {
+        "images": 70,
+        "rare": 1,
+        "ratio": 0.6367
+      },
+      "Lower Extremities Lower Legs": {
+        "images": 151,
+        "rare": 1,
+        "ratio": 0.2952
+      },
+      "Lower Extremities Lower Legs (Crural Region)": {
+        "images": 100,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Lower Extremities Soles (Plantar Region)": {
+        "images": 66,
+        "rare": 26,
+        "ratio": 17.5584
+      },
+      "Lower Extremities Thighs (Femoral Region)": {
+        "images": 211,
+        "rare": 2,
+        "ratio": 0.4225
+      },
+      "Lower Extremities Toes (Digits)": {
+        "images": 12,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "LowerBack (Lumbus)": {
+        "images": 25,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Mucous Membranes Oral Cavity": {
+        "images": 5,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Nails Fingernails": {
+        "images": 8,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Navel (Umbilicus)": {
+        "images": 3,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Neck": {
+        "images": 131,
+        "rare": 2,
+        "ratio": 0.6805
+      },
+      "Palms": {
+        "images": 66,
+        "rare": 13,
+        "ratio": 8.7792
+      },
+      "Perianal Area": {
+        "images": 6,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Tongue": {
+        "images": 5,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Trunk Abdomen": {
+        "images": 157,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Trunk Abdomen Navel (Umbilicus)": {
+        "images": 13,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Trunk Abdomen anterior": {
+        "images": 150,
+        "rare": 1,
+        "ratio": 0.2971
+      },
+      "Trunk Abdomen posterior": {
+        "images": 66,
+        "rare": 1,
+        "ratio": 0.6753
+      },
+      "Trunk Back (Dorsum)": {
+        "images": 26,
+        "rare": 1,
+        "ratio": 1.7143
+      },
+      "Trunk Buttocks (Gluteal Region)": {
+        "images": 181,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Trunk Chest (Thorax)": {
+        "images": 75,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Upper Extremities Elbows": {
+        "images": 67,
+        "rare": 1,
+        "ratio": 0.6652
+      },
+      "Upper Extremities Forearms (Antebrachium)": {
+        "images": 171,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Upper Extremities Hands (Manus)": {
+        "images": 64,
+        "rare": 2,
+        "ratio": 1.3929
+      },
+      "Upper Extremities Hands (Manus) Fingers (Digits)": {
+        "images": 155,
+        "rare": 1,
+        "ratio": 0.2876
+      },
+      "Upper Extremities Shoulders": {
+        "images": 26,
+        "rare": 1,
+        "ratio": 1.7143
+      },
+      "Upper Extremities Upper Arms (Brachium)": {
+        "images": 41,
+        "rare": 0,
+        "ratio": 0.0
+      },
+      "Upper Extremities Wrists (Carpus)": {
+        "images": 17,
+        "rare": 0,
+        "ratio": 0.0
+      }
+    },
+    "patient id (hash)": {
+      "c0": {
+        "images": 731,
+        "rare": 15,
+        "ratio": 0.9146
+      },
+      "c1": {
+        "images": 719,
+        "rare": 16,
+        "ratio": 0.9919
+      },
+      "c2": {
+        "images": 766,
+        "rare": 8,
+        "ratio": 0.4655
+      },
+      "c3": {
+        "images": 634,
+        "rare": 9,
+        "ratio": 0.6327
+      },
+      "c4": {
+        "images": 797,
+        "rare": 28,
+        "ratio": 1.5659
+      },
+      "c5": {
+        "images": 721,
+        "rare": 22,
+        "ratio": 1.36
+      }
+    }
+  }
+}

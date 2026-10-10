@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import json
 import sys
 from collections import Counter, defaultdict
 from zlib import crc32
@@ -36,6 +37,7 @@ DATA = ROOT / "data" / "dermacon_in"
 HEAD_RATIO_DIVISOR = 25          # configs/default.yaml - the same rule as Fed-ISIC2019
 N_CENTRES = 6                    # so a split is comparable with Fed-ISIC2019's six
 SPECIALIST_MIN = 20              # a centre must hold this many to count as a holder
+DROP_CLASS = "No Definite Diagnosis"   # not a disease; dropped per DERMACON_PLAN.md
 
 
 def read(path: Path) -> list[dict]:
@@ -168,6 +170,61 @@ def main() -> int:
         for k in order:
             print(f"      {str(k)[:28]:<28} {sizes[k]:>5} images  "
                   f"{rare_counts[k]:>4} rare  ratio {ratios[k]:.2f}x")
+
+    # A committed copy of the facts the website needs. data/ is gitignored, so without this
+    # a fresh clone could not render the Indian section at all.
+    facts = {
+        "dataset": "DermaCon-IN",
+        "doi": "10.7910/DVN/W7OUZM",
+        "licence": "CC BY-NC-SA 4.0",
+        "citation": "Madarkar et al., NeurIPS 2025 Datasets & Benchmarks",
+        "origin": "three tertiary-care hospitals and affiliated clinics, North Karnataka",
+        "images": total,
+        "patients": len(subjects),
+        "gradable": gradable,
+        "site_column_available": False,
+        "level": args.level,
+        "classes": {c: n for c, n in distribution(rows, args.level).most_common()},
+        "sub_classes": len(distribution(rows, "Sub_class")),
+        "disease_labels": len(distribution(rows, "Disease_label")),
+        "rare_classes": {c: counts[c] for c in rare},
+        "head_class": head_name,
+        "rare_rule": f"share below the head class's share divided by {HEAD_RATIO_DIVISOR}",
+        "fitzpatrick": dict(distribution(rows, "Fitzpatrick").most_common()),
+        "monk_skin_tone": dict(distribution(rows, "Monk_skin_tone").most_common()),
+        "splits": {
+            name: {
+                str(k): {"images": s[k], "rare": rc[k], "ratio": round(ra[k], 4)}
+                for k in sorted(s, key=lambda x: str(x))
+            }
+            for name, assignment in candidate_splits(rows, args.level).items()
+            for s, rc, ra, _ in [split_report(rows, assignment, args.level, rare)]
+        },
+    }
+    # The models train on the training split with "No Definite Diagnosis" dropped, so the
+    # per-centre picture the site shows has to be that, not the whole dataset.
+    train_names = {r["Image_name"] for r in read(DATA / "train_split.tab")}
+    train_rows = [r for r in rows
+                  if r["Image_name"] in train_names and r[args.level] != DROP_CLASS]
+    real_rare = [c for c in rare if c != DROP_CLASS]
+    facts["dropped_class"] = DROP_CLASS
+    facts["rare_classes_used"] = {c: counts[c] for c in real_rare}
+    facts["train_splits"] = {}
+    for name, assignment in candidate_splits(rows, args.level).items():
+        keep = [(r, a) for r, a in zip(rows, assignment) if r in train_rows]
+        if not keep:
+            continue
+        s, rc, ra, _ = split_report([r for r, _ in keep], [a for _, a in keep],
+                                    args.level, real_rare)
+        facts["train_splits"][name] = {
+            str(k): {"images": s[k], "rare": rc[k], "ratio": round(ra[k], 4)}
+            for k in sorted(s, key=lambda x: str(x))
+        }
+
+    facts_path = ROOT / "docs" / "results" / "dermacon_dataset.json"
+    facts_path.parent.mkdir(parents=True, exist_ok=True)
+    facts_path.write_text(json.dumps(facts, indent=2), encoding="utf-8")
+    print(f"wrote {facts_path.relative_to(ROOT)}")
 
     out = ROOT / "results" / "dermacon_summary.yaml"
     out.parent.mkdir(exist_ok=True)

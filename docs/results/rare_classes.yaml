@@ -1,0 +1,36 @@
+rare_class_ids:
+- 5
+- 6
+rare_class_names:
+- Dermatofibroma
+- Vascular lesion
+head_ratio_divisor: 25
+rare_cutoff_pct: 1.949
+class_share_pct:
+  Melanoma: 18.002
+  Melanocytic nevus: 48.72
+  Basal cell carcinoma: 14.294
+  Actinic keratosis: 3.73
+  Benign keratosis: 10.436
+  Dermatofibroma: 1.028
+  Vascular lesion: 1.088
+  Squamous cell carcinoma: 2.701
+specialist_min_images: 20
+rare_over_representation:
+  Dermatofibroma:
+    centre_0: 0.972
+    centre_1: 0.738
+    centre_2: 1.475
+    centre_3: 1.292
+    centre_4: 0.0
+    centre_5: 0.886
+  Vascular lesion:
+    centre_0: 0.822
+    centre_1: 1.255
+    centre_2: 2.24
+    centre_3: 0.122
+    centre_4: 0.0
+    centre_5: 0.628
+rare_specialist_centre:
+  Dermatofibroma: centre_2
+  Vascular lesion: centre_2
