@@ -844,3 +844,60 @@ evaluation methodology, and the gates were decided on the metrics fixed at the t
 
 **Status.** Written before the analysis was run. Script: `scripts/22_f1_concealment.py`.
 
+## D14 - Replication of the F1-concealment split on DermaCon-IN (11 Oct 2026) - NOT YET RUN
+
+**What is being replicated.** D13/R12 found, on Fed-ISIC2019, that rare-class F1 moves opposite to
+the damage metric in 26.9% of cases under the two selection rules (Krum, Multi-Krum) and in **0 of
+320** cases under every averaging rule, with a proposed mechanism: selection adopts one client's
+update outright, so the model jumps discretely and precision and recall move independently, while
+averaging moves it continuously. That rests on 52 selection cases from one dataset.
+
+**Prediction, stated before running.** On DermaCon-IN's D1 split, the selection rules will show
+disagreement and the averaging rules will show near-zero disagreement.
+
+**This is a replication attempt, and a null result is a valid and informative outcome.** If the
+split does not appear, the Fed-ISIC2019 finding is dataset-specific and will be reported as such -
+in the write-up, in the paper, and on the site - rather than quietly kept as a general claim.
+
+**The battery.** DermaCon-IN, split D1 (age bands), 40 rounds, seeds 42/43/44, oracle evidence,
+frozen features. 8 methods x 4 attacks x 3 seeds = 96 runs, giving **144 comparable (pair, rare
+class) cases** - each attacked run paired with the honest run of the same method and seed.
+
+  - selection: `krum`, `multi_krum`
+  - averaging: `fedavg`, `fedavg_clipped`, `trimmed_mean`, `coordinate_wise_median`,
+    `camp_a_reported`, `earn`
+  - attacks: `none`, `A1`, `A2`, `A3`
+
+**Confusion matrices are stored this time.** The original grid kept only per-class F1 and
+`to_target`, which is why D13 could run the exact recall test on sixteen cases and no more. Every
+run here writes its full final-round confusion matrix, so recall and precision are exact for all
+144 cases.
+
+**Attack parameters, chosen to match Fed-ISIC2019's roles rather than its centre numbers.** The
+target class is the head class, as it was there: `Infectious Disorders` (index 0), standing in for
+nevus. Rare classes are `Keratanisation Disorders` (2) and `Neoplasms and tumors` (3). Attackers:
+
+| attack | Fed-ISIC2019 | DermaCon-IN D1 | why |
+| --- | --- | --- | --- |
+| A1, A3 | centre 4, holds no rare images | **centre 0** (416 images; 5 Keratinisation, 0 Neoplasms) | the weakest rare holder, and the only one holding none of a rare class |
+| A2 sleeper | centre 1, a genuine holder | **centre 3** (1,356 images; 24 and 15) | the largest genuine rare holder, so it can build an honest record before turning |
+
+**Metrics.** Primary is `to_target`, for like-for-like comparison with the Fed-ISIC2019 numbers.
+Secondary is **exact recall**, which is the test D13 could not run at scale, reported alongside.
+Disagreement, epsilon and the exclusion of cases moving by <= 0.01 are unchanged from D13.
+
+**How the outcome will be characterised, fixed now.**
+  - averaging near zero *and* selection clearly above it -> **replicates**;
+  - both near zero -> **does not replicate**, and the Fed-ISIC2019 result is reported as
+    dataset-specific;
+  - averaging substantially above zero -> the "averaging never does this" claim is **refuted**,
+    and that is reported as the headline.
+Rates are given with Wilson 95% intervals for both datasets and both families, and the number of
+cases behind each is stated next to it. Differences in rounds (40 here against 100 there), class
+count (7 against 8) and split construction are recorded as differences, not controlled away.
+
+**Out of scope.** No gate is re-scored. 96 fresh runs are needed for this entry and are new work,
+but no pre-registered result changes.
+
+**Status.** Written before the first run. Script: `scripts/23_dermacon_concealment.py`.
+
