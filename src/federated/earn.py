@@ -12,7 +12,7 @@ One round, per the design doc's pseudocode (Section 4.4):
     U[k]   = clip(update_k, median_norm)
     e[k,c] = evidence of client k on class c           (evidence_fn; see below)
     holders(c) = {k : e[k,c] > tau};  n(c) = |holders(c)|
-    p(c)   = clip((n(c) - 1) / divisor, 0, 1)                           peer confidence
+    p(c)   = clip((n(c) - 1) / divisor, p_floor, 1)                     peer confidence
     for k in holders(c):
         a(k,c) = p(c) * cos(U[k].row_c, median_{j in holders, j != k} U[j].row_c)
                + (1 - p(c)) * cos(U[k].row_c, history(k,c))              history is locked
@@ -66,7 +66,10 @@ class EARNConfig:
     decay: float = 0.5           # trust multiplier on a disagreeing round
     agree: float = 0.5           # agreement threshold
     cap: float = 0.5             # no client above 50% of any row
-    divisor: float = 4.0         # p(c) = clip((n - 1) / divisor, 0, 1)
+    divisor: float = 4.0         # p(c) = clip((n - 1) / divisor, p_floor, 1)
+    p_floor: float = 0.0         # amendment M3 (DEVIATIONS.md D12): least weight the peer
+                                 # check may carry, however few holders a class has. 0.0 keeps
+                                 # every earlier result exactly as it was.
     lam: float = 1.0             # evidence bonus scale (same as Camp A)
     tau: float | str = 0.0       # holder threshold on evidence; "mean" = above this round's
                                  # per-class mean (for evidence with no natural unit)
@@ -133,7 +136,7 @@ class EARN:
                               else cfg.tau)
         coverage = holders.sum(axis=0).astype(np.int64)
         p = (np.ones(C) if not cfg.blend
-             else np.clip((coverage - 1) / cfg.divisor, 0.0, 1.0))
+             else np.clip((coverage - 1) / cfg.divisor, cfg.p_floor, 1.0))
 
         rows = [updates[:, cols] for cols in layout.head_cols]         # C x (K, row_len)
         trust_prev = self.trust.copy()

@@ -666,3 +666,53 @@ regardless of what 1 says.
 
 **Status.** Written before the first run. Script: `scripts/21_peer_floor.py`.
 
+## R10 - Result: the peer-confidence floor does not do what M3 was written to do (11 Oct 2026)
+
+Run exactly as D12 specified: four arms, S1 and S2, attacks none and A1, seeds 42/43/44, 100 rounds,
+oracle evidence, frozen features. `docs/results/amendment_m3.json`, `docs/results/peer_floor.csv`.
+
+**The run is valid.** Condition 4, the regression check, is exact: the two floor-off arms reproduce
+R8 with a largest difference of **0.00e+00**. `p_floor = 0.0` is a true no-op, so nothing recorded
+before this amendment is disturbed by it.
+
+**Condition 1 failed, and that decides it.** Under A1 on S1 the attacker's rare-row weight:
+
+| arm | S1 | S2 |
+| --- | --- | --- |
+| absolute (EARN today, the reference) | 0.048 | 0.263 |
+| relative, floor off (R8's failure) | 0.207 | 0.263 |
+| **relative + floor** | **0.152** | 0.037 |
+| absolute + floor | 0.045 | 0.037 |
+
+The floor pulls R8's capture from 0.207 down to 0.152 - a reduction, but nowhere near the 0.048 the
+condition asked for. The diagnosis in D12 was therefore only partly right: shifting weight onto the
+self-history branch is *a* route by which the relative threshold lets a liar in, but it is not the
+whole of it, since forcing peers back to half the check leaves two thirds of the excess capture in
+place. **The absolute threshold stays. The floor is not adopted as written.** Conditions 2, 3a and
+3b all passed, so the floor is harmless - it is simply not the fix.
+
+**What turned up next to it, which is not what we were testing.** On **S2** - the constructed
+specialist split where one centre holds every rare case and no peer can check it, the hardest case
+in this project - the floor cuts the attacker's captured weight from **0.263 to 0.037**, a sevenfold
+reduction, under *either* threshold. Rare macro-F1 under the same attack goes from 0.021 to 0.084.
+The honest side is untouched: the genuine specialist still receives its capped 0.500 of the rare
+rows with no attack, and honest rare macro-F1 moves from 0.3084 to 0.3065.
+
+This matters because S2 is where the paper's argument bites: at coverage 1, every mechanism we
+tested must either trust a claim nobody can check or distrust the only expert. A floor under peer
+confidence appears to do neither - it denies the liar the free pass that an uncheckable claim
+normally buys, while leaving the honest sole holder its weight.
+
+**It is an observation, not a result, and it is recorded as one.** The conditions it cleared (3a,
+3b) asked only whether the floor *does no harm*; no pre-registered condition asked whether it
+improves security, so claiming an improvement from these numbers would be reading a test backwards.
+Two things also temper it: rare F1 under attack on S2 is still 0.084, so most of the damage lands
+regardless - the floor protects the weighting far better than it protects the model - and only one
+attack was run. Before any claim: its own pre-registration, A1 and A2 and A3, both splits, and a
+check that an honest sole holder is not penalised over a longer horizon than 100 rounds.
+
+**Status of the open problem.** Unchanged and now better bounded. A holder threshold that is both
+scale-free and unspoofable has not been found; the round-mean rule is out (R8), and a peer floor
+does not rescue it (R10). What R10 adds is a direction worth testing on its own terms, separate
+from the threshold question entirely.
+

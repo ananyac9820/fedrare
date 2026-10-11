@@ -231,3 +231,16 @@ def test_attacks_and_earn_run_in_the_tier_a_loop():
                         client_hooks=hooks)
     assert res["rule"] == "earn" and len(res["round_infos"]) == 3
     assert "confusion" in res["final"]
+
+
+def test_p_floor_defaults_to_a_no_op_and_lifts_peer_weight_when_set():
+    """Amendment M3 (D12): the floor must not disturb anything recorded before it existed."""
+    assert EARNConfig().p_floor == 0.0
+
+    # With one holder, p = (1 - 1) / 4 = 0 without a floor, and the floor value with one.
+    import numpy as np
+    coverage = np.array([1, 2, 5])
+    for floor, expected in ((0.0, [0.0, 0.25, 1.0]), (0.5, [0.5, 0.5, 1.0])):
+        cfg = EARNConfig(p_floor=floor)
+        p = np.clip((coverage - 1) / cfg.divisor, cfg.p_floor, 1.0)
+        assert p.tolist() == expected
