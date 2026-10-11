@@ -1,0 +1,104 @@
+{
+  "entry": "D11",
+  "fixed_in": "docs/DEVIATIONS.md D11, before any candidate was computed",
+  "measured_like": "gate G0a: round 1, seed 42, S1, clipped updates, mean Spearman over 8 classes",
+  "bar": 0.7,
+  "seed": 42,
+  "candidates": {
+    "G0a (the design doc's signal)": {
+      "statistic": -0.21027759867097415,
+      "passed": false,
+      "per_class": {
+        "Melanoma": 0.3714285714285715,
+        "Melanocytic nevus": 0.4285714285714286,
+        "Basal cell carcinoma": -0.4285714285714286,
+        "Actinic keratosis": -0.6982532518267538,
+        "Benign keratosis": 0.4285714285714286,
+        "Dermatofibroma": -0.48571428571428577,
+        "Vascular lesion": -0.6,
+        "Squamous cell carcinoma": -0.6982532518267538
+      },
+      "mean_spearman_vs_size": -0.15000000000000002
+    },
+    "C1": {
+      "statistic": 0.42635072142120567,
+      "passed": false,
+      "per_class": {
+        "Melanoma": 0.2571428571428572,
+        "Melanocytic nevus": 0.6,
+        "Basal cell carcinoma": 0.7142857142857143,
+        "Actinic keratosis": 0.7589709258986453,
+        "Benign keratosis": -0.6,
+        "Dermatofibroma": 0.7714285714285715,
+        "Vascular lesion": 0.028571428571428574,
+        "Squamous cell carcinoma": 0.8804062740424288
+      },
+      "mean_spearman_vs_size": 0.14285714285714285
+    },
+    "C2": {
+      "statistic": 0.2723290523760419,
+      "passed": false,
+      "per_class": {
+        "Melanoma": 0.7142857142857143,
+        "Melanocytic nevus": 0.3142857142857143,
+        "Basal cell carcinoma": 0.48571428571428577,
+        "Actinic keratosis": 0.33394720739540396,
+        "Benign keratosis": -0.7142857142857143,
+        "Dermatofibroma": 0.2571428571428572,
+        "Vascular lesion": 0.028571428571428574,
+        "Squamous cell carcinoma": 0.7589709258986453
+      },
+      "mean_spearman_vs_size": 0.04285714285714286
+    },
+    "C3": {
+      "statistic": 0.5879485462949323,
+      "passed": false,
+      "per_class": {
+        "Melanoma": 0.8285714285714287,
+        "Melanocytic nevus": 0.2571428571428572,
+        "Basal cell carcinoma": 0.942857142857143,
+        "Actinic keratosis": 0.33394720739540396,
+        "Benign keratosis": 0.7142857142857143,
+        "Dermatofibroma": 0.942857142857143,
+        "Vascular lesion": 0.7142857142857143,
+        "Squamous cell carcinoma": -0.030358837035945815
+      },
+      "mean_spearman_vs_size": 0.4928571428571429
+    },
+    "C4": {
+      "statistic": -0.20447529787650495,
+      "passed": false,
+      "per_class": {
+        "Melanoma": 0.08571428571428573,
+        "Melanocytic nevus": 0.14285714285714288,
+        "Basal cell carcinoma": 0.08571428571428573,
+        "Actinic keratosis": -0.6982532518267538,
+        "Benign keratosis": -0.4285714285714286,
+        "Dermatofibroma": -0.2,
+        "Vascular lesion": 0.2571428571428572,
+        "Squamous cell carcinoma": -0.8804062740424288
+      },
+      "mean_spearman_vs_size": 0.007142857142857145
+    },
+    "C5": {
+      "statistic": 0.2813608082947504,
+      "passed": false,
+      "per_class": {
+        "Melanoma": 0.2571428571428572,
+        "Melanocytic nevus": 0.6,
+        "Basal cell carcinoma": 0.5768179036829705,
+        "Actinic keratosis": 0.0,
+        "Benign keratosis": -0.3718678720805473,
+        "Dermatofibroma": 0.7714285714285715,
+        "Vascular lesion": 0.0,
+        "Squamous cell carcinoma": 0.41736500618415145
+      },
+      "mean_spearman_vs_size": 0.05823461253211112
+    }
+  },
+  "best": "C3",
+  "best_statistic": 0.5879485462949323,
+  "any_passed": false,
+  "note": "D11 rule 2: clearing the bar here would show only that a faithful signal exists. It would need a fresh pre-registration including an A1 spoofability check before becoming EARN's signal, because R8 showed faithful-on-honest-data and safe-against-a-liar are different properties.",
+  "measured_utc": "2026-10-11T08:08:30+00:00"
+}

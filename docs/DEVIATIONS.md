@@ -560,3 +560,48 @@ really tracking.
 
 **Status.** Written before the first candidate was computed. Script: `scripts/20_evidence_search.py`.
 
+## R9 - Result: the evidence search (11 Oct 2026) - no candidate clears the bar
+
+All five candidates from D11, scored exactly as G0a scores, with the design doc's own signal
+recomputed alongside for comparison. `docs/results/evidence_search.json`,
+`scripts/20_evidence_search.py`.
+
+| signal | mean Spearman vs true counts | vs centre size |
+| --- | --- | --- |
+| G0a, the design doc's signal | **-0.210** | -0.150 |
+| C1 signed bias, per-client normalised | **+0.426** | +0.143 |
+| C2 signed weight row, per-client normalised | +0.272 | +0.043 |
+| C3 cosine with the consensus row direction | **+0.588** | **+0.493** |
+| C4 probe-based, CELM-lite | -0.204 | +0.007 |
+| C5 positive part of C1 | +0.281 | +0.058 |
+
+**None reaches 0.7, so Fallback F1 stands and G0a stays failed.** What the search does settle is
+*why* the original signal is inverted, which until now was a hypothesis.
+
+**The inversion is a per-client scale artefact.** Dividing each client's class-c bias change by its
+own total bias movement takes the statistic from -0.210 to +0.426 - a sign flip, from "hospitals
+that never see a disease move its row the most" to a signal that ranks holdings the right way
+round, on nothing but the information the gate already had. The absolute size of an update says
+more about how far a client stepped than about what it holds; the shape of it says more.
+
+**The best-scoring candidate is the least trustworthy.** C3 scores highest at +0.588, but its
+correlation with centre *size* is +0.493 - most of its apparent skill is the thing we are trying
+not to use, since size is what FedAvg already weights by. C1 scores lower and tracks size at only
++0.143, so on the project's own terms it is the better signal despite the smaller number. Ranking
+candidates by the headline statistic alone would have picked the wrong one, which is the argument
+for having declared the size column in advance.
+
+**C4 is not a test of CELM.** C4 is a cheap stand-in - one probe per class, obtained by pushing a
+feature vector up the *global* head's logit, then asking how much each client's head raises it.
+CELM probes each client model with class-wise logit maximisation, 200 Adam steps per class-client,
+and reports it working on Fed-ISIC2019. C4 scoring -0.204 says our shortcut does not work; it says
+nothing about CELM, and must not be cited as evidence against it.
+
+**Where this leaves the project.** A faithful-enough signal has not been found, but the search has
+converted an unexplained failure into an understood one with a measured direction of travel: remove
+per-client scale, and prefer a candidate whose skill does not come from size. Under D11 rule 2,
+even a candidate that had cleared 0.7 would still need a fresh pre-registration with an A1
+spoofability check before becoming EARN's signal - and C1, being a per-client *normalised* quantity,
+is precisely the shape of rule a claiming attacker can game, which R8 showed is a separate failure
+mode from unfaithfulness.
+
