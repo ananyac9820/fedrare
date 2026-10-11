@@ -283,10 +283,20 @@ share. Rare macro-F1 is then 0.1714 +- 0.0125 against FedAvg's 0.1557 +- 0.0208 
 than either standard deviation, so on three seeds we cannot separate it from noise and do not
 claim an accuracy benefit. The DG2 verdict stands as recorded.
 
+We then pre-registered the obvious follow-up on Fed-ISIC2019 - does the relative threshold break
+anything where the absolute one works, and does it make spoofing easier? - and it was **rejected**
+on the second question. Without an attack it is harmless (S1 rare macro-F1 0.3592 against 0.3538;
+S2 0.2995 against 0.3084). Under A1 on S1 it is not: centre 4, which holds no image of either rare
+class, captures 20.7% of the rare rows against 4.8% under the absolute rule, and rare macro-F1
+falls from 0.336 to 0.194. A threshold at "above this round's mean evidence" is one a claimant can
+clear by claiming, because the claim *is* the evidence; a threshold of 20 real images is not. EARN
+therefore keeps the absolute threshold (D10, R8).
+
 The transferable finding is therefore about units, not about EARN's accuracy: **a holder threshold
 expressed as an absolute image count does not survive a change of dataset scale**, while the
-evidence-proportional part of the idea does. We did not re-tune Fed-ISIC2019 to match; adopting the
-relative threshold there would need its own pre-registration.
+evidence-proportional part of the idea does. What a replacement needs is to be scale-free *and*
+unspoofable - a fraction of the dataset's own class counts, say - which the round-mean rule is not,
+and which would need its own pre-registration and its own attack check.
 
 ## 8 Discussion
 

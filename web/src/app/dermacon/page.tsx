@@ -262,8 +262,13 @@ export default function DermaconPage() {
               </p>
               <p className="mt-5 max-w-2xl text-sm leading-relaxed text-faint">
                 That change was made after seeing the failure and knowing its cause, so it is
-                post-hoc: it is reported here, it does not change the DG2 verdict, and it has not
-                been tested on Fed-ISIC2019.
+                post-hoc, and it does not change the DG2 verdict. It has since been tested on
+                Fed-ISIC2019 under a pre-registered adversarial check — and rejected. A threshold
+                set at &ldquo;above this round&apos;s average evidence&rdquo; is one a liar can
+                clear by lying, because the claim is the evidence: under the sudden-expert attack,
+                a centre holding no rare images at all went from 4.8% of the rare rows to 20.7%.
+                EARN keeps the absolute threshold, and this page&apos;s finding stands as one about
+                units rather than a defect with a known fix.
               </p>
             </Card>
           </Reveal>

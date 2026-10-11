@@ -476,3 +476,45 @@ reported.
 
 **Status.** Written before the first run. Script: `scripts/19_earn_threshold.py`.
 
+## R8 - Result: M2 on Fed-ISIC2019 rejected (11 Oct 2026)
+
+Run as pre-registered in D10: both arms, S1 and S2, attacks none and A1, seeds 42/43/44, 100
+rounds, frozen features. `docs/results/amendment_m2_fedisic.json`,
+`docs/results/earn_threshold_amendment.csv`.
+
+| criterion (D10) | absolute | relative | met |
+| --- | --- | --- | --- |
+| S1 no harm without attack (rare macro-F1) | 0.3538 | 0.3592 | yes |
+| S2 no harm without attack (rare macro-F1) | 0.3084 | 0.2995 | yes |
+| S1 attacker gains no more weight under A1 | 0.048 | **0.207** | **no** |
+| S2 attacker gains no more weight under A1 | 0.263 | 0.263 | yes |
+| S2 specialist still served | 0.500 | 0.500 | yes |
+
+**Rejected, on the condition that was put in to catch it.** Without an attack the relative
+threshold is harmless on both splits. Under A1 on S1 it is not: centre 4, which holds no image of
+either rare class, goes from 4.8% of the rare rows to **20.7%** - it captures 4.3x the influence
+the absolute rule allowed it. Rare macro-F1 under the same attack falls from 0.336 to 0.194.
+
+The mechanism is the obvious one in hindsight. A threshold of "above this round's mean evidence"
+is a threshold a liar can clear by claiming, because the claim itself is the evidence. The
+absolute rule demands 20 real images, which a centre with none cannot fabricate without also
+clearing a bar that has a unit attached to it. On S2 the two rules coincide (coverage 1: the
+attacker's claim makes it a holder either way, and both arms give it 0.263), so S1 is where the
+difference shows.
+
+**Decision, as fixed in D10: the absolute threshold stays.** EARN is unchanged. R6 and R7 stand as
+a dataset-specific finding about units - on DermaCon-IN's scale the absolute threshold admits
+almost nobody and the mechanism idles - and *not* as a defect with a known fix. Anything that
+replaces it has to be scale-free **and** unspoofable, which the round-mean rule is not. A
+threshold in units a claimant does not control - a fraction of the dataset's own class count, say -
+is the direction, and it would need its own pre-registration and its own A1 check.
+
+**Two notes on the run.** The laptop suspended mid-run, so two of the 24 rows carry absurd wall
+times (298 s and 47,513 s); the metrics are unaffected, since every run is seeded and
+deterministic, but the `seconds` column should not be quoted. And both arms use the frozen
+features, as D10 stated: the comparison is like for like, but these numbers are not grid numbers.
+
+**What this entry is worth.** The relative threshold looked right on the dataset it was invented
+on, and a pre-registered adversarial check rejected it on the dataset it was not. That is the
+pre-registration earning its keep rather than decorating the process.
+
