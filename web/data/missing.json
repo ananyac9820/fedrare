@@ -45,23 +45,14 @@
       "producedBy": "library access - abstract checked, full text paywalled"
     },
     {
-      "what": "Tier B with three seeds and a longer post-turn window",
+      "what": "Tier B repeated on a metric that matches the attack - rare-class recall or the to-nevus share - with three seeds and a longer post-turn window",
       "status": "not-run",
       "owner": "Team",
       "track": "Pipeline & EARN",
       "branch": "main",
       "file": "docs/results/tier_b_console.md",
       "producedBy": "scripts/12_tier_b.py on a GPU (~1.8 h per three runs)",
-      "blockedBy": "the one-seed run (R11) was underpowered: the honest run's own rare-F1 swing over the measured rounds is larger than the effect the criterion looked for"
-    },
-    {
-      "what": "results/tier_b.json from the Colab run",
-      "status": "not-run",
-      "owner": "Team",
-      "track": "Pipeline & EARN",
-      "branch": "main",
-      "file": "results/tier_b.json",
-      "producedBy": "download it from the Colab session - the numbers are currently transcribed from the console log, not read from the result file"
+      "blockedBy": "the one-seed run (R11) was scored on rare macro-F1, which its addendum shows is confounded here by calibration drift in the honest baseline"
     }
   ]
 }

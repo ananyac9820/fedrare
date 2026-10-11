@@ -4,10 +4,12 @@
 (~15 h projected on CPU against ~1.8 h here). Device `cuda`, 20 rounds x 50 local steps, seed 42,
 three runs as fixed in D8. Per-round wall time 109-134 s.
 
-**Provenance.** This file is the console output, pasted from the Colab session. The run also wrote
-`results/tier_b.json`, which stayed in the Colab VM and is not in this repository - so the numbers
-below are transcribed from the log, not read from the result file. When the JSON is added, it
-supersedes this file and the site can read it directly.
+**Provenance.** This file is the console output, pasted from the Colab session. The result file it
+mentions has since been recovered and committed at `results/tier_b.json` (and
+`docs/results/tier_b.json`), and **that file supersedes this one**: every number below was checked
+against it and matches, but it carries per-round, per-class and confusion detail this log does not.
+See the R11 addendum in DEVIATIONS.md, which reads the attack's effect on rare-class *recall* - the
+part the headline F1 hides.
 
 ## Test metrics, balanced accuracy / rare macro-F1
 

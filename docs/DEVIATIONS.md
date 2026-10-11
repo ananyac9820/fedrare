@@ -753,3 +753,41 @@ changes; what changes is the strength of claim they support.
 the comparison is not made inside the window where the honest metric moves most. That is roughly
 5-6 GPU hours - a decision for the team, not a thing to slip in unlogged.
 
+**R11 addendum (same day, once `results/tier_b.json` was recovered from the Colab VM).** The file is
+now committed at `results/tier_b.json` and `docs/results/tier_b.json`; every number transcribed in
+R11 from the console matches it, and the per-round and per-class detail it carries changes the
+reading.
+
+The attacked run's higher rare macro-F1 is a composition artefact, not an absence of damage. At
+round 20, on Dermatofibroma (55 test images):
+
+| | honest | under A2 |
+| --- | --- | --- |
+| recall | **0.709** (39/55) | **0.527** (29/55) |
+| precision | 0.269 (39 of 145 predicted) | 0.509 (29 of 57 predicted) |
+| sent to nevus | 0.109 | 0.145 |
+| F1 | 0.390 | 0.518 |
+
+The attack cost ten of thirty-nine correct Dermatofibroma detections and pushed more of them to
+nevus - which is exactly what A2 is built to do. F1 nevertheless *rose*, because the honest run at
+round 20 was over-predicting Dermatofibroma wildly - 145 predictions for 55 true images, precision
+0.269 - and the attack suppressed that over-prediction. The harmonic mean rewarded the precision
+gain more than it punished the recall loss. Vascular lesion barely moved either way (recall 43/52
+to 42/52).
+
+That also explains the instability R11 flagged: the honest run's Dermatofibroma F1 falls 0.569 to
+0.390 between rounds 15 and 20 because its over-prediction is growing, not because the class is
+noisy in some unexamined way.
+
+**What this does and does not change.** The pre-registered verdict stands: the criterion was not
+met, and Tier B does not confirm the Tier A finding. What the addendum adds is *why*, and it is a
+flaw in the criterion rather than in the attack: D8 chose final rare macro-F1, and in this regime
+that metric is confounded by calibration drift in the honest baseline. The project already computes
+a metric that matches the attack's mechanism - `to_target_rare`, the share of rare images pushed to
+nevus, used throughout the Tier A grid - and D8 did not use it.
+
+A properly specified Tier B confirmation would read rare-class **recall** or the to-nevus rate, with
+three seeds and a longer post-turn window. On recall, this single run points the same way as Tier A
+(0.709 to 0.527), but ten images out of fifty-five at one seed is suggestive and nothing more; it is
+not claimed as confirmation, and the gate is not re-scored on a metric chosen after seeing the data.
+

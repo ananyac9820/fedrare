@@ -313,11 +313,23 @@ recovers 0.017. The attack did lower balanced accuracy, 0.592 to 0.563. Because 
 honest through round 15 and the two runs are identical to three decimals until then, these
 differences are the attack and not run-to-run noise.
 
-The reason this is reported as an inconclusive confirmation rather than a refutation is in the
-honest run itself: with no attack, its rare macro-F1 moves from 0.608 at round 15 to 0.523 at round
-20, a swing of -0.085 - larger than the effect the criterion was looking for. Five post-turn rounds
-at a single seed cannot resolve an effect smaller than the metric's own movement across those
-rounds. Settling it needs three seeds and a longer post-turn window, which we did not run.
+The per-class detail shows why this is an inconclusive confirmation rather than a refutation, and
+the fault is in the criterion rather than in the attack. On Dermatofibroma at round 20, the attack
+cost ten of thirty-nine correct detections - recall 0.709 to 0.527 - and raised the share of
+Dermatofibroma images sent to nevus from 0.109 to 0.145, which is precisely what A2 is built to do.
+F1 nevertheless rose, from 0.390 to 0.518, because the honest run was over-predicting the class at
+that point (145 predictions for 55 true images, precision 0.269) and the attack suppressed the
+over-prediction. The harmonic mean rewarded the precision gain more than it punished the recall
+loss. The same drift explains the honest run's own rare macro-F1 falling from 0.608 at round 15 to
+0.523 at round 20.
+
+So D8's criterion read final rare macro-F1, and in this regime that metric is confounded by
+calibration drift in the baseline. The grid already computes a quantity that matches the attack's
+mechanism - the share of rare images pushed to the target class - and the confirmation did not use
+it. A properly specified repeat would read rare-class recall or that share, over three seeds and a
+longer post-turn window. On recall this single run points the same way as Tier A, but ten images of
+fifty-five at one seed is suggestive only, and we do not re-score a pre-registered criterion on a
+metric chosen after seeing the data.
 
 We therefore state the sleeper finding as a Tier A finding throughout, and record that the one
 real-model run pre-registered to confirm it did not.
