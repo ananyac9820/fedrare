@@ -21,7 +21,7 @@ under attack).
 | Paper | What it does (from the full text unless noted) | Overlap with our claims | Consequence |
 |---|---|---|---|
 | **CELM** (arXiv 2605.18892, 2026) | Server probes each client model with class-wise **logit maximisation** (Adam, 200 steps per class-client probe) to get per-class evidence; normalises it across clients ("per-class competence and class coverage"); averages to one score per client; **computes weights only during a warm-up (5% of rounds) and then freezes them**; explicitly **does not address Byzantine clients**; no trust or blockchain. Evaluates on FedISIC: balanced accuracy 70.18% vs FedAvg 61.25% (full models). | Uses "class coverage" as a normalising denominator. Its evidence comes from probes, **not** from update norms, so our G0a inversion finding does **not** transfer to CELM and must not be claimed against it. | Cite as the closest Camp A method; keep our design doc's critique (frozen weights, no attack model) - confirmed. Narrow our novelty wording on coverage (done in the paper draft). Note their FedAvg figure is for full-model training, not comparable to our Tier A 0.536. |
-| **CARE-FL / DFed-MCDA** (Neurocomputing 2026) | **Abstract only - full text paywalled (HTTP 403).** Quality-Samples-Rarity aggregation: a *validation-derived* quality score, a *per-class sample* term and an inverse-frequency rarity factor; decentralised FL; gains in worst-class F1 on medical imaging. | Its per-class sample term is the same family as our "Camp A (reported counts)" baseline; it needs validation data, which EARN was designed to avoid. The abstract mentions no attack model. | Cite as Camp A; state that our reported-count baseline stands in for this family and that a client misreporting counts is exactly our A1 finding (7.4x weight on S2). Re-check the full text through the library before submission. |
+| **CARE-FL / DFed-MCDA** (Neurocomputing 2026; Khan, Rizwan, Ahmad, Khan, Li, Kim) | **Abstract only - full text still not read (HTTP 403 on ScienceDirect; an SSRN preprint exists but is behind a bot check).** Abstract-level additions from the 11 Oct re-search, all the authors' own figures and unverified by us: DFed-MCDA is one instantiation of a Quality-Samples-Rarity framework whose quality term is validation-derived and whose rarity term is pure inverse class frequency, reported as +6.8% accuracy on histological tissue classification and +17.8% on worst-case class performance in retinal imaging. Quality-Samples-Rarity aggregation: a *validation-derived* quality score, a *per-class sample* term and an inverse-frequency rarity factor; decentralised FL; gains in worst-class F1 on medical imaging. | Its per-class sample term is the same family as our "Camp A (reported counts)" baseline; it needs validation data, which EARN was designed to avoid. The abstract mentions no attack model. | Cite as Camp A; state that our reported-count baseline stands in for this family and that a client misreporting counts is exactly our A1 finding (7.4x weight on S2). Re-check the full text through the library before submission. |
 | **BOBA** (AISTATS 2024, arXiv 2208.12932) | Two stages: (1) robustly fit a **(c-1)-dimensional affine subspace** of honest gradients by trimmed truncated SVD over the n-f nearest gradients; (2) use a **small clean labelled dataset on the server** (one virtual client per class) to estimate each client's label distribution and drop clients outside the simplex. | Handles label skew generally, not low coverage. **Not applicable as specified to our setting:** with n = 6 clients, f = 1 and c = 8 classes it needs a 7-dimensional subspace from 5 gradients (rank <= 4 after centring); and it needs server-side clean samples of every class, i.e. the rare-disease data the whole problem is about. | Our cut of BOBA (design doc cut line 2) is justified on substance, not only time. Stated in the paper's limitations and related work. |
 | **ACE** (USENIX Security 2024, arXiv 2405.20975) | A malicious client manipulates its update so that **client-level** contribution evaluation (five methods, cosine-based analysis) scores it highly; six countermeasures found inadequate. | Confirms the design doc: ACE is client-level reward manipulation; ours is class-level influence capture where coverage is low. | Cite as the closest attack; claim stands. |
 | **CALM** (arXiv 2609.05884, Sep 2026) - *found by the focused search* | Decentralised federated distillation; per-class teacher gate a = exp(-deviation from per-class peer consensus / tau). **No trust accumulation over rounds, no adaptation to how many peers hold a class, no Byzantine clients, no ledger.** | Per-class peer agreement is related to EARN's peer term. | Cite in related work; it strengthens rather than weakens our coverage point (peer consensus is exactly what fails at coverage 1). |
@@ -35,10 +35,27 @@ FIDELIS 2508.10042, Honest-Score client selection 2311.05826, verifiable robust 
 none is per-class and coverage-dependent. The search is not exhaustive; "we did not find it" is
 still not proof that it does not exist.
 
+## Addendum, 11 October 2026
+
+A second attempt at CARE-FL's full text. ScienceDirect still refuses automated access and the SSRN
+preprint sits behind a bot check, which was not worked around. What the re-search did add is the
+author list, the SSRN route, and three abstract-level details (validation-derived quality term,
+inverse-frequency rarity term, the two reported improvements) - recorded above as the authors'
+claims, not as read-and-checked facts. The item stays open, but it is now one browser visit rather
+than a library request: open the SSRN link by hand and download the PDF.
+
+Nothing here changes any claim in the paper. CARE-FL remains cited as the closest Camp A method,
+and our reported-count baseline still stands in for that family.
+
 ## Sources
 
 - CELM: https://arxiv.org/abs/2605.18892 (full text: https://arxiv.org/html/2605.18892)
-- CARE-FL: https://www.sciencedirect.com/science/article/abs/pii/S0925231226019375 (abstract via search; full text not accessed)
+- CARE-FL: https://www.sciencedirect.com/science/article/abs/pii/S0925231226019375 (abstract via
+  search; full text not accessed - HTTP 403). **Second route found 11 Oct 2026:** an SSRN preprint
+  of the same paper, https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6506540. Automated access
+  is refused there too (Cloudflare bot check, not attempted further), but it opens normally in a
+  browser and SSRN preprints are usually downloadable without a subscription - so the full text can
+  probably be had without library access. Still to be read.
 - BOBA: https://arxiv.org/abs/2208.12932 (full PDF read)
 - ACE: https://arxiv.org/abs/2405.20975 (abstract)
 - CALM: https://pith.science/paper/2609.05884
