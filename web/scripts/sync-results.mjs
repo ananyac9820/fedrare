@@ -275,6 +275,42 @@ if (roadmap) {
       note: `Exploratory re-run on an oracle evidence signal: conditions ${g2.s1.passed ? "met" : "not met"} ` +
         `on S1, ${g2.s2.passed ? "met" : "not met"} on S2. Reported as exploratory, never as the gate.` });
   }
+  // The second dataset's gates, so these rows are read rather than hand-typed too.
+  if (exists("gate_dg0.json")) {
+    const g = readJson("gate_dg0.json");
+    setGate("DG0", {
+      state: g.passed ? "passed" : "failed",
+      result: `${g.rule} balanced accuracy ${g.statistic.toFixed(4)} over ${g.n_classes} `
+        + `classes (needs >= ${g.threshold})`,
+      resultStatus: "verified",
+      note: `Cleared by ${(g.statistic - g.threshold).toFixed(3)} - narrow enough to say so. `
+        + `${g.rounds} rounds, seed ${g.seed}, on the constructed age-band split.`,
+    });
+  }
+  if (exists("gate_dg2.json")) {
+    const g = readJson("gate_dg2.json");
+    // gate_dg2.json keys its conditions by label, so this is an object, not an array.
+    const conds = Object.entries(g.conditions ?? {}).map(([label, c]) => ({ label, ...c }));
+    const met = conds.filter((c) => c.met).length;
+    const spec = conds.find((c) => c.rare_weight_share !== undefined);
+    const m2 = exists("amendment_m2_fedisic.json") ? readJson("amendment_m2_fedisic.json") : null;
+    setGate("DG2", {
+      state: g.passed ? "passed" : "failed",
+      result: `${met} of ${conds.length} conditions met`
+        + (spec ? `; the specialist ended on ${spec.rare_weight_share.toFixed(3)} of the rare `
+          + `rows against a ${spec.size_share.toFixed(3)} size share` : ""),
+      resultStatus: "verified",
+      note: "EARN's holder threshold is an absolute count of 20 images, calibrated on "
+        + "Fed-ISIC2019; at this dataset's scale it admits almost nobody, so trust and evidence "
+        + "never engage. "
+        + (m2 ? (m2.passed
+          ? "A scale-relative threshold was then pre-registered on Fed-ISIC2019 and met every criterion."
+          : "A scale-relative threshold was then pre-registered on Fed-ISIC2019 and rejected there: "
+            + "a bar set by the round's own evidence is one a claiming attacker clears by claiming.")
+          : ""),
+    });
+  }
+
   roadmap._meta.syncedAt = today;
   writeData("roadmap.json", roadmap);
 }

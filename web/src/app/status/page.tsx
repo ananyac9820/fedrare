@@ -9,6 +9,10 @@ import { pending, roadmap } from "@/lib/data";
 
 export const metadata: Metadata = { title: "Status" };
 
+/** A state the map does not know should show as unknown, not take the whole build down. */
+const icon = (state: ProgressState) =>
+  ICON[state] ?? { icon: "?", cls: "text-faint", label: String(state) };
+
 const ICON: Record<ProgressState, { icon: string; cls: string; label: string }> = {
   done: { icon: "✓", cls: "text-verified", label: "done" },
   failed: { icon: "✕", cls: "text-failed", label: "under the bar" },
@@ -94,8 +98,11 @@ export default function StatusPage() {
                   <ul className="mt-8 space-y-3 border-t border-line pt-6">
                     {w.progress.map((p) => (
                       <li key={p.item} className="flex gap-3 text-sm leading-snug text-muted">
-                        <span className={`w-4 shrink-0 font-bold ${ICON[p.state].cls}`} aria-label={ICON[p.state].label}>
-                          {ICON[p.state].icon}
+                        <span
+                          className={`w-4 shrink-0 font-bold ${icon(p.state).cls}`}
+                          aria-label={icon(p.state).label}
+                        >
+                          {icon(p.state).icon}
                         </span>
                         {p.item}
                       </li>
