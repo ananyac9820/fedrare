@@ -518,3 +518,45 @@ features, as D10 stated: the comparison is like for like, but these numbers are 
 on, and a pre-registered adversarial check rejected it on the dataset it was not. That is the
 pre-registration earning its keep rather than decorating the process.
 
+## D11 - A pre-registered search for a replacement evidence signal (11 Oct 2026) - NOT YET RUN
+
+**What this is not.** G0a is decided and stays failed: the design doc's signal scored -0.21, its one
+allowed retry -0.46, and amendment M1 0.11, all against a bar of 0.7 (R1). That verdict is closed.
+This entry is a **search for a different signal**, run as an exploratory study with every candidate
+declared before any of them is computed, so that reporting the best one afterwards is not a choice
+made with hindsight.
+
+**Why the current signal is inverted, as diagnosed from the existing results.** A client's class-c
+classifier-row update under cross-entropy is a pull up from its own class-c samples and a push down
+from every other sample it holds. The class-balanced loss gives a class the client does not hold a
+weight of zero, so for such a client the row receives only downward pressure, in proportion to its
+total images. Magnitude therefore tracks *size*, not holdings - hospitals that never see a disease
+move its row the most.
+
+**Candidates, fixed now.** All are computed from the same round-1 updates the gate used, with no
+extra information from the clients:
+
+| id | evidence e(k,c) | the thought |
+| --- | --- | --- |
+| C1 | signed bias change, per-client normalised: dB_c / sum_j abs(dB_j) | removes the per-client step-size effect that makes small centres look loud |
+| C2 | signed weight-row change, per-client normalised by that client's total row movement | the same correction on the weight row the design doc used |
+| C3 | cosine between a client's row-c update and the size-weighted mean row-c update of all clients | a peer-consensus direction, with no server data |
+| C4 | probe-based, CELM-lite: synthesise one probe per class by gradient ascent on the global head's logit c, then e(k,c) = client k's logit c on that probe minus the global model's | evidence from behaviour rather than from update geometry - the family CELM reports working |
+| C5 | C1 restricted to the positive part: max(0, C1) | holdings are non-negative; a push down is not evidence of absence-of-evidence |
+
+**Measured exactly as G0a measures.** Round 1 of the Tier A loop, seed 42, TierAConfig defaults,
+natural split S1, frozen features, updates clipped to the median norm. Per class, Spearman between
+e(., c) and the true per-class training counts across the six centres; statistic = mean over the 8
+classes. Reported alongside: Spearman against centre *size*, which is what the broken signal was
+really tracking.
+
+**Rules, fixed now.**
+1. All five candidates are reported, in this order, pass or fail. No candidate is added afterwards.
+2. A candidate reaching the 0.7 bar does **not** revive G0a and does not become EARN's signal. It
+   would be a finding that a faithful signal exists, and nothing more, until it has cleared a fresh
+   pre-registration that includes an A1 spoofability check - because R8 has just shown that a rule
+   can be faithful on honest data and still hand influence to a liar.
+3. If none reaches 0.7, that is reported as the result and Fallback F1 stands.
+
+**Status.** Written before the first candidate was computed. Script: `scripts/20_evidence_search.py`.
+
