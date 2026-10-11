@@ -19,7 +19,9 @@ signal modelled on label-inference work - is inverted on real data (Spearman -0.
 that never see a disease change its classifier row the most; (ii) weighting by that signal gives the
 specialist *less* say than FedAvg; (iii) weighting by reported class counts is the most accurate
 method without attack but lets a lying hospital capture up to 7.4x its fair weight when coverage is
-low; (iv) Byzantine-robust filters can exclude a lone specialist entirely. We also built EARN, a
+low; (iv) Byzantine-robust filters can exclude a lone specialist entirely. A pre-registered
+single-seed confirmation on the full model did not reproduce the sleeper result, and we report the
+attack findings as Tier A findings accordingly. We also built EARN, a
 coverage-aware, ledger-anchored trust mechanism we had proposed; because its evidence signal failed
 its pre-registered check, we report it only on an oracle signal, where it too fails, and we explain
 why. Repeating the pipeline on a second dataset - DermaCon-IN, 5,450 Indian clinical photographs, none
@@ -298,6 +300,28 @@ evidence-proportional part of the idea does. What a replacement needs is to be s
 unspoofable - a fraction of the dataset's own class counts, say - which the round-mean rule is not,
 and which would need its own pre-registration and its own attack check.
 
+### 7.8 The real-model confirmation did not confirm (Tier B)
+
+The sleeper result above is a Tier A result: a classifier head trained on frozen features. D8
+pre-registered one confirmation with the real model - full DenseNet-121, all layers trained, 20
+rounds, seed 42, three runs - and a criterion: confirmation requires the A2 drop in final rare
+macro-F1 to be at least 0.10, with clipping recovering half of it.
+
+It was run unchanged and **the criterion was not met**: the drop is **-0.074**, i.e. the attacked
+run finished *higher* on rare macro-F1 than the honest one (0.598 against 0.523), and clipping
+recovers 0.017. The attack did lower balanced accuracy, 0.592 to 0.563. Because the attacker is
+honest through round 15 and the two runs are identical to three decimals until then, these
+differences are the attack and not run-to-run noise.
+
+The reason this is reported as an inconclusive confirmation rather than a refutation is in the
+honest run itself: with no attack, its rare macro-F1 moves from 0.608 at round 15 to 0.523 at round
+20, a swing of -0.085 - larger than the effect the criterion was looking for. Five post-turn rounds
+at a single seed cannot resolve an effect smaller than the metric's own movement across those
+rounds. Settling it needs three seeds and a longer post-turn window, which we did not run.
+
+We therefore state the sleeper finding as a Tier A finding throughout, and record that the one
+real-model run pre-registered to confirm it did not.
+
 ## 8 Discussion
 
 The common thread is **coverage**. When three or four hospitals hold a disease, honest holders
@@ -317,7 +341,9 @@ hospitals is the setting in which no such party exists.
 ## 9 Limitations
 
 Tier A only (a head on features; the last block fine-tuned once, seed 42, without attackers); a
-one-seed Tier B confirmation is pre-registered (D8) but not yet run, and BOBA is not applicable as specified with 6 clients and 8 classes (Section 2). One attacker at a time; no collusion. S2 is constructed. The rare-class rule
+one-seed Tier B confirmation was pre-registered (D8), run, and **did not confirm** the sleeper
+finding (Section 7.8), and BOBA is not applicable as specified with 6 clients and 8 classes
+(Section 2). One attacker at a time; no collusion. S2 is constructed. The rare-class rule
 was chosen after seeing counts. The 100-round schedule and the sign-aware evidence variant are
 amendments made after seeing earlier results (logged beforehand). Local chain only. The design
 doc's statement that common diseases have 5-6 holders is wrong for three of them (BCC and AK 3,

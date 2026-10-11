@@ -127,8 +127,8 @@
           "state": "done"
         },
         {
-          "item": "Tier B confirmation pre-registered and smoke-tested (not run, ~6.5 h)",
-          "state": "pending"
+          "item": "Tier B confirmation run on a GPU - the pre-registered criterion was not met (R11); reported rather than omitted",
+          "state": "failed"
         }
       ]
     },

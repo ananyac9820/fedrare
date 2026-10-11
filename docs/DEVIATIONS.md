@@ -716,3 +716,40 @@ scale-free and unspoofable has not been found; the round-mean rule is out (R8), 
 does not rescue it (R10). What R10 adds is a direction worth testing on its own terms, separate
 from the threshold question entirely.
 
+## R11 - Result: Tier B does not confirm the Tier A sleeper finding (11 Oct 2026)
+
+Run as pre-registered in D8, unchanged, on a Colab GPU (~1.8 h for the three runs; the local CPU
+attempt was stopped at a projected ~15 h). Console output and the full per-round table:
+`docs/results/tier_b_console.md`. The run's `results/tier_b.json` stayed in the Colab VM and is not
+yet in the repository, so these numbers are transcribed from the log.
+
+**The criterion is not met.** D8 asked for an A2 drop in final rare macro-F1 of at least 0.10, with
+clipping recovering half of it. Measured: **drop -0.074**, **clipping recovery 0.017**. The attacked
+run ended *higher* on rare macro-F1 than the honest one (0.598 against 0.523), so there is no drop
+to recover.
+
+**What the per-round table adds, and it matters.** The attacker is honest through round 15 and the
+honest and attacked runs are identical to three decimals until then, so the harness is
+deterministic and every difference at round 20 is the attack rather than run-to-run noise. On that
+basis, for this seed, the sleeper attack at Tier B:
+
+  - lowered balanced accuracy, 0.592 -> 0.563;
+  - raised rare macro-F1, 0.523 -> 0.598.
+
+**But the honest run is itself unstable over exactly the window being measured.** With no attack at
+all, its rare macro-F1 goes 0.608 at round 15 to 0.523 at round 20 - a swing of -0.085, larger than
+the 0.074 effect the criterion was trying to detect. Five post-turn rounds at one seed cannot
+resolve an effect smaller than the metric's own movement over those same rounds. The correct
+reading is therefore **not** "the sleeper attack is harmless on a real model". It is that this
+confirmation, as designed, was underpowered to answer the question, and it says so.
+
+**Consequence for the paper, which is the point of a confirmation run.** The Tier A sleeper finding
+- that the attack which hurts is the one from a trusted insider - is a **Tier A** finding and must
+be written as one. The single real-model run pre-registered to confirm it did not, and the paper,
+the site and the status page now say that rather than omitting it. Nothing in the Tier A results
+changes; what changes is the strength of claim they support.
+
+**What would settle it.** Three seeds rather than one, and more than five rounds after the turn, so
+the comparison is not made inside the window where the honest metric moves most. That is roughly
+5-6 GPU hours - a decision for the team, not a thing to slip in unlogged.
+
