@@ -605,3 +605,64 @@ spoofability check before becoming EARN's signal - and C1, being a per-client *n
 is precisely the shape of rule a claiming attacker can game, which R8 showed is a separate failure
 mode from unfaithfulness.
 
+## D12 - Amendment M3: a floor under peer confidence (11 Oct 2026) - NOT YET RUN
+
+**The reasoning this comes from.** R8 rejected the scale-relative holder threshold because it handed
+a claiming attacker 20.7% of the rare rows against 4.8% under the absolute rule. The mechanism is
+not that the bar admitted the liar - the absolute bar admits it too, since it reports the top honest
+count. It is that the relative bar shrank the *holder set*: on S1 the rare classes went from 4 and 3
+holders to 2 and 3. EARN's peer confidence is p(c) = clip((n(c) - 1) / 4, 0, 1), so fewer holders
+means a smaller p, and the agreement check
+`a = p * (agreement with peers) + (1 - p) * (agreement with own locked history)`
+shifts onto the history branch. A consistent liar passes a history check by being consistently a
+liar. The spoofable branch got the weight.
+
+**What changes.** One number: a floor under p.
+
+    p(c) = clip((n(c) - 1) / divisor, P_FLOOR, 1)      with P_FLOOR = 0.5
+
+Peers therefore always carry at least half of the check, however few holders a class has. Where a
+class has no other holder at all, EARN already scores the missing peer cosine as NEUTRAL = 0.5, so
+a sole honest holder can still earn trust - it is not locked out, it is held to a draw it must beat
+on history. `P_FLOOR = 0.5` is chosen as the value that makes neither branch able to dominate the
+other; it is fixed here and will not be tuned.
+
+Implemented as `EARNConfig(p_floor=...)`, defaulting to **0.0**, so every result already recorded
+is unaffected and reproduces exactly. A regression test asserts the default is a no-op.
+
+**The battery.** Exactly D10's: splits S1 and S2, attacks `none` and A1, seeds 42/43/44, 100 rounds,
+oracle evidence, frozen features (the ft4 files are still not on this machine). Four arms, so that
+the floor is tested on both thresholds and the two floor-off arms reproduce R8 as a regression
+check:
+
+| arm | threshold | floor |
+| --- | --- | --- |
+| absolute | tau = 19.5 | off |
+| relative | tau = "mean" | off |
+| absolute + floor | tau = 19.5 | 0.5 |
+| relative + floor | tau = "mean" | 0.5 |
+
+**Pass/fail, fixed now.** Means over the three seeds. The reference point for every comparison is
+the **absolute, floor-off** arm, which is EARN as it stands today.
+
+1. *The floor fixes the spoofability it was written for.* Under A1 on S1, the attacker's rare-row
+   weight in the **relative + floor** arm is no more than 0.05 above the absolute floor-off arm's.
+   (R8's failure was 0.207 against 0.048, so this needs roughly a four-fold reduction.)
+2. *It does not cost anything on honest data.* Under `none`, the relative + floor arm's rare
+   macro-F1 is within 0.05 of absolute floor-off, on both S1 and S2.
+3. *It does not harm EARN as it stands.* The absolute + floor arm is within 0.05 of absolute
+   floor-off on rare macro-F1 under `none`, and gives the attacker no more than 0.05 extra weight
+   under A1, on both splits.
+4. *Regression.* The two floor-off arms reproduce R8's numbers to within floating-point noise. If
+   they do not, the run is void and nothing is concluded from it.
+
+**What each outcome means, decided now.** All four hold -> *relative + floor* becomes the proposed
+default: scale-free, which is what DermaCon-IN needed, and no more spoofable than today's rule,
+which is what R8 demanded. That proposal is logged as a method change and the existing results are
+re-run under it before any paper claim rests on it. If 1 fails -> the floor does not fix
+spoofability, the absolute threshold stays, and the open problem is recorded as harder than a
+single blend parameter. If 3 fails -> the floor is harmful in its own right and is dropped
+regardless of what 1 says.
+
+**Status.** Written before the first run. Script: `scripts/21_peer_floor.py`.
+
