@@ -901,3 +901,47 @@ but no pre-registered result changes.
 
 **Status.** Written before the first run. Script: `scripts/23_dermacon_concealment.py`.
 
+## R13 - Result: the concealment split does not replicate - it reverses (11 Oct 2026)
+
+D14's battery run as specified: DermaCon-IN D1, 8 methods x 4 attacks x 3 seeds = 96 runs, 40
+rounds, confusion matrices stored for every run. `docs/results/concealment_replication.md`,
+`concealment_replication.json`, `dermacon_concealment.json`.
+
+| dataset / damage metric | selection rules | averaging rules |
+| --- | --- | --- |
+| Fed-ISIC2019 vs `to_target` (D13) | **26.9%** (14/52) [16.8-40.3] | **0.0%** (0/320) [0.0-1.2] |
+| DermaCon-IN vs `to_target` | 4.3% (1/23) [0.8-21.0] | **16.7%** (9/54) [9.0-28.7] |
+| DermaCon-IN vs exact recall | 0.0% (0/19) [0.0-16.8] | **24.2%** (15/62) [15.2-36.2] |
+
+**The pre-registered verdict rule fired on "refuted".** Averaging rules disagree substantially on
+DermaCon-IN, so "averaging never does this" does not hold outside Fed-ISIC2019. The split does not
+merely fail to replicate, it inverts, on both damage metrics.
+
+**The mechanism is dead.** D13 explained the split by selection rules adopting a single client's
+update, so the model moves discretely while averaging moves continuously. Here the continuous rules
+produce all the disagreement and the discrete ones produce none. Whatever caused the Fed-ISIC2019
+pattern, it was not that.
+
+**Consequence.** R12's finding stands as measured and is now labelled dataset-specific wherever it
+appears; `f1_concealment.md` carries a superseded-in-part banner. No general claim of the form
+"selection rules are where F1 misleads" is supportable from these two datasets, and none is made.
+
+**A post-hoc test of the over-prediction hypothesis, labelled as post-hoc.** D14 did not
+pre-register this, but the stored confusion matrices give precision for 81 cases with clear
+movement - against sixteen cells in D13, which is why it was only descriptive there. Mean honest
+precision is **0.120** where F1 and recall disagree and **0.126** where they do not; the
+point-biserial correlation with disagreement is **-0.038**; and the honest model over-predicts the
+rare class in **72 of 81** cases while only 15 of those show disagreement. Over-prediction is
+near-universal here and almost never produces the effect. The mechanism proposed in the R11
+addendum explains the Tier B cell it came from and does not generalise.
+
+**What survives all of this.** F1 and recall-style damage metrics can move in opposite directions
+under attack on both datasets - 3.8% of Fed-ISIC2019 cases, 24.2% of DermaCon-IN averaging-rule
+cases against exact recall. The practical advice is unchanged and is the one useful output of the
+whole line of work: to judge whether an attack worked, read recall or the share pushed to the
+target class, not rare-class F1 alone.
+
+**Differences not controlled.** 40 rounds against 100; 7 classes against 8; constructed age-band
+centres against six real hospitals; 8 methods against 17; different attacker centres, chosen to
+preserve each attack's role rather than its number. Any could matter; this study cannot say which.
+

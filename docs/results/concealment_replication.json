@@ -1,0 +1,87 @@
+{
+  "entry": "D14",
+  "epsilon": 0.01,
+  "fixed_in": "docs/DEVIATIONS.md D14, before the battery ran",
+  "panels": {
+    "fed_isic2019_vs_to_target": {
+      "averaging": {
+        "cases": 540,
+        "with_clear_movement": 320,
+        "disagreements": 0,
+        "rate": 0.0,
+        "ci95": [
+          0.0,
+          0.011862589611711404
+        ],
+        "converse": 7
+      },
+      "selection": {
+        "cases": 72,
+        "with_clear_movement": 52,
+        "disagreements": 14,
+        "rate": 0.2692307692307692,
+        "ci95": [
+          0.1676881003582587,
+          0.4025247875246099
+        ],
+        "converse": 7
+      }
+    },
+    "dermacon_vs_to_target": {
+      "averaging": {
+        "cases": 108,
+        "with_clear_movement": 54,
+        "disagreements": 9,
+        "rate": 0.16666666666666666,
+        "ci95": [
+          0.0902428998661039,
+          0.28736767798789736
+        ],
+        "converse": 3
+      },
+      "selection": {
+        "cases": 36,
+        "with_clear_movement": 23,
+        "disagreements": 1,
+        "rate": 0.043478260869565216,
+        "ci95": [
+          0.0077164669621267445,
+          0.20991586494059142
+        ],
+        "converse": 14
+      }
+    },
+    "dermacon_vs_recall": {
+      "averaging": {
+        "cases": 108,
+        "with_clear_movement": 62,
+        "disagreements": 15,
+        "rate": 0.24193548387096775,
+        "ci95": [
+          0.15245763680948543,
+          0.3615274425324505
+        ],
+        "converse": 0
+      },
+      "selection": {
+        "cases": 36,
+        "with_clear_movement": 19,
+        "disagreements": 0,
+        "rate": 0.0,
+        "ci95": [
+          0.0,
+          0.16818436536845052
+        ],
+        "converse": 2
+      }
+    }
+  },
+  "verdict": "refuted: averaging rules disagree substantially here, so the 'averaging never does this' claim does not hold",
+  "differences_not_controlled": [
+    "40 rounds here against 100 in the Fed-ISIC2019 grid",
+    "7 classes against 8",
+    "constructed age-band centres against six real hospitals",
+    "the Fed-ISIC2019 grid had 17 methods, this battery 8"
+  ],
+  "measured_utc": "2026-10-11T11:44:35+00:00"
+}

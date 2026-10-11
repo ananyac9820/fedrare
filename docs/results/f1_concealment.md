@@ -3,6 +3,13 @@
 Pre-registered as **D13** (11 October 2026) and run against result files that already existed - no
 new training. Raw numbers: `f1_concealment.json`. Script: `scripts/22_f1_concealment.py`.
 
+> **Superseded in part, 11 October 2026.** The selection-versus-averaging split reported below
+> **did not replicate** on DermaCon-IN - it reversed, with averaging rules showing 16.7-24.2%
+> disagreement and selection rules near zero. The Fed-ISIC2019 numbers here stand as measured, but
+> they are dataset-specific, and the mechanism proposed below (discrete jumps versus continuous
+> movement) does not survive. See `concealment_replication.md` and DEVIATIONS.md R13 before quoting
+> anything on this page.
+
 ## The short answer
 
 **The hypothesis is not supported as a general claim.** Across 612 comparable cases from the 408
