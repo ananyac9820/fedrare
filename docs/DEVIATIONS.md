@@ -791,3 +791,56 @@ three seeds and a longer post-turn window. On recall, this single run points the
 (0.709 to 0.527), but ten images out of fifty-five at one seed is suggestive and nothing more; it is
 not claimed as confirmation, and the gate is not re-scored on a metric chosen after seeing the data.
 
+## D13 - A study of the metric itself: does rare-class F1 conceal attack damage? (11 Oct 2026) - NOT YET RUN
+
+**Where this comes from.** The R11 addendum: on Dermatofibroma at round 20 under A2, rare-class F1
+rose from 0.390 to 0.518 while recall fell from 0.709 to 0.527. F1 improved because the honest
+baseline was over-predicting the class (145 predictions for 55 true images, precision 0.269) and
+the attack suppressed the over-prediction, so the precision gain outweighed the recall loss in the
+harmonic mean. Rare-class F1 is a standard attack-success metric in this literature, so if that
+behaviour is systematic it matters beyond this project.
+
+**Hypothesis.** Rare-class F1 under-reports attack damage in long-tail federated learning when the
+honest baseline over-predicts the rare class.
+
+**No new runs.** This analyses result files that already exist.
+
+**What the existing files can and cannot support - established before designing the tests.** Only
+`docs/results/tier_b.json` stores confusion matrices. The 408-run grid (`docs/results/runs.csv`)
+stores per-class F1 and `to_target_c` (the share of true class-c images predicted as the target
+class) but **not recall or precision**, and they cannot be recovered without re-running. So:
+
+| test | data | comparable cases |
+| --- | --- | --- |
+| 1. does F1 disagree with `to_target`? | the grid, 306 attacked runs each paired with the honest run of the same split/method/seed, 2 rare classes | **612** |
+| 2. does F1 disagree with true recall? | Tier B, 2 attacked runs x 4 evaluation rounds x 2 rare classes | **16** |
+| 3. is disagreement predicted by honest precision? | Tier B only - precision does not exist elsewhere | **16** |
+
+Test 3 is declared **descriptive before it is run**: sixteen cells cannot support a correlation,
+and no correlation coefficient computed on them will be presented as evidence for the hypothesis.
+The grid's much larger N can only speak to Test 1.
+
+**Definitions, fixed now.** For a paired (honest, attacked) run and rare class c:
+dF1 = F1_attacked - F1_honest, dTT = to_target_attacked - to_target_honest, dRecall likewise.
+A rise in `to_target` means more of the class is being pushed into the attack's target, which is
+damage. **Disagreement** is `dTT > eps and dF1 > eps`: the damage metric says worse, F1 says better.
+The converse (`dTT < -eps and dF1 < -eps`) is counted separately. **eps = 0.01.** Cases where either
+metric moves by eps or less are "no clear movement", excluded from the rate's denominator, and
+their count is reported alongside it.
+
+**One caveat recorded now, not after the fact.** `to_target` rising does not *strictly* imply recall
+falling, since an image can move between wrong classes. Test 2 checks the two against each other
+where both exist; Test 1's conclusions are about `to_target` and are worded that way.
+
+**Breakdowns.** Test 1 is reported by attack (A1/A2/A3), by rare class, and by aggregation method.
+
+**How the result will be characterised, decided now.** Disagreement under 10% of comparable cases:
+reported as "this can happen under specific conditions", not as a general claim about the field, and
+the write-up says so in those words. 10-30%: "common enough to matter in this setting". Above 30%:
+"systematic here". Whatever the rate, the number of comparable cases is stated next to it.
+
+**Out of scope.** No pre-registered gate is re-scored using anything found here. This is a study of
+evaluation methodology, and the gates were decided on the metrics fixed at the time.
+
+**Status.** Written before the analysis was run. Script: `scripts/22_f1_concealment.py`.
+
