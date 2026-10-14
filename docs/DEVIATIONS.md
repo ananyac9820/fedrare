@@ -1301,3 +1301,49 @@ uninformative whatever the data says. The threshold the amendment protects is th
 number, so getting it wrong in this direction would overstate the field's standard solution, not
 ours.
 
+## R16 - Result: the peer floor stops outsiders and is powerless against the insider (14 Oct 2026)
+
+D16's battery run as specified: 60 runs, 100 rounds, two arms, five attacks, three seeds, confusion
+matrices stored, plus the two 200-round honest checks. `docs/results/peer_floor_proper.json`.
+
+**The verdict is NOT MET, on condition 1.** Attacker's captured rare-row weight on S2, floor off ->
+floor on, mean over three seeds:
+
+| attack | who attacks | floor off | floor on | reduction | |
+| --- | --- | --- | --- | --- | --- |
+| A1 sudden expert | centre 4, holds no rare images | 0.263 | **0.037** | +0.226 | previously seen (R10) |
+| A2 sleeper | centre 1, a genuine holder elsewhere | 0.331 | **0.176** | +0.155 | **new cell** |
+| A3 scaling | centre 4 | 0.021 | 0.021 | - | below the 0.10 applicability floor |
+| **A2s specialist sleeper** | **centre 2, the sole rare holder itself** | **0.500** | **0.500** | **0.000** | **new cell, fails** |
+
+Condition 1 required a reduction of at least 0.05 wherever the floor-off arm gave the attacker more
+than 0.10. A1 and A2 clear it comfortably. **A2s does not move at all**, and that decides the gate.
+
+**Conditions 2, 3 and 4 all passed.** The floor never increases an attacker's capture anywhere; it
+costs the honest case nothing - rare macro-F1 within the margin on both splits, and the genuine
+specialist keeps its capped 0.500 of the rare rows with no attack; and it is inert on S1, where the
+rare classes have 3 and 4 holders, confirming it is a low-coverage mechanism rather than a general
+change to EARN. The 200-round check shows no slow penalty to an honest sole holder: specialist
+weight 0.500 either way, rare recall 0.451 without the floor and 0.460 with it.
+
+**The result generalises past the cell that produced it, which was the point of D16's design.** R10's
+observation came from A1 on S2. A2 is a cell that had never been run, and the floor reduces capture
+there too, 0.331 -> 0.176. So this is not a one-off.
+
+**Why A2s is immune, and why that is the interesting half.** The floor raises the weight carried by
+*peer* agreement. On S2 the rare classes have exactly one holder, and under A2s that holder **is**
+the attacker - centre 2, which behaves honestly for fifteen rounds and then turns. There are no
+peers to weight up, because there is nobody else who holds the class. Flooring peer confidence
+cannot help when the peer set is empty.
+
+**What this is worth, stated carefully.** The floor is a real defence against an *outsider* claiming
+rare expertise it does not have - the Camp A failure mode, and the one the literature's
+reported-count methods are exposed to. It is no defence at all against the *only true expert*
+turning malicious. Those are different threats and this result separates them cleanly, which is more
+useful than a uniform pass would have been.
+
+It also sharpens the project's central claim rather than softening it. The boundary result says a
+rare-class claim cannot be verified at coverage 1; R16 adds that a mechanism built on peer agreement
+cannot be rescued there by reweighting, because the deficiency is the absence of peers, not the
+weight given to them. The gate stands as failed, and the partial defence is reported as partial.
+
