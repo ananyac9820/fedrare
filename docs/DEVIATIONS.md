@@ -945,3 +945,53 @@ target class, not rare-class F1 alone.
 centres against six real hospitals; 8 methods against 17; different attacker centres, chosen to
 preserve each attack's role rather than its number. Any could matter; this study cannot say which.
 
+## D15 - Evidence signal, second pass (14 Oct 2026) - NOT YET RUN
+
+**Status of G0a is unchanged and this does not reopen it.** As in D11, this is a search for a
+signal, not a re-run of a decided gate. D11's rules carry over: every candidate declared here is
+reported, pass or fail, in this order, and none is added afterwards.
+
+**Why a second pass is worth it.** R9 moved the statistic from -0.210 to +0.426 by removing a
+per-client scale artefact, which was one afternoon's first attempt, and two flaws in it are visible
+without any new measurement:
+
+1. *C3 scores itself.* It compares a client's class-c update against the size-weighted mean of
+   **all** clients' class-c updates, including that client's own. For a large centre the consensus
+   is largely its own update, which inflates its cosine in proportion to its size - the likely
+   source of C3's +0.493 correlation with centre size, which is the quantity we are trying not to
+   use.
+2. *Everything was measured at round 1 only.* Round-1 updates come from a randomly initialised
+   head, the noisiest point in training. The design doc lists evidence averaged over three rounds
+   as an alternative it never used.
+
+**Candidates, fixed now.**
+
+| id | evidence e(k,c) | what it fixes |
+| --- | --- | --- |
+| E1 | cosine with the **leave-one-out** consensus: client k's row c against the size-weighted mean of the other five clients' row c | removes self-inclusion, the suspected source of C3's size correlation |
+| E2 | E1 with the consensus unweighted (each other client counts equally) | removes size from the consensus as well as from the comparison |
+| E3 | C1 (signed bias, per-client normalised) averaged over rounds 1-3 | the design doc's unused alternative: less round-1 noise |
+| E4 | E1 averaged over rounds 1-3 | both fixes together |
+| E5 | per-class rank average of C1 and E1 | combines a scale-free magnitude signal with a direction signal |
+
+**Measured as G0a measures, with two differences stated now.** Same Tier A config, same natural
+split S1, same clipping to the median norm, same Spearman per class against true training counts,
+same statistic (mean over the 8 classes). The differences: candidates are evaluated at **seeds 42,
+43 and 44** and reported as mean +- sd rather than a single seed, and the multi-round candidates use
+rounds 1-3. R9's five candidates and the design doc's original signal are recomputed under the same
+protocol so the comparison is like for like.
+
+**Bar.** 0.7, as G0a used. Reported next to each candidate: its Spearman against centre **size**,
+because a candidate whose skill comes from size is not useful here however high it scores.
+
+**Rule carried over from D11, and it matters more after R8.** A candidate clearing 0.7 shows only
+that a faithful signal exists. Before it could become EARN's signal it needs its own
+pre-registration including an A1 spoofability check, because R8 established that faithful on honest
+data and safe against a liar are different properties and a rule can have the first without the
+second.
+
+**If none clears the bar**, that is the result, Fallback F1 stands, and EARN's evidence input
+remains the project's open problem - stated plainly rather than softened.
+
+**Status.** Written before any candidate was computed. Script: `scripts/25_evidence_signal_v2.py`.
+
