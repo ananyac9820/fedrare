@@ -995,3 +995,46 @@ remains the project's open problem - stated plainly rather than softened.
 
 **Status.** Written before any candidate was computed. Script: `scripts/25_evidence_signal_v2.py`.
 
+## R14 - Result: the second pass does not find a usable signal, and kills the best-looking one (14 Oct 2026)
+
+All candidates from D15, three seeds, scored as G0a scores. `docs/results/evidence_signal_v2.json`.
+
+| candidate | mean +- sd | vs centre size |
+| --- | --- | --- |
+| C3, consensus **including self** (R9's best) | +0.448 +- 0.124 | **+0.429** |
+| C1, signed bias per-client normalised | **+0.391 +- 0.034** | +0.095 |
+| E3, C1 averaged over rounds 1-3 | +0.265 +- 0.027 | +0.021 |
+| E5, rank average of C1 and E1 | +0.201 +- 0.112 | -0.047 |
+| E4, E1 averaged over rounds 1-3 | +0.056 +- 0.025 | -0.107 |
+| E1, **leave-one-out** consensus | **-0.020 +- 0.095** | -0.093 |
+| E2, leave-one-out unweighted | -0.177 +- 0.100 | -0.017 |
+| G0a, the design doc's signal | -0.244 +- 0.090 | -0.155 |
+
+**Nothing clears 0.7. Fallback F1 stands and G0a stays failed.**
+
+**The pre-registered suspicion about C3 was right, and the consequence is worse than expected.**
+D15 predicted that C3 scored well partly because each client was compared against a consensus
+containing its own update. Removing exactly that - comparing against the other five clients only -
+takes the statistic from **+0.448 to -0.020**. The self-comparison was not part of C3's skill, it
+was *all* of it. C3 is a size proxy wearing a cosine, and it must not be used or cited as this
+project's best signal; R9's table should be read with this entry beside it.
+
+**C1 is the real best, and it is stable.** +0.391 with a standard deviation of 0.034 across seeds
+and only +0.095 correlation with size - the only candidate that is both well clear of zero and not
+tracking the quantity FedAvg already uses. It is still only half the bar.
+
+**Averaging over rounds does not help.** E3 and E4 both fall below their single-round versions. The
+design doc's unused alternative is now tested and does not rescue the signal; what it does do is
+reduce size correlation further, which is consistent with later rounds carrying less of everything.
+
+**Where this leaves the signal route.** Ten definitions have now been tested across two
+pre-registered passes: update magnitude, signed magnitude, normalised magnitude, direction against
+peers with and without self-inclusion, weighted and unweighted, single and multi-round, a rank
+combination, and a probe-based stand-in. The best faithful one reaches 0.39 of a required 0.7. That
+is no longer "our first idea failed" - it is evidence that **the geometry of a classifier-head
+update does not carry enough information to identify which classes a hospital holds**, at least at
+this scale and in this architecture. For the paper that is a stronger and more useful claim than the
+original single failure, and it sharpens rather than weakens the project's thesis: a faithful *and*
+unspoofable evidence signal is the missing ingredient, and we have now mapped a good deal of the
+space where it is not.
+

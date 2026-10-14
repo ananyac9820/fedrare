@@ -1,0 +1,186 @@
+{
+  "entry": "D15",
+  "fixed_in": "docs/DEVIATIONS.md D15, before any candidate was computed",
+  "bar": 0.7,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "rounds_for_multiround": 3,
+  "measured_like": "gate G0a, on S1, clipped updates, mean Spearman over 8 classes",
+  "candidates": {
+    "G0a (design doc)": {
+      "mean": -0.2443556855311897,
+      "sd": 0.09001927694398841,
+      "per_seed": [
+        -0.21027759867097415,
+        -0.17635072142120567,
+        -0.34643873650138923
+      ],
+      "vs_size_mean": -0.15476190476190477,
+      "per_class_mean": {
+        "Melanoma": 0.44761904761904764,
+        "Melanocytic nevus": 0.40952380952380957,
+        "Basal cell carcinoma": -0.5047619047619049,
+        "Actinic keratosis": -0.7184924765173842,
+        "Benign keratosis": 0.2571428571428572,
+        "Dermatofibroma": -0.44761904761904764,
+        "Vascular lesion": -0.6190476190476191,
+        "Squamous cell carcinoma": -0.779210150589276
+      },
+      "passed": false
+    },
+    "C1 (R9 best clean)": {
+      "mean": 0.3912299796233551,
+      "sd": 0.03360329613261959,
+      "per_seed": [
+        0.42635072142120567,
+        0.35938389443871555,
+        0.3879553230101441
+      ],
+      "vs_size_mean": 0.09523809523809523,
+      "per_class_mean": {
+        "Melanoma": 0.06666666666666667,
+        "Melanocytic nevus": 0.580952380952381,
+        "Basal cell carcinoma": 0.7714285714285715,
+        "Actinic keratosis": 0.6780140271361232,
+        "Benign keratosis": -0.06666666666666667,
+        "Dermatofibroma": 0.18095238095238098,
+        "Vascular lesion": 0.20000000000000004,
+        "Squamous cell carcinoma": 0.7184924765173845
+      },
+      "passed": false
+    },
+    "C3 (R9 best raw)": {
+      "mean": 0.4477657394193535,
+      "sd": 0.12368582692265383,
+      "per_seed": [
+        0.5879485462949323,
+        0.354014892329952,
+        0.4013337796331762
+      ],
+      "vs_size_mean": 0.4285714285714286,
+      "per_class_mean": {
+        "Melanoma": 0.7714285714285715,
+        "Melanocytic nevus": 0.2952380952380953,
+        "Basal cell carcinoma": 0.8857142857142858,
+        "Actinic keratosis": 0.21251185925162072,
+        "Benign keratosis": 0.7142857142857143,
+        "Dermatofibroma": 0.46666666666666673,
+        "Vascular lesion": 0.7523809523809524,
+        "Squamous cell carcinoma": -0.5161002296110788
+      },
+      "passed": false
+    },
+    "E1 leave-one-out": {
+      "mean": -0.019801408194783657,
+      "sd": 0.09539122898959698,
+      "per_seed": [
+        0.003114411382481544,
+        -0.12456331295668843,
+        0.06204467698985592
+      ],
+      "vs_size_mean": -0.09285714285714285,
+      "per_class_mean": {
+        "Melanoma": 0.3904761904761906,
+        "Melanocytic nevus": 0.12380952380952381,
+        "Basal cell carcinoma": 0.1619047619047619,
+        "Actinic keratosis": -0.55657867899234,
+        "Benign keratosis": 0.2571428571428572,
+        "Dermatofibroma": 0.21904761904761905,
+        "Vascular lesion": 0.08571428571428573,
+        "Squamous cell carcinoma": -0.8399278246611676
+      },
+      "passed": false
+    },
+    "E2 LOO unweighted": {
+      "mean": -0.17694652424271143,
+      "sd": 0.10000133116989786,
+      "per_seed": [
+        -0.07724442565346432,
+        -0.2772444256534643,
+        -0.17635072142120567
+      ],
+      "vs_size_mean": -0.016666666666666653,
+      "per_class_mean": {
+        "Melanoma": 0.46666666666666673,
+        "Melanocytic nevus": 0.20000000000000004,
+        "Basal cell carcinoma": -0.7904761904761907,
+        "Actinic keratosis": -0.8399278246611677,
+        "Benign keratosis": 0.2380952380952381,
+        "Dermatofibroma": 0.31428571428571433,
+        "Vascular lesion": -0.12380952380952383,
+        "Squamous cell carcinoma": -0.8804062740424289
+      },
+      "passed": false
+    },
+    "E5 rank(C1, E1)": {
+      "mean": 0.20138968720595574,
+      "sd": 0.1122375799289974,
+      "per_seed": [
+        0.22502175259414126,
+        0.07921778261356086,
+        0.2999295264101651
+      ],
+      "vs_size_mean": -0.046791592819956596,
+      "per_class_mean": {
+        "Melanoma": 0.16310594667698688,
+        "Melanocytic nevus": 0.4148708638943437,
+        "Basal cell carcinoma": 0.5052292002820715,
+        "Actinic keratosis": 0.24175235717585317,
+        "Benign keratosis": 0.048314252971037384,
+        "Dermatofibroma": 0.1395605144392472,
+        "Vascular lesion": 0.15726806358355175,
+        "Squamous cell carcinoma": -0.05898370137544557
+      },
+      "passed": false
+    },
+    "E3 C1 over 3 rounds": {
+      "mean": 0.2645949102218202,
+      "sd": 0.026786711985924822,
+      "per_seed": [
+        0.23394043068019213,
+        0.2834935785640629,
+        0.2763507214212057
+      ],
+      "vs_size_mean": 0.021428571428571425,
+      "per_class_mean": {
+        "Melanoma": -0.638095238095238,
+        "Melanocytic nevus": -0.009523809523809518,
+        "Basal cell carcinoma": 0.8857142857142858,
+        "Actinic keratosis": 0.819688599970537,
+        "Benign keratosis": -0.37142857142857144,
+        "Dermatofibroma": 0.27619047619047626,
+        "Vascular lesion": 0.31428571428571433,
+        "Squamous cell carcinoma": 0.8399278246611676
+      },
+      "passed": false
+    },
+    "E4 E1 over 3 rounds": {
+      "mean": 0.05639132690076313,
+      "sd": 0.025388588257537155,
+      "per_seed": [
+        0.08436695265068596,
+        0.03481380476681527,
+        0.049993223284788176
+      ],
+      "vs_size_mean": -0.10714285714285715,
+      "per_class_mean": {
+        "Melanoma": 0.3142857142857143,
+        "Melanocytic nevus": 0.06666666666666668,
+        "Basal cell carcinoma": 0.12380952380952381,
+        "Actinic keratosis": -0.37442565677666506,
+        "Benign keratosis": 0.40952380952380957,
+        "Dermatofibroma": 0.2571428571428572,
+        "Vascular lesion": 0.35238095238095246,
+        "Squamous cell carcinoma": -0.6982532518267538
+      },
+      "passed": false
+    }
+  },
+  "best": "C3 (R9 best raw)",
+  "any_passed": false,
+  "note": "D11/D15 rule: clearing the bar shows a faithful signal exists, nothing more. Use in EARN needs its own pre-registration including an A1 spoofability check.",
+  "measured_utc": "2026-10-14T06:55:05+00:00"
+}
