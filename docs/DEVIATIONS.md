@@ -1206,3 +1206,53 @@ Tier B-scale work - and the routes that import outside information: a server roo
 or an attested declaration. The boundary result in `DESIGN_NOTE_attestation.md` is strengthened by
 one more closed channel, not weakened.
 
+## D18 - FLTrust root-dataset sweep: where does the field's standard answer go blind? (14 Oct 2026) - NOT YET RUN
+
+**What this tests, and why it is not about our method.** FLTrust (NDSS 2021) is the canonical answer
+to "the server has no root of trust": give the server a small clean dataset - the paper uses fewer
+than 100 examples - train a server update on it, and score each client by how closely its update
+agrees in direction. It handles 40-60% malicious clients. Our boundary argument says this works only
+where the server's root set covers the class under attack, and that for a rare disease that is the
+assumption the problem denies. This entry turns that argument into a measurement.
+
+**It is a study, not a gate.** No pre-registered gate is created or re-scored. It measures a
+published method under conditions we vary.
+
+**Setup.** Tier A, S1, frozen features, 40 rounds, seeds 42/43/44. The server's root set is drawn
+from the training pool and the chosen rows are **removed from the clients**, so the server's data is
+genuinely its own. Common classes contribute a fixed **10 examples each**. The rare classes
+contribute **r examples each**, swept:
+
+    r in {0, 1, 2, 5, 10, 20}
+
+Two conditions: no attack, and **A1** - centre 4, which holds no rare images, claiming to be a rare
+specialist. 6 root sizes x 2 conditions x 3 seeds = 36 runs. FedAvg under the same conditions is the
+reference, already available.
+
+**Metrics.** Rare-class **recall** and macro-F1 (recall first, after R13), balanced accuracy, and
+FLTrust's own trust score for the attacker and for the genuine rare holders.
+
+**Predictions, recorded before running.**
+
+1. At **r = 0** the server has no rare examples. FLTrust should defend the common classes - balanced
+   accuracy under attack close to the no-attack run - and give little or no rare-class protection.
+2. Rare-class protection should improve as r rises.
+3. Common-class protection should be flat in r, because the common part of the root set never changes.
+
+**What would support the boundary claim, fixed now.** At r = 0, FLTrust's rare-class recall under A1
+is within **0.05** of FedAvg's under A1 - that is, essentially no protection where it matters - *and*
+at r = 20 it is at least **0.10** better than FedAvg's under A1.
+
+**What would refute it, fixed now.** If at **r = 0** FLTrust already recovers at least **0.10** of
+rare-class recall over FedAvg under attack, then rare-class protection does **not** require
+rare-class data at the server, our argument that the needed external information is exactly the
+scarce resource is wrong, and the design note must be rewritten before it goes any further. This
+outcome is the one to watch for, and it would be reported as prominently as the other.
+
+**Also recorded: this is a port, not a reproduction.** FLTrust was published for full models trained
+from scratch; we run it on a linear head over frozen features, and our root set is carved from the
+same distribution rather than independently collected. A null or weak result is therefore a result
+about *this setting*, as R15 was for CELM, and will be worded that way.
+
+**Status.** Written before the first run. Script: `scripts/28_fltrust_sweep.py`.
+
