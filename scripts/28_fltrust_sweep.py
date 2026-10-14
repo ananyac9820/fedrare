@@ -50,6 +50,9 @@ N_CENTRES, N_CLASSES = 6, 8
 COMMON_PER_CLASS = 10                 # fixed, D18
 RARE_SWEEP = (0, 1, 2, 5, 10, 20, 50)   # swept, D18 as amended
 WORKS_MARGIN = 0.10                     # D18 amendment: 'works on a class'
+LEARNED_FLOOR = 0.20                    # D18 second amendment: a class with
+                                        # near-zero recall either way is not
+                                        # being protected, it is being missed
 ATTACKS = ("none", "A1")
 
 
@@ -188,9 +191,11 @@ def main() -> int:
         for c in range(N_CLASSES):
             clean = class_recall(rr, "none", "fltrust", c)
             attacked = class_recall(rr, "A1", "fltrust", c)
+            learned = clean >= LEARNED_FLOOR
             per_class[c] = {"no_attack": clean, "under_A1": attacked,
                             "drop": clean - attacked,
-                            "works": bool(attacked >= clean - WORKS_MARGIN),
+                            "learned": bool(learned),
+                            "works": bool(learned and attacked >= clean - WORKS_MARGIN),
                             "rare": c in RARE_IDS}
         protection[rr] = per_class
 
@@ -240,10 +245,11 @@ def main() -> int:
     print("    r     " + "  ".join(f"c{c}" + ("*" if c in RARE_IDS else " ")
                                    for c in range(N_CLASSES)))
     for rr in RARE_SWEEP:
-        marks = "  ".join(("ok  " if protection[rr][c]["works"] else "FAIL")
+        marks = "  ".join(("ok  " if protection[rr][c]["works"]
+                           else "--  " if not protection[rr][c]["learned"] else "FAIL")
                           for c in range(N_CLASSES))
         print(f"    {rr:<5} {marks}")
-    print("    (* = rare class)")
+    print("    (* = rare class; -- = not learned even without attack, so not scorable)")
     print(f"  HEADLINE - rare examples the server needs before both rare classes are "
           f"protected: {threshold if threshold is not None else 'not reached by r=' + str(max(RARE_SWEEP))}")
     print(f"  supports the boundary claim: {supports}")

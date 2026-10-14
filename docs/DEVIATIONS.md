@@ -1279,3 +1279,25 @@ Per-class protection is reported for all 8 classes at every r, which is what tes
 that common-class protection is flat in r while rare-class protection is not. The supports/refutes
 conditions in D18 are unchanged, as is the warning that this is a port rather than a reproduction.
 
+**D18 second amendment (14 Oct 2026, still before any real run).** A flaw in the bar I set in the
+first amendment, caught on a 2-round plumbing check and fixed here rather than explained afterwards.
+
+*The problem.* "Works on class c" was defined as recall under attack staying within 0.10 of the
+no-attack recall. A class the model never learns has near-zero recall in both arms, so the drop is
+under 0.10 and the class is scored as **protected** - when in truth there was nothing to protect.
+On the 2-round check every class passed and the headline threshold came out as **0 examples**, for
+exactly that reason. Run at 40 rounds the bar would mostly bite, but the degenerate case would still
+silently inflate the result whenever a rare class is poorly learned at a given root size.
+
+*The fix, fixed now.* A class counts as **learned** at root size r if its no-attack recall is at
+least **0.20**. Only learned classes can be scored as working; an unlearned class is recorded as
+`not_learned` and **cannot** satisfy the threshold. If a rare class is never learned at any root
+size in the sweep, the headline is reported as undefined, with that reason stated, rather than as a
+number.
+
+*Why this is not tuning.* It is not informed by any result: the 2-round check produces no findings,
+and the defect is visible analytically - a ratio bar comparing two near-zero quantities is
+uninformative whatever the data says. The threshold the amendment protects is the entry's headline
+number, so getting it wrong in this direction would overstate the field's standard solution, not
+ours.
+
