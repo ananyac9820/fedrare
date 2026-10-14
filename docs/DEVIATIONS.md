@@ -1038,3 +1038,59 @@ original single failure, and it sharpens rather than weakens the project's thesi
 unspoofable evidence signal is the missing ingredient, and we have now mapped a good deal of the
 space where it is not.
 
+## D16 - The peer-confidence floor, tested on its own terms (14 Oct 2026) - NOT YET RUN
+
+**What this tests.** R10 ran the floor to see whether it rescued the scale-relative threshold. It
+did not, and the entry was recorded as a failure. But the same run showed something it was not
+testing: on **S2**, where centre 2 is the sole holder of both rare classes and no peer can check its
+claim, flooring peer confidence cut a claiming attacker's captured rare-row weight from **0.263 to
+0.037** while the honest specialist kept its capped 0.500. R10 recorded that as an observation and
+explicitly refused to call it a result, because the conditions it cleared asked only whether the
+floor did no harm. This entry tests it properly.
+
+**Why it matters for EARN.** The floor operates on the coverage blend, not on the evidence input.
+If it holds, it is a validated positive finding about EARN's own mechanism that **does not depend on
+the evidence signal** - which, after R14, is the project's known dead end. It would also speak
+directly to the paper's central claim, since coverage 1 is where every method we tested either
+trusts an uncheckable claim or distrusts the only expert.
+
+**Guarding against confirming a post-hoc observation on its own data.** The S2/A1 cell was already
+seen in R10. The verdict below therefore rests on cells **not previously run**: attacks A2, A3 and
+A2s, the specialist-sleeper case, and a damage metric R10 never measured. The S2/A1 cell is re-run
+and reported, but on its own it cannot carry the verdict.
+
+**The battery.** 2 arms (floor off, floor 0.5) x 2 splits (S1, S2) x 5 attacks (none, A1, A2, A3,
+A2s) x 3 seeds = **60 runs**, 100 rounds, oracle evidence, frozen features, absolute holder
+threshold throughout - the pre-registered default, unchanged. Full confusion matrices are stored, so
+rare-class **recall** is exact; after R13 the project does not judge attack damage on F1 alone.
+
+Plus two extra runs outside the battery: S2, no attack, seed 42, **200 rounds**, floor on and off,
+to check that an honest sole holder is not slowly penalised over a horizon longer than the one the
+battery uses. Reported separately; it does not enter the verdict.
+
+**Conditions, fixed now. Means over the three seeds.**
+
+1. *It does what the observation suggested, where there is something to reduce.* On S2, for every
+   attack where the floor-off arm gives the attacker more than 0.10 of the rare rows, the floor
+   reduces that captured weight by at least **0.05**.
+2. *It never helps an attacker.* On neither split, under no attack, does the floor increase the
+   attacker's captured weight by more than **0.01**.
+3. *It costs the honest case nothing.* With no attack, rare macro-F1 is within **0.05** of the
+   floor-off arm on both splits, and on S2 the honest specialist's rare-row weight falls by no more
+   than **0.05**.
+4. *It is inert where peers are plentiful.* On S1, where the rare classes have 3 and 4 holders, the
+   floor changes the attacker's captured weight by no more than **0.05** - it is a fix for low
+   coverage and should do nothing elsewhere.
+
+**Outcomes, decided now.** All four hold -> the floor is EARN's first validated positive result, it
+becomes the proposed default for coverage-1 regimes, and it is written up as such with the
+observation's post-hoc origin stated. Condition 1 fails -> the R10 observation does not generalise
+beyond the cell it came from, and it is reported as a one-off. Condition 2 or 3 fails -> the floor
+is harmful and is dropped whatever else holds. Condition 4 fails -> the floor is not a low-coverage
+fix but a general change to EARN, which would need its own separate justification.
+
+**Reported either way**, including rare-class recall alongside F1, and including the S2/A1 re-run
+marked as previously seen.
+
+**Status.** Written before the first run. Script: `scripts/26_peer_floor_proper.py`.
+
