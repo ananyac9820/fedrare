@@ -1256,3 +1256,26 @@ about *this setting*, as R15 was for CELM, and will be worded that way.
 
 **Status.** Written before the first run. Script: `scripts/28_fltrust_sweep.py`.
 
+**D18 amendment (14 Oct 2026, before any run of the sweep).** Three additions, requested before a
+single configuration had been executed, so nothing here is informed by a result.
+
+1. **The sweep extends to r = 50** rare-class examples per class at the server:
+   r in {0, 1, 2, 5, 10, 20, **50**}. Common classes stay fixed at 10 each. 7 root sizes x 2
+   conditions x 3 seeds x 2 rules = 84 runs.
+
+2. **A bar for "working on a class", fixed now.** FLTrust assigns **one scalar trust per client**,
+   not one per class - it is not a class-aware method - so a per-class score does not exist to be
+   read off. The only honest operationalisation is downstream: FLTrust **works on class c** at root
+   size r if, averaged over the three seeds, class c's recall under attack A1 is **no more than
+   0.10 below** that same arm's recall with no attack. Protection, not scoring.
+
+3. **The threshold is the headline output.** The script records the **smallest r at which both rare
+   classes work** by the bar above, and reports it as the entry's headline number: *how many
+   rare-disease examples the field's standard solution needs at the server before it can protect a
+   rare class at all.* If no r in the sweep reaches the bar, that is reported as "not reached by
+   r = 50", which is itself the more striking version of the same claim.
+
+Per-class protection is reported for all 8 classes at every r, which is what tests the prediction
+that common-class protection is flat in r while rare-class protection is not. The supports/refutes
+conditions in D18 are unchanged, as is the warning that this is a port rather than a reproduction.
+
