@@ -1094,3 +1094,70 @@ marked as previously seen.
 
 **Status.** Written before the first run. Script: `scripts/26_peer_floor_proper.py`.
 
+## D17 - A probe-based evidence signal, after CELM (14 Oct 2026) - NOT YET RUN
+
+**This is a new gate for a new signal. G0a stays failed.** G0a was decided on the design doc's
+definition - evidence read from the geometry of a client's update - and that verdict is historical
+and is not reopened, re-scored or reinterpreted by anything in this entry. What is proposed here is
+a *different* signal from a different family, with its own gate, its own bar and its own record. If
+it passes, the project reports that the original signal failed and a replacement cleared a separate
+bar. It does not report that G0a passed.
+
+**The gate.** Call it **G0c**. Evidence e(k,c) must rank the six centres' true per-class training
+counts with mean Spearman **>= 0.7** over the 8 classes - the same bar, the same split (S1), the
+same clipping, the same measurement code path as G0a used - now over **three seeds (42/43/44)**,
+reported as mean +- sd.
+
+**Why a probe signal, and why C4's -0.204 does not predict this.** CELM (2026) reports per-class
+evidence obtained by *probing each client model* with class-wise logit maximisation, and reports it
+working on Fed-ISIC2019 - our dataset. R9 tested a candidate called C4 that scored -0.204, and that
+was **not** CELM's method: C4 built a single probe from the **global** model and asked how each
+client's head responded to it. CELM optimises a probe **per class and per client model**, so the
+probe adapts to the client being measured. The two differ in what is held fixed, and C4's result
+says nothing about this one. This paragraph is recorded now so that, if the new signal passes, the
+distinction cannot be dismissed as an excuse invented afterwards.
+
+**Candidates, fixed now.** On Tier A the head is a single linear layer, so "find the input that
+maximises client k's logit for class c" has an exact solution on the unit ball and needs no
+optimisation: the maximum is ||w_c|| + b_c. We therefore implement the closed form, and a
+gradient-optimised probe as a check that the two agree.
+
+| id | evidence e(k,c) | note |
+| --- | --- | --- |
+| P1 | ||w_c|| + b_c of the client's **trained head** after local training | the probe's exact optimum |
+| P2 | margin: min over j != c of ( ||w_c - w_j|| + b_c - b_j ) | hardest-competitor version |
+| P3 | P1 computed per-client normalised across the 8 classes | R9 showed per-client scale is what broke the original signal |
+| P4 | P1 computed on the **update** rather than the trained head | control: the quantity closest to G0a, expected to behave like it |
+| P5 | gradient-optimised probe, 200 Adam steps per class per client | agreement check against P1; CELM's literal procedure |
+
+**The size column is declared in advance, as for C1/C3.** Every candidate is reported with its mean
+Spearman against centre **size** as well as against true counts. **Disqualification rule, fixed
+now:** a candidate whose correlation with size equals or exceeds its correlation with true counts is
+recorded as a size proxy and cannot be used, whatever its headline number. R14 showed exactly this
+trap - a candidate at +0.448 collapsed to -0.020 once self-comparison was removed.
+
+**Spoofability check, required before any use (the R8 lesson).** A signal that is faithful on honest
+data and forgeable by a liar is not usable, and R8 established that these are separate properties.
+We therefore run the A1 attacker - centre 4, which holds **no** images of either rare class and whose
+attack rewrites its rare rows to three times the largest honest row norm - and measure where the
+candidate ranks it among the six centres on the rare classes.
+
+**Condition, fixed now:** the A1 attacker must **not** rank in the top two of six on either rare
+class. A candidate that ranks it first or second is spoofable and is reported as unusable *even if
+it clears 0.7*. Note the prediction this invites: P1 and P2 are built from row norms, and A1
+inflates row norms by construction, so we expect them to be spoofable. Recording that now means a
+failure here is a confirmed prediction rather than a surprise.
+
+**Outcomes, decided now.**
+- Clears 0.7, not a size proxy, and not spoofable -> **G0c passes**, EARN gains a measured evidence
+  signal for the first time, and G2 becomes evaluable. This would be the project's first route off
+  the oracle.
+- Clears 0.7 but is spoofable or is a size proxy -> reported as a faithful but unusable signal,
+  which is itself a finding about the probe family on a real hospital split.
+- Does not clear 0.7 -> reported plainly as a negative result about a published method applied to
+  this setting, with the difference from CELM's own setting (they use full models; our Tier A head
+  is linear, which is why the probe has a closed form here) stated as a limitation rather than an
+  excuse.
+
+**Status.** Written before any candidate was computed. Script: `scripts/27_probe_evidence.py`.
+
