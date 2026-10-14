@@ -1347,3 +1347,56 @@ rare-class claim cannot be verified at coverage 1; R16 adds that a mechanism bui
 cannot be rescued there by reweighting, because the deficiency is the absence of peers, not the
 weight given to them. The gate stands as failed, and the partial defence is reported as partial.
 
+## R17 - Result: the FLTrust sweep is inconclusive, and the sweep design is at fault (14 Oct 2026)
+
+Run as D18 specified, with both amendments. 84 runs, 7 root sizes, 40 rounds, 3 seeds.
+`docs/results/fltrust_sweep.json`.
+
+**Neither pre-registered reading fired.** Supports = false, refutes = false. The supporting
+condition expected FLTrust at r = 0 to be *no better* than FedAvg under attack, within 0.05. What
+actually happened is far outside that band in the other direction, which the condition had no way to
+express.
+
+**The one clean result, and it is striking.** With **no rare examples at the server**, FLTrust's
+rare-class recall under A1 is **0.000 in all three seeds** (sd 0.000), against FedAvg's **0.436**.
+Without any attack at all it is **0.091** against FedAvg's **0.490**. FLTrust at r = 0 does not merely
+fail to protect the rare classes - it suppresses them, attacked or not. The mechanism is plain: with
+no rare examples the server's own update carries no rare-class direction, client updates that push
+those rows score low or negative cosine, and FLTrust's ReLU zeroes them. The rare classes never
+learn.
+
+**The rest of the sweep is confounded, by my design error.** The root set was carved out of the
+training pool and the chosen rows removed from the clients, so that the server's data would
+genuinely be its own. For common classes that is harmless. For the rare classes it is not: there are
+only **184** Dermatofibroma and **201** Vascular lesion training images in total, so
+
+| r | rare images taken from the clients | share of all rare training data |
+| --- | --- | --- |
+| 10 | 20 | 5% |
+| 20 | 40 | 10% |
+| 50 | 100 | **26%** |
+
+Each step of the sweep therefore changes *two* things at once - more rare data at the server, less
+rare data at the clients - and in opposite directions. That is visible in the result: rare recall
+rises to 0.67-0.68 at r = 2 and r = 5, then **falls back** to 0.25-0.30 for r = 10, 20 and 50, and
+the per-class table has classes flipping between learned and unlearned non-monotonically. The
+differences are far larger than the seed spread (sd 0.02-0.11), so this is systematic, not noise.
+
+**The headline number is therefore withdrawn.** The script reports a threshold of 2 rare examples;
+that figure is not trustworthy and must not be quoted. It comes from the region where the confound
+has not yet bitten, and the sweep above it is measuring client starvation as much as server
+competence.
+
+**The fix, for a re-run.** Hold out a single fixed pool of rare examples - the maximum the sweep
+needs, 50 per class - from the clients **once**, and vary only how many of that fixed pool the
+server uses. Client data is then identical across every root size and the only thing that changes is
+the server's root set, which is what the question asks about. The cost is that all arms lose 26% of
+the rare training data, which is a uniform handicap rather than a confound, and is stated.
+
+**What stands and what does not.** The r = 0 result stands: it is clean, consistent across seeds,
+and shows the field's standard trust-bootstrapping method going blind on exactly the classes this
+project is about when the server holds none of them. The *shape* of the dependence on root size does
+not stand and needs the corrected design before anything is claimed about how much external data is
+required. The boundary claim is neither supported nor refuted by this run, and the design note must
+not cite it until the re-run is done.
+

@@ -1,0 +1,2345 @@
+{
+  "entry": "D18",
+  "fixed_in": "docs/DEVIATIONS.md D18 and its amendment, before the first run",
+  "works_margin": 0.1,
+  "per_class_protection": {
+    "0": {
+      "0": {
+        "no_attack": 0.18171160609613132,
+        "under_A1": 0.504884720593982,
+        "drop": -0.3231731144978507,
+        "learned": false,
+        "works": false,
+        "rare": false
+      },
+      "1": {
+        "no_attack": 0.42387749033600947,
+        "under_A1": 0.6473386856972941,
+        "drop": -0.22346119536128467,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "2": {
+        "no_attack": 0.17606330365974285,
+        "under_A1": 0.318001978239367,
+        "drop": -0.14193867457962414,
+        "learned": false,
+        "works": false,
+        "rare": false
+      },
+      "3": {
+        "no_attack": 0.2817204301075269,
+        "under_A1": 0.2860215053763441,
+        "drop": -0.004301075268817178,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "4": {
+        "no_attack": 0.38935574229691877,
+        "under_A1": 0.43907563025210083,
+        "drop": -0.04971988795518206,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "5": {
+        "no_attack": 0.1818181818181818,
+        "under_A1": 0.0,
+        "drop": 0.1818181818181818,
+        "learned": false,
+        "works": false,
+        "rare": true
+      },
+      "6": {
+        "no_attack": 0.0,
+        "under_A1": 0.0,
+        "drop": 0.0,
+        "learned": false,
+        "works": false,
+        "rare": true
+      },
+      "7": {
+        "no_attack": 0.44289044289044294,
+        "under_A1": 0.1818181818181818,
+        "drop": 0.2610722610722611,
+        "learned": true,
+        "works": false,
+        "rare": false
+      }
+    },
+    "1": {
+      "0": {
+        "no_attack": 0.4243845252051583,
+        "under_A1": 0.3110590074247753,
+        "drop": 0.11332551778038297,
+        "learned": true,
+        "works": false,
+        "rare": false
+      },
+      "1": {
+        "no_attack": 0.3209931608682724,
+        "under_A1": 0.8049360689860244,
+        "drop": -0.48394290811775204,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "2": {
+        "no_attack": 0.5712166172106825,
+        "under_A1": 0.2116716122650841,
+        "drop": 0.3595450049455984,
+        "learned": true,
+        "works": false,
+        "rare": false
+      },
+      "3": {
+        "no_attack": 0.6150537634408603,
+        "under_A1": 0.08172043010752689,
+        "drop": 0.5333333333333334,
+        "learned": true,
+        "works": false,
+        "rare": false
+      },
+      "4": {
+        "no_attack": 0.0469187675070028,
+        "under_A1": 0.6183473389355743,
+        "drop": -0.5714285714285714,
+        "learned": false,
+        "works": false,
+        "rare": false
+      },
+      "5": {
+        "no_attack": 0.23030303030303031,
+        "under_A1": 0.030303030303030304,
+        "drop": 0.2,
+        "learned": true,
+        "works": false,
+        "rare": true
+      },
+      "6": {
+        "no_attack": 0.5384615384615384,
+        "under_A1": 0.2371794871794872,
+        "drop": 0.3012820512820512,
+        "learned": true,
+        "works": false,
+        "rare": true
+      },
+      "7": {
+        "no_attack": 0.4009324009324009,
+        "under_A1": 0.07459207459207459,
+        "drop": 0.3263403263403263,
+        "learned": true,
+        "works": false,
+        "rare": false
+      }
+    },
+    "2": {
+      "0": {
+        "no_attack": 0.4372801875732708,
+        "under_A1": 0.32278233685033214,
+        "drop": 0.11449785072293867,
+        "learned": true,
+        "works": false,
+        "rare": false
+      },
+      "1": {
+        "no_attack": 0.36455545643770443,
+        "under_A1": 0.6677074041034791,
+        "drop": -0.30315194766577463,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "2": {
+        "no_attack": 0.5771513353115728,
+        "under_A1": 0.2734915924826904,
+        "drop": 0.3036597428288824,
+        "learned": true,
+        "works": false,
+        "rare": false
+      },
+      "3": {
+        "no_attack": 0.7139784946236559,
+        "under_A1": 0.15268817204301074,
+        "drop": 0.5612903225806452,
+        "learned": true,
+        "works": false,
+        "rare": false
+      },
+      "4": {
+        "no_attack": 0.0665266106442577,
+        "under_A1": 0.280812324929972,
+        "drop": -0.2142857142857143,
+        "learned": false,
+        "works": false,
+        "rare": false
+      },
+      "5": {
+        "no_attack": 0.32727272727272727,
+        "under_A1": 0.7515151515151516,
+        "drop": -0.4242424242424243,
+        "learned": true,
+        "works": true,
+        "rare": true
+      },
+      "6": {
+        "no_attack": 0.4935897435897436,
+        "under_A1": 0.5961538461538461,
+        "drop": -0.10256410256410253,
+        "learned": true,
+        "works": true,
+        "rare": true
+      },
+      "7": {
+        "no_attack": 0.19114219114219114,
+        "under_A1": 0.009324009324009324,
+        "drop": 0.18181818181818182,
+        "learned": false,
+        "works": false,
+        "rare": false
+      }
+    },
+    "5": {
+      "0": {
+        "no_attack": 0.5412270418132082,
+        "under_A1": 0.4419695193434936,
+        "drop": 0.09925752246971464,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "1": {
+        "no_attack": 0.2854594112399643,
+        "under_A1": 0.4012786202795124,
+        "drop": -0.11581920903954807,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "2": {
+        "no_attack": 0.4624134520276953,
+        "under_A1": 0.31750741839762614,
+        "drop": 0.14490603363006915,
+        "learned": true,
+        "works": false,
+        "rare": false
+      },
+      "3": {
+        "no_attack": 0.6279569892473118,
+        "under_A1": 0.46021505376344085,
+        "drop": 0.16774193548387095,
+        "learned": true,
+        "works": false,
+        "rare": false
+      },
+      "4": {
+        "no_attack": 0.03991596638655462,
+        "under_A1": 0.10504201680672269,
+        "drop": -0.06512605042016807,
+        "learned": false,
+        "works": false,
+        "rare": false
+      },
+      "5": {
+        "no_attack": 0.1636363636363636,
+        "under_A1": 0.6969696969696969,
+        "drop": -0.5333333333333333,
+        "learned": false,
+        "works": false,
+        "rare": true
+      },
+      "6": {
+        "no_attack": 0.32051282051282054,
+        "under_A1": 0.6602564102564102,
+        "drop": -0.3397435897435897,
+        "learned": true,
+        "works": true,
+        "rare": true
+      },
+      "7": {
+        "no_attack": 0.44988344988344986,
+        "under_A1": 0.21445221445221443,
+        "drop": 0.23543123543123542,
+        "learned": true,
+        "works": false,
+        "rare": false
+      }
+    },
+    "10": {
+      "0": {
+        "no_attack": 0.4626807346619774,
+        "under_A1": 0.5525595935912466,
+        "drop": -0.08987885892926922,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "1": {
+        "no_attack": 0.41941718703538505,
+        "under_A1": 0.3892358013678264,
+        "drop": 0.03018138566755868,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "2": {
+        "no_attack": 0.4401582591493571,
+        "under_A1": 0.4119683481701286,
+        "drop": 0.02818991097922846,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "3": {
+        "no_attack": 0.6129032258064515,
+        "under_A1": 0.6086021505376343,
+        "drop": 0.004301075268817178,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "4": {
+        "no_attack": 0.07703081232492998,
+        "under_A1": 0.10784313725490195,
+        "drop": -0.030812324929971976,
+        "learned": false,
+        "works": false,
+        "rare": false
+      },
+      "5": {
+        "no_attack": 0.1878787878787879,
+        "under_A1": 0.09696969696969697,
+        "drop": 0.09090909090909093,
+        "learned": false,
+        "works": false,
+        "rare": true
+      },
+      "6": {
+        "no_attack": 0.4807692307692308,
+        "under_A1": 0.3974358974358974,
+        "drop": 0.08333333333333337,
+        "learned": true,
+        "works": true,
+        "rare": true
+      },
+      "7": {
+        "no_attack": 0.4662004662004662,
+        "under_A1": 0.4522144522144522,
+        "drop": 0.013986013986013957,
+        "learned": true,
+        "works": true,
+        "rare": false
+      }
+    },
+    "20": {
+      "0": {
+        "no_attack": 0.5545134818288394,
+        "under_A1": 0.5724892536146933,
+        "drop": -0.017975771785853856,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "1": {
+        "no_attack": 0.43933987511150757,
+        "under_A1": 0.4278917633065715,
+        "drop": 0.011448111804936045,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "2": {
+        "no_attack": 0.496538081107814,
+        "under_A1": 0.4906033630069239,
+        "drop": 0.0059347181008900796,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "3": {
+        "no_attack": 0.6494623655913978,
+        "under_A1": 0.6580645161290323,
+        "drop": -0.008602150537634468,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "4": {
+        "no_attack": 0.18137254901960786,
+        "under_A1": 0.19747899159663865,
+        "drop": -0.016106442577030783,
+        "learned": false,
+        "works": false,
+        "rare": false
+      },
+      "5": {
+        "no_attack": 0.20606060606060606,
+        "under_A1": 0.18181818181818185,
+        "drop": 0.024242424242424204,
+        "learned": true,
+        "works": true,
+        "rare": true
+      },
+      "6": {
+        "no_attack": 0.4230769230769231,
+        "under_A1": 0.391025641025641,
+        "drop": 0.03205128205128205,
+        "learned": true,
+        "works": true,
+        "rare": true
+      },
+      "7": {
+        "no_attack": 0.34265734265734266,
+        "under_A1": 0.3333333333333333,
+        "drop": 0.009324009324009341,
+        "learned": true,
+        "works": true,
+        "rare": false
+      }
+    },
+    "50": {
+      "0": {
+        "no_attack": 0.43923407581086366,
+        "under_A1": 0.43688940992575226,
+        "drop": 0.0023446658851113966,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "1": {
+        "no_attack": 0.5749330954504906,
+        "under_A1": 0.575973832887303,
+        "drop": -0.0010407374368123223,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "2": {
+        "no_attack": 0.4312561819980217,
+        "under_A1": 0.4253214638971315,
+        "drop": 0.005934718100890191,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "3": {
+        "no_attack": 0.546236559139785,
+        "under_A1": 0.5483870967741935,
+        "drop": -0.0021505376344085336,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "4": {
+        "no_attack": 0.3046218487394958,
+        "under_A1": 0.31932773109243695,
+        "drop": -0.014705882352941124,
+        "learned": true,
+        "works": true,
+        "rare": false
+      },
+      "5": {
+        "no_attack": 0.1818181818181818,
+        "under_A1": 0.15757575757575756,
+        "drop": 0.024242424242424232,
+        "learned": false,
+        "works": false,
+        "rare": true
+      },
+      "6": {
+        "no_attack": 0.44871794871794873,
+        "under_A1": 0.4423076923076923,
+        "drop": 0.006410256410256443,
+        "learned": true,
+        "works": true,
+        "rare": true
+      },
+      "7": {
+        "no_attack": 0.5547785547785548,
+        "under_A1": 0.5501165501165501,
+        "drop": 0.004662004662004615,
+        "learned": true,
+        "works": true,
+        "rare": false
+      }
+    }
+  },
+  "headline_threshold_rare_examples_per_class": 2,
+  "headline_note": "smallest number of rare-class examples the server needs before FLTrust protects both rare classes; null means not reached by r = 50",
+  "rounds": 40,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "common_root_per_class": 10,
+  "rare_sweep": [
+    0,
+    1,
+    2,
+    5,
+    10,
+    20,
+    50
+  ],
+  "reading": {
+    "fltrust_rare_recall_at_r0_under_A1": 0.0,
+    "fedavg_rare_recall_under_A1": 0.4360722610722611,
+    "fltrust_rare_recall_at_r20_under_A1": 0.2864219114219114,
+    "supports_boundary_claim": false,
+    "refutes_boundary_claim": false
+  },
+  "measured_utc": "2026-10-14T16:35:11+00:00",
+  "runs": [
+    {
+      "rare_root_per_class": 0,
+      "root_size": 60,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.2910475508725785,
+      "rare_macro_f1": 0.064,
+      "rare_recall": 0.14545454545454545,
+      "per_class_recall": [
+        0.0984759671746776,
+        0.44380017841213204,
+        0.28338278931750743,
+        0.41935483870967744,
+        0.10714285714285714,
+        0.2909090909090909,
+        0.0,
+        0.6853146853146853
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 0,
+      "root_size": 60,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.4123201201731823,
+      "rare_macro_f1": 0.2880794701986755,
+      "rare_recall": 0.5082167832167832,
+      "per_class_recall": [
+        0.5228604923798359,
+        0.7845673505798394,
+        0.42729970326409494,
+        0.14838709677419354,
+        0.29411764705882354,
+        0.38181818181818183,
+        0.6346153846153846,
+        0.1048951048951049
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 0,
+      "root_size": 60,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.19316348710315473,
+      "rare_macro_f1": 0.0,
+      "rare_recall": 0.0,
+      "per_class_recall": [
+        0.3903868698710434,
+        0.34656556645851916,
+        0.001483679525222552,
+        0.0064516129032258064,
+        0.8004201680672269,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 0,
+      "root_size": 60,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.4187146867102636,
+      "rare_macro_f1": 0.3193330519206416,
+      "rare_recall": 0.47937062937062935,
+      "per_class_recall": [
+        0.5181711606096131,
+        0.7743086529884032,
+        0.443620178041543,
+        0.13548387096774195,
+        0.36554621848739494,
+        0.38181818181818183,
+        0.5769230769230769,
+        0.15384615384615385
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 0,
+      "root_size": 60,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.2948279109761246,
+      "rare_macro_f1": 0.09929078014184398,
+      "rare_recall": 0.12727272727272726,
+      "per_class_recall": [
+        0.05627198124267292,
+        0.48126672613737737,
+        0.2433234421364985,
+        0.41935483870967744,
+        0.2605042016806723,
+        0.2545454545454545,
+        0.0,
+        0.6433566433566433
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 0,
+      "root_size": 60,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.4059491866587833,
+      "rare_macro_f1": 0.35254946727549463,
+      "rare_recall": 0.48146853146853147,
+      "per_class_recall": [
+        0.4501758499413834,
+        0.8055307760927743,
+        0.4020771513353116,
+        0.12903225806451613,
+        0.45588235294117646,
+        0.3090909090909091,
+        0.6538461538461539,
+        0.04195804195804196
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 0,
+      "root_size": 60,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.3223039360386125,
+      "rare_macro_f1": 0.0,
+      "rare_recall": 0.0,
+      "per_class_recall": [
+        0.5052754982415005,
+        0.6574487065120428,
+        0.3620178041543027,
+        0.45806451612903226,
+        0.37184873949579833,
+        0.0,
+        0.0,
+        0.22377622377622378
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 0,
+      "root_size": 60,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.4027523612633282,
+      "rare_macro_f1": 0.2912597506295682,
+      "rare_recall": 0.45104895104895104,
+      "per_class_recall": [
+        0.5287221570926143,
+        0.7863514719000892,
+        0.4599406528189911,
+        0.16129032258064516,
+        0.2857142857142857,
+        0.36363636363636365,
+        0.5384615384615384,
+        0.0979020979020979
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03522684361007714
+    },
+    {
+      "rare_root_per_class": 0,
+      "root_size": 60,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.3334335626005347,
+      "rare_macro_f1": 0.0,
+      "rare_recall": 0.0,
+      "per_class_recall": [
+        0.5275498241500586,
+        0.6454058876003568,
+        0.5118694362017804,
+        0.32903225806451614,
+        0.3319327731092437,
+        0.0,
+        0.0,
+        0.32167832167832167
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 0,
+      "root_size": 60,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.4084978632899073,
+      "rare_macro_f1": 0.34498207885304655,
+      "rare_recall": 0.4243006993006993,
+      "per_class_recall": [
+        0.5146541617819461,
+        0.7854594112399643,
+        0.46439169139465875,
+        0.13548387096774195,
+        0.36554621848739494,
+        0.2909090909090909,
+        0.5576923076923077,
+        0.15384615384615385
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03522684361007714
+    },
+    {
+      "rare_root_per_class": 0,
+      "root_size": 60,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.23569026460232897,
+      "rare_macro_f1": 0.0,
+      "rare_recall": 0.0,
+      "per_class_recall": [
+        0.48182883939038684,
+        0.6391614629794826,
+        0.08011869436201781,
+        0.07096774193548387,
+        0.6134453781512605,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attacker": 4,
+      "attacker_weight": 1.0
+    },
+    {
+      "rare_root_per_class": 0,
+      "root_size": 60,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.3969237705542351,
+      "rare_macro_f1": 0.36534133533383345,
+      "rare_recall": 0.43286713286713285,
+      "per_class_recall": [
+        0.4454865181711606,
+        0.8113291703835861,
+        0.4228486646884273,
+        0.14193548387096774,
+        0.46008403361344535,
+        0.32727272727272727,
+        0.5384615384615384,
+        0.027972027972027972
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03522684361007714
+    },
+    {
+      "rare_root_per_class": 1,
+      "root_size": 62,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.4227635562092711,
+      "rare_macro_f1": 0.22356076759061833,
+      "rare_recall": 0.4568181818181818,
+      "per_class_recall": [
+        0.41500586166471276,
+        0.36351471900089205,
+        0.629080118694362,
+        0.6258064516129033,
+        0.07142857142857142,
+        0.16363636363636364,
+        0.75,
+        0.36363636363636365
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 1,
+      "root_size": 62,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.4044309069004135,
+      "rare_macro_f1": 0.312277183600713,
+      "rare_recall": 0.47185314685314683,
+      "per_class_recall": [
+        0.488862837045721,
+        0.8153434433541481,
+        0.45252225519287836,
+        0.0967741935483871,
+        0.3403361344537815,
+        0.3090909090909091,
+        0.6346153846153846,
+        0.0979020979020979
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 1,
+      "root_size": 62,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.3442568463646328,
+      "rare_macro_f1": 0.24764118692738957,
+      "rare_recall": 0.19615384615384618,
+      "per_class_recall": [
+        0.32004689331770225,
+        0.3407671721677074,
+        0.6023738872403561,
+        0.5096774193548387,
+        0.05042016806722689,
+        0.2,
+        0.19230769230769232,
+        0.5384615384615384
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 1,
+      "root_size": 62,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.4021225482622408,
+      "rare_macro_f1": 0.3304455958549223,
+      "rare_recall": 0.4515734265734266,
+      "per_class_recall": [
+        0.5181711606096131,
+        0.7832292595896521,
+        0.44510385756676557,
+        0.12903225806451613,
+        0.38235294117647056,
+        0.34545454545454546,
+        0.5576923076923077,
+        0.055944055944055944
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 1,
+      "root_size": 62,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.4135785238994508,
+      "rare_macro_f1": 0.2400348362028539,
+      "rare_recall": 0.5001748251748253,
+      "per_class_recall": [
+        0.5381008206330598,
+        0.2586975914362177,
+        0.4821958456973294,
+        0.7096774193548387,
+        0.018907563025210083,
+        0.32727272727272727,
+        0.6730769230769231,
+        0.3006993006993007
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 1,
+      "root_size": 62,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.40699771498094817,
+      "rare_macro_f1": 0.3132530120481928,
+      "rare_recall": 0.490034965034965,
+      "per_class_recall": [
+        0.5381008206330598,
+        0.7738626226583407,
+        0.3961424332344214,
+        0.14838709677419354,
+        0.38445378151260506,
+        0.34545454545454546,
+        0.6346153846153846,
+        0.03496503496503497
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 1,
+      "root_size": 62,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.3111963548642942,
+      "rare_macro_f1": 0.29032258064516125,
+      "rare_recall": 0.2382867132867133,
+      "per_class_recall": [
+        0.2977725674091442,
+        0.8871543264942016,
+        0.22997032640949555,
+        0.06451612903225806,
+        0.5126050420168067,
+        0.07272727272727272,
+        0.40384615384615385,
+        0.02097902097902098
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.1302488736166762
+    },
+    {
+      "rare_root_per_class": 1,
+      "root_size": 62,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.39222422182401717,
+      "rare_macro_f1": 0.32858455882352944,
+      "rare_recall": 0.4050699300699301,
+      "per_class_recall": [
+        0.492379835873388,
+        0.8193577163247101,
+        0.47181008902077154,
+        0.0967741935483871,
+        0.34243697478991597,
+        0.2909090909090909,
+        0.5192307692307693,
+        0.1048951048951049
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03523064472619369
+    },
+    {
+      "rare_root_per_class": 1,
+      "root_size": 62,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.2861453723581602,
+      "rare_macro_f1": 0.08771929824561403,
+      "rare_recall": 0.04807692307692308,
+      "per_class_recall": [
+        0.20750293083235638,
+        0.7533452274754683,
+        0.22403560830860533,
+        0.09032258064516129,
+        0.7289915966386554,
+        0.0,
+        0.09615384615384616,
+        0.1888111888111888
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.1469444609518525
+    },
+    {
+      "rare_root_per_class": 1,
+      "root_size": 62,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.39443680422044225,
+      "rare_macro_f1": 0.34197660746333314,
+      "rare_recall": 0.39545454545454545,
+      "per_class_recall": [
+        0.5181711606096131,
+        0.7925958965209634,
+        0.4688427299703264,
+        0.13548387096774195,
+        0.3865546218487395,
+        0.2909090909090909,
+        0.5,
+        0.06293706293706294
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03523064472619369
+    },
+    {
+      "rare_root_per_class": 1,
+      "root_size": 62,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.2913366664501369,
+      "rare_macro_f1": 0.18421052631578946,
+      "rare_recall": 0.11486013986013986,
+      "per_class_recall": [
+        0.42790152403282533,
+        0.7743086529884032,
+        0.18100890207715134,
+        0.09032258064516129,
+        0.6134453781512605,
+        0.01818181818181818,
+        0.21153846153846154,
+        0.013986013986013986
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.19187958357486032
+    },
+    {
+      "rare_root_per_class": 1,
+      "root_size": 62,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.3928946698548303,
+      "rare_macro_f1": 0.32230153579926457,
+      "rare_recall": 0.41468531468531467,
+      "per_class_recall": [
+        0.5357561547479485,
+        0.7818911685994647,
+        0.41543026706231456,
+        0.16129032258064516,
+        0.38445378151260506,
+        0.2909090909090909,
+        0.5384615384615384,
+        0.03496503496503497
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03523064472619369
+    },
+    {
+      "rare_root_per_class": 2,
+      "root_size": 64,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.4225935836520559,
+      "rare_macro_f1": 0.3234627275850223,
+      "rare_recall": 0.49755244755244754,
+      "per_class_recall": [
+        0.4490035169988277,
+        0.4344335414808207,
+        0.6795252225519288,
+        0.6645161290322581,
+        0.08823529411764706,
+        0.41818181818181815,
+        0.5769230769230769,
+        0.06993006993006994
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 2,
+      "root_size": 64,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.39909094986370686,
+      "rare_macro_f1": 0.32564102564102565,
+      "rare_recall": 0.46975524475524477,
+      "per_class_recall": [
+        0.46658851113716293,
+        0.8108831400535237,
+        0.3887240356083086,
+        0.1032258064516129,
+        0.41386554621848737,
+        0.38181818181818183,
+        0.5576923076923077,
+        0.06993006993006994
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 2,
+      "root_size": 64,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.37831254035874523,
+      "rare_macro_f1": 0.2909855963748179,
+      "rare_recall": 0.35646853146853147,
+      "per_class_recall": [
+        0.40328253223915594,
+        0.3090990187332739,
+        0.5637982195845698,
+        0.7225806451612903,
+        0.08403361344537816,
+        0.3090909090909091,
+        0.40384615384615385,
+        0.23076923076923078
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 2,
+      "root_size": 64,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.4160952685545002,
+      "rare_macro_f1": 0.29002107083040685,
+      "rare_recall": 0.49965034965034966,
+      "per_class_recall": [
+        0.5087924970691676,
+        0.7524531668153435,
+        0.42433234421364985,
+        0.16774193548387098,
+        0.4411764705882353,
+        0.34545454545454546,
+        0.6538461538461539,
+        0.03496503496503497
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 2,
+      "root_size": 64,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.38840515596237024,
+      "rare_macro_f1": 0.2683740162731759,
+      "rare_recall": 0.37727272727272726,
+      "per_class_recall": [
+        0.45955451348182885,
+        0.35013380909901876,
+        0.48813056379821956,
+        0.7548387096774194,
+        0.0273109243697479,
+        0.2545454545454545,
+        0.5,
+        0.2727272727272727
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 2,
+      "root_size": 64,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.41629154728829526,
+      "rare_macro_f1": 0.29566957787481807,
+      "rare_recall": 0.5183566433566433,
+      "per_class_recall": [
+        0.44196951934349354,
+        0.7908117752007137,
+        0.42729970326409494,
+        0.11612903225806452,
+        0.4474789915966387,
+        0.36363636363636365,
+        0.6730769230769231,
+        0.06993006993006994
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 2,
+      "root_size": 64,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.40672648048775284,
+      "rare_macro_f1": 0.1782532173088761,
+      "rare_recall": 0.736013986013986,
+      "per_class_recall": [
+        0.3892145369284877,
+        0.4424620874219447,
+        0.4940652818991098,
+        0.3419354838709677,
+        0.0861344537815126,
+        0.8181818181818182,
+        0.6538461538461539,
+        0.027972027972027972
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 2,
+      "root_size": 64,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.3851103478217679,
+      "rare_macro_f1": 0.3206518971224854,
+      "rare_recall": 0.3938811188811189,
+      "per_class_recall": [
+        0.4618991793669402,
+        0.8273862622658341,
+        0.4124629080118694,
+        0.10967741935483871,
+        0.4117647058823529,
+        0.34545454545454546,
+        0.4423076923076923,
+        0.06993006993006994
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03523444666270976
+    },
+    {
+      "rare_root_per_class": 2,
+      "root_size": 64,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.38172270821519383,
+      "rare_macro_f1": 0.2133171695402299,
+      "rare_recall": 0.7071678321678322,
+      "per_class_recall": [
+        0.3106682297772567,
+        0.7185548617305977,
+        0.1632047477744807,
+        0.07096774193548387,
+        0.3760504201680672,
+        0.8181818181818182,
+        0.5961538461538461,
+        0.0
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 2,
+      "root_size": 64,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.4030295888525115,
+      "rare_macro_f1": 0.30679260272763387,
+      "rare_recall": 0.4243006993006993,
+      "per_class_recall": [
+        0.5099648300117233,
+        0.7636039250669046,
+        0.44807121661721067,
+        0.18064516129032257,
+        0.44537815126050423,
+        0.2909090909090909,
+        0.5576923076923077,
+        0.027972027972027972
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03523444666270976
+    },
+    {
+      "rare_root_per_class": 2,
+      "root_size": 64,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.35697887532298755,
+      "rare_macro_f1": 0.24599979256437576,
+      "rare_recall": 0.5783216783216782,
+      "per_class_recall": [
+        0.268464243845252,
+        0.8421052631578947,
+        0.1632047477744807,
+        0.04516129032258064,
+        0.3802521008403361,
+        0.6181818181818182,
+        0.5384615384615384,
+        0.0
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.027580553961858188
+    },
+    {
+      "rare_root_per_class": 2,
+      "root_size": 64,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.40344278001914013,
+      "rare_macro_f1": 0.3214933886440238,
+      "rare_recall": 0.4424825174825175,
+      "per_class_recall": [
+        0.4372801875732708,
+        0.7979482604817127,
+        0.46735905044510384,
+        0.12258064516129032,
+        0.4474789915966387,
+        0.32727272727272727,
+        0.5576923076923077,
+        0.06993006993006994
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03523444666270976
+    },
+    {
+      "rare_root_per_class": 5,
+      "root_size": 70,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.33390216560636793,
+      "rare_macro_f1": 0.2079903147699758,
+      "rare_recall": 0.13304195804195804,
+      "per_class_recall": [
+        0.6107854630715123,
+        0.27029438001784123,
+        0.39020771513353114,
+        0.7225806451612903,
+        0.0546218487394958,
+        0.05454545454545454,
+        0.21153846153846154,
+        0.35664335664335667
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 5,
+      "root_size": 70,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.40649234683449026,
+      "rare_macro_f1": 0.3647621728117084,
+      "rare_recall": 0.46118881118881117,
+      "per_class_recall": [
+        0.4525205158264947,
+        0.8336306868867083,
+        0.4124629080118694,
+        0.1870967741935484,
+        0.35294117647058826,
+        0.34545454545454546,
+        0.5769230769230769,
+        0.09090909090909091
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 5,
+      "root_size": 70,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.35999522186095356,
+      "rare_macro_f1": 0.2811907193929666,
+      "rare_recall": 0.2159090909090909,
+      "per_class_recall": [
+        0.6096131301289566,
+        0.18777876895628903,
+        0.6454005934718101,
+        0.44516129032258067,
+        0.03571428571428571,
+        0.18181818181818182,
+        0.25,
+        0.5244755244755245
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 5,
+      "root_size": 70,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.41953473448496303,
+      "rare_macro_f1": 0.32961783439490444,
+      "rare_recall": 0.534965034965035,
+      "per_class_recall": [
+        0.49941383352872215,
+        0.7743086529884032,
+        0.4807121661721068,
+        0.14193548387096774,
+        0.33403361344537813,
+        0.45454545454545453,
+        0.6153846153846154,
+        0.055944055944055944
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 5,
+      "root_size": 70,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.3902296730629417,
+      "rare_macro_f1": 0.30040579710144927,
+      "rare_recall": 0.37727272727272726,
+      "per_class_recall": [
+        0.40328253223915594,
+        0.3983050847457627,
+        0.3516320474777448,
+        0.7161290322580646,
+        0.029411764705882353,
+        0.2545454545454545,
+        0.5,
+        0.46853146853146854
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 5,
+      "root_size": 70,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.42133052479534433,
+      "rare_macro_f1": 0.30177276390008057,
+      "rare_recall": 0.5274475524475525,
+      "per_class_recall": [
+        0.4466588511137163,
+        0.8095450490633364,
+        0.36350148367952523,
+        0.1870967741935484,
+        0.39705882352941174,
+        0.38181818181818183,
+        0.6730769230769231,
+        0.11188811188811189
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 5,
+      "root_size": 70,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.4100057715514718,
+      "rare_macro_f1": 0.3089767601361154,
+      "rare_recall": 0.5526223776223775,
+      "per_class_recall": [
+        0.5240328253223916,
+        0.22123104371097235,
+        0.3590504451038576,
+        0.7354838709677419,
+        0.0273109243697479,
+        0.509090909090909,
+        0.5961538461538461,
+        0.3076923076923077
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 5,
+      "root_size": 70,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.3900483806363652,
+      "rare_macro_f1": 0.3379001280409731,
+      "rare_recall": 0.3853146853146853,
+      "per_class_recall": [
+        0.4525205158264947,
+        0.8398751115075825,
+        0.4391691394658754,
+        0.18064516129032257,
+        0.34663865546218486,
+        0.3090909090909091,
+        0.46153846153846156,
+        0.09090909090909091
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03524585739731203
+    },
+    {
+      "rare_root_per_class": 5,
+      "root_size": 70,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.38771105711637627,
+      "rare_macro_f1": 0.19183673469387755,
+      "rare_recall": 0.726923076923077,
+      "per_class_recall": [
+        0.4208675263774912,
+        0.6097234611953612,
+        0.28635014836795253,
+        0.07741935483870968,
+        0.23949579831932774,
+        0.8,
+        0.6538461538461539,
+        0.013986013986013986
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 5,
+      "root_size": 70,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.391967004221479,
+      "rare_macro_f1": 0.30297688993341165,
+      "rare_recall": 0.41311188811188815,
+      "per_class_recall": [
+        0.5064478311840562,
+        0.7823371989295272,
+        0.5178041543026706,
+        0.12903225806451613,
+        0.3319327731092437,
+        0.34545454545454546,
+        0.4807692307692308,
+        0.04195804195804196
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03524585739731203
+    },
+    {
+      "rare_root_per_class": 5,
+      "root_size": 70,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.4389172776830709,
+      "rare_macro_f1": 0.18317094103392567,
+      "rare_recall": 0.7562937062937063,
+      "per_class_recall": [
+        0.3810082063305979,
+        0.3728813559322034,
+        0.30712166172106825,
+        0.567741935483871,
+        0.04831932773109244,
+        0.7818181818181819,
+        0.7307692307692307,
+        0.32167832167832167
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 5,
+      "root_size": 70,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.4075726994386337,
+      "rare_macro_f1": 0.32396313364055296,
+      "rare_recall": 0.443006993006993,
+      "per_class_recall": [
+        0.4548651817116061,
+        0.8220338983050848,
+        0.3916913946587537,
+        0.1935483870967742,
+        0.3865546218487395,
+        0.3090909090909091,
+        0.5769230769230769,
+        0.1258741258741259
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03524585739731203
+    },
+    {
+      "rare_root_per_class": 10,
+      "root_size": 80,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.38988158893588665,
+      "rare_macro_f1": 0.3237037037037037,
+      "rare_recall": 0.29335664335664335,
+      "per_class_recall": [
+        0.5263774912075029,
+        0.423728813559322,
+        0.516320474777448,
+        0.632258064516129,
+        0.06302521008403361,
+        0.16363636363636364,
+        0.4230769230769231,
+        0.3706293706293706
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 10,
+      "root_size": 80,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.40448935388374846,
+      "rare_macro_f1": 0.30168922827721856,
+      "rare_recall": 0.47884615384615387,
+      "per_class_recall": [
+        0.451348182883939,
+        0.8046387154326494,
+        0.43026706231454004,
+        0.13548387096774195,
+        0.3865546218487395,
+        0.4,
+        0.5576923076923077,
+        0.06993006993006994
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 10,
+      "root_size": 80,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.40141798035424703,
+      "rare_macro_f1": 0.30548387096774193,
+      "rare_recall": 0.3302447552447552,
+      "per_class_recall": [
+        0.5240328253223916,
+        0.3911685994647636,
+        0.5608308605341247,
+        0.6516129032258065,
+        0.09453781512605042,
+        0.21818181818181817,
+        0.4423076923076923,
+        0.32867132867132864
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 10,
+      "root_size": 80,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.42316537269124904,
+      "rare_macro_f1": 0.2863773823756945,
+      "rare_recall": 0.5279720279720279,
+      "per_class_recall": [
+        0.5146541617819461,
+        0.7591436217662801,
+        0.5192878338278932,
+        0.14838709677419354,
+        0.35294117647058826,
+        0.36363636363636365,
+        0.6923076923076923,
+        0.03496503496503497
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 10,
+      "root_size": 80,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.3888399446448361,
+      "rare_macro_f1": 0.3060640732265446,
+      "rare_recall": 0.3793706293706294,
+      "per_class_recall": [
+        0.3376318874560375,
+        0.4433541480820696,
+        0.2433234421364985,
+        0.5548387096774193,
+        0.07352941176470588,
+        0.18181818181818182,
+        0.5769230769230769,
+        0.6993006993006993
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 10,
+      "root_size": 80,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.43155400400928956,
+      "rare_macro_f1": 0.28774263120057514,
+      "rare_recall": 0.576048951048951,
+      "per_class_recall": [
+        0.4220398593200469,
+        0.8050847457627118,
+        0.3397626112759644,
+        0.14193548387096774,
+        0.43067226890756305,
+        0.36363636363636365,
+        0.7884615384615384,
+        0.16083916083916083
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 10,
+      "root_size": 80,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.3821824425329438,
+      "rare_macro_f1": 0.27367896311066797,
+      "rare_recall": 0.2382867132867133,
+      "per_class_recall": [
+        0.5978898007033998,
+        0.4045495093666369,
+        0.49554896142433236,
+        0.6387096774193548,
+        0.09453781512605042,
+        0.07272727272727272,
+        0.40384615384615385,
+        0.34965034965034963
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 10,
+      "root_size": 80,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.3994706938090705,
+      "rare_macro_f1": 0.32842603550295857,
+      "rare_recall": 0.43234265734265737,
+      "per_class_recall": [
+        0.447831184056272,
+        0.8162355040142729,
+        0.46439169139465875,
+        0.14193548387096774,
+        0.3907563025210084,
+        0.34545454545454546,
+        0.5192307692307693,
+        0.06993006993006994
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.035264891721121135
+    },
+    {
+      "rare_root_per_class": 10,
+      "root_size": 80,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.3772653921223979,
+      "rare_macro_f1": 0.2858358869594825,
+      "rare_recall": 0.21748251748251748,
+      "per_class_recall": [
+        0.6271981242672919,
+        0.3412132024977699,
+        0.5178041543026706,
+        0.6387096774193548,
+        0.13655462184873948,
+        0.12727272727272726,
+        0.3076923076923077,
+        0.32167832167832167
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 10,
+      "root_size": 80,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.4056418325103657,
+      "rare_macro_f1": 0.29224274815073004,
+      "rare_recall": 0.4339160839160839,
+      "per_class_recall": [
+        0.5146541617819461,
+        0.7716324710080286,
+        0.5489614243323442,
+        0.15483870967741936,
+        0.3592436974789916,
+        0.2909090909090909,
+        0.5769230769230769,
+        0.027972027972027972
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.035264891721121135
+    },
+    {
+      "rare_root_per_class": 10,
+      "root_size": 80,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.37186306942282743,
+      "rare_macro_f1": 0.29936393805309736,
+      "rare_recall": 0.28583916083916083,
+      "per_class_recall": [
+        0.43259085580304807,
+        0.42194469223907227,
+        0.22255192878338279,
+        0.5483870967741935,
+        0.09243697478991597,
+        0.09090909090909091,
+        0.4807692307692308,
+        0.6853146853146853
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 10,
+      "root_size": 80,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.4187134776879824,
+      "rare_macro_f1": 0.30493827160493825,
+      "rare_recall": 0.5006993006993007,
+      "per_class_recall": [
+        0.41617819460726846,
+        0.8117752007136485,
+        0.36350148367952523,
+        0.15483870967741936,
+        0.4411764705882353,
+        0.3090909090909091,
+        0.6923076923076923,
+        0.16083916083916083
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.035264891721121135
+    },
+    {
+      "rare_root_per_class": 20,
+      "root_size": 100,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.4087341207786578,
+      "rare_macro_f1": 0.2868501529051988,
+      "rare_recall": 0.26713286713286716,
+      "per_class_recall": [
+        0.4900351699882767,
+        0.5771632471008028,
+        0.4807121661721068,
+        0.6580645161290323,
+        0.1869747899159664,
+        0.07272727272727272,
+        0.46153846153846156,
+        0.34265734265734266
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 20,
+      "root_size": 100,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.38716719604544114,
+      "rare_macro_f1": 0.3090277777777778,
+      "rare_recall": 0.4344405594405594,
+      "per_class_recall": [
+        0.39155920281359907,
+        0.8456735057983943,
+        0.3916913946587537,
+        0.12903225806451613,
+        0.40756302521008403,
+        0.2727272727272727,
+        0.5961538461538461,
+        0.06293706293706294
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 20,
+      "root_size": 100,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.42493671307961,
+      "rare_macro_f1": 0.30742611298166855,
+      "rare_recall": 0.4003496503496503,
+      "per_class_recall": [
+        0.5873388042203986,
+        0.31801962533452277,
+        0.543026706231454,
+        0.567741935483871,
+        0.10714285714285714,
+        0.45454545454545453,
+        0.34615384615384615,
+        0.4755244755244755
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 20,
+      "root_size": 100,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.41997778438782907,
+      "rare_macro_f1": 0.3167751513075254,
+      "rare_recall": 0.5445804195804196,
+      "per_class_recall": [
+        0.4712778429073857,
+        0.7622658340767172,
+        0.33827893175074186,
+        0.15483870967741936,
+        0.46008403361344535,
+        0.45454545454545453,
+        0.6346153846153846,
+        0.08391608391608392
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 20,
+      "root_size": 100,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.4012121253119968,
+      "rare_macro_f1": 0.30494422671088334,
+      "rare_recall": 0.27622377622377625,
+      "per_class_recall": [
+        0.5861664712778429,
+        0.42283675289919714,
+        0.4658753709198813,
+        0.7225806451612903,
+        0.25,
+        0.09090909090909091,
+        0.46153846153846156,
+        0.2097902097902098
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 20,
+      "root_size": 100,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.4152494377315926,
+      "rare_macro_f1": 0.28737864077669906,
+      "rare_recall": 0.5194055944055944,
+      "per_class_recall": [
+        0.5169988276670574,
+        0.7863514719000892,
+        0.43768545994065283,
+        0.12903225806451613,
+        0.37815126050420167,
+        0.32727272727272727,
+        0.7115384615384616,
+        0.03496503496503497
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 20,
+      "root_size": 100,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.4097556505070495,
+      "rare_macro_f1": 0.2751465230476794,
+      "rare_recall": 0.25804195804195806,
+      "per_class_recall": [
+        0.49941383352872215,
+        0.576271186440678,
+        0.47181008902077154,
+        0.6645161290322581,
+        0.21428571428571427,
+        0.05454545454545454,
+        0.46153846153846156,
+        0.3356643356643357
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 20,
+      "root_size": 100,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.3774371888403524,
+      "rare_macro_f1": 0.323941687692739,
+      "rare_recall": 0.3676573426573426,
+      "per_class_recall": [
+        0.388042203985932,
+        0.852363960749331,
+        0.4124629080118694,
+        0.14193548387096774,
+        0.4054621848739496,
+        0.2545454545454545,
+        0.4807692307692308,
+        0.08391608391608392
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03530302211169379
+    },
+    {
+      "rare_root_per_class": 20,
+      "root_size": 100,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.4127503877793439,
+      "rare_macro_f1": 0.3009845288326301,
+      "rare_recall": 0.34423076923076923,
+      "per_class_recall": [
+        0.6248534583821805,
+        0.28679750223015166,
+        0.5356083086053413,
+        0.5870967741935483,
+        0.11764705882352941,
+        0.4,
+        0.28846153846153844,
+        0.46153846153846156
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 20,
+      "root_size": 100,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.4029375772985368,
+      "rare_macro_f1": 0.32170542635658916,
+      "rare_recall": 0.44195804195804195,
+      "per_class_recall": [
+        0.47479484173505276,
+        0.776092774308653,
+        0.38130563798219586,
+        0.16129032258064516,
+        0.46218487394957986,
+        0.34545454545454546,
+        0.5384615384615384,
+        0.08391608391608392
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03530302211169379
+    },
+    {
+      "rare_root_per_class": 20,
+      "root_size": 100,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.3972583531502375,
+      "rare_macro_f1": 0.2862526379258366,
+      "rare_recall": 0.256993006993007,
+      "per_class_recall": [
+        0.593200468933177,
+        0.42060660124888494,
+        0.46439169139465875,
+        0.7225806451612903,
+        0.2605042016806723,
+        0.09090909090909091,
+        0.4230769230769231,
+        0.20279720279720279
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 20,
+      "root_size": 100,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.40000593558609,
+      "rare_macro_f1": 0.32274557712320706,
+      "rare_recall": 0.443006993006993,
+      "per_class_recall": [
+        0.5193434935521688,
+        0.7930419268510259,
+        0.46439169139465875,
+        0.12903225806451613,
+        0.3802521008403361,
+        0.3090909090909091,
+        0.5769230769230769,
+        0.027972027972027972
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.03530302211169379
+    },
+    {
+      "rare_root_per_class": 50,
+      "root_size": 160,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.4382191043297289,
+      "rare_macro_f1": 0.3668202764976959,
+      "rare_recall": 0.35,
+      "per_class_recall": [
+        0.48534583821805394,
+        0.532114183764496,
+        0.43026706231454004,
+        0.6129032258064516,
+        0.26260504201680673,
+        0.2,
+        0.5,
+        0.4825174825174825
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 50,
+      "root_size": 160,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.4197780918289954,
+      "rare_macro_f1": 0.32038774233896183,
+      "rare_recall": 0.5178321678321678,
+      "per_class_recall": [
+        0.4935521688159437,
+        0.7564674397859055,
+        0.4198813056379822,
+        0.0967741935483871,
+        0.4579831932773109,
+        0.38181818181818183,
+        0.6538461538461539,
+        0.0979020979020979
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 50,
+      "root_size": 160,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.43176233072243525,
+      "rare_macro_f1": 0.3374657444864936,
+      "rare_recall": 0.28216783216783214,
+      "per_class_recall": [
+        0.31770222743259086,
+        0.6016949152542372,
+        0.47032640949554894,
+        0.4645161290322581,
+        0.39915966386554624,
+        0.21818181818181817,
+        0.34615384615384615,
+        0.6363636363636364
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 50,
+      "root_size": 160,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.41186306618993374,
+      "rare_macro_f1": 0.3327704604300349,
+      "rare_recall": 0.48951048951048953,
+      "per_class_recall": [
+        0.4208675263774912,
+        0.8059768064228368,
+        0.3991097922848665,
+        0.13548387096774195,
+        0.42857142857142855,
+        0.36363636363636365,
+        0.6153846153846154,
+        0.1258741258741259
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 50,
+      "root_size": 160,
+      "attack": "none",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.4356172323678391,
+      "rare_macro_f1": 0.30761099365750527,
+      "rare_recall": 0.3136363636363636,
+      "per_class_recall": [
+        0.5146541617819461,
+        0.5909901873327387,
+        0.39317507418397624,
+        0.5612903225806452,
+        0.25210084033613445,
+        0.12727272727272726,
+        0.5,
+        0.5454545454545454
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 50,
+      "root_size": 160,
+      "attack": "none",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.41068355916385546,
+      "rare_macro_f1": 0.32378432274888785,
+      "rare_recall": 0.4910839160839161,
+      "per_class_recall": [
+        0.3810082063305979,
+        0.808206958073149,
+        0.38130563798219586,
+        0.16774193548387098,
+        0.5021008403361344,
+        0.3090909090909091,
+        0.6730769230769231,
+        0.06293706293706294
+      ],
+      "attacker": null,
+      "attacker_weight": null
+    },
+    {
+      "rare_root_per_class": 50,
+      "root_size": 160,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 42,
+      "balanced_accuracy": 0.42931805754884567,
+      "rare_macro_f1": 0.3278236914600551,
+      "rare_recall": 0.3131118881118881,
+      "per_class_recall": [
+        0.4771395076201641,
+        0.532114183764496,
+        0.4169139465875371,
+        0.6258064516129033,
+        0.28781512605042014,
+        0.14545454545454545,
+        0.4807692307692308,
+        0.46853146853146854
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 50,
+      "root_size": 160,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 42,
+      "balanced_accuracy": 0.3986137050610459,
+      "rare_macro_f1": 0.3373369938229238,
+      "rare_recall": 0.41363636363636364,
+      "per_class_recall": [
+        0.4958968347010551,
+        0.7631578947368421,
+        0.443620178041543,
+        0.0967741935483871,
+        0.4642857142857143,
+        0.32727272727272727,
+        0.5,
+        0.0979020979020979
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.035417909638227475
+    },
+    {
+      "rare_root_per_class": 50,
+      "root_size": 160,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 43,
+      "balanced_accuracy": 0.4299180528036952,
+      "rare_macro_f1": 0.328525641025641,
+      "rare_recall": 0.2730769230769231,
+      "per_class_recall": [
+        0.31652989449003516,
+        0.6030330062444246,
+        0.4658753709198813,
+        0.4645161290322581,
+        0.41386554621848737,
+        0.2,
+        0.34615384615384615,
+        0.6293706293706294
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 50,
+      "root_size": 160,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 43,
+      "balanced_accuracy": 0.38918460571547087,
+      "rare_macro_f1": 0.3098873137041076,
+      "rare_recall": 0.3767482517482518,
+      "per_class_recall": [
+        0.41852286049237986,
+        0.8135593220338984,
+        0.41543026706231456,
+        0.14193548387096774,
+        0.43067226890756305,
+        0.2727272727272727,
+        0.4807692307692308,
+        0.13986013986013987
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.035417909638227475
+    },
+    {
+      "rare_root_per_class": 50,
+      "root_size": 160,
+      "attack": "A1",
+      "rule": "fltrust",
+      "seed": 44,
+      "balanced_accuracy": 0.4367262151137655,
+      "rare_macro_f1": 0.3091856060606061,
+      "rare_recall": 0.3136363636363636,
+      "per_class_recall": [
+        0.5169988276670574,
+        0.5927743086529884,
+        0.39317507418397624,
+        0.5548387096774193,
+        0.25630252100840334,
+        0.12727272727272726,
+        0.5,
+        0.5524475524475524
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.0
+    },
+    {
+      "rare_root_per_class": 50,
+      "root_size": 160,
+      "attack": "A1",
+      "rule": "fedavg",
+      "seed": 44,
+      "balanced_accuracy": 0.39755564832896023,
+      "rare_macro_f1": 0.32452071737786026,
+      "rare_recall": 0.4344405594405594,
+      "per_class_recall": [
+        0.37631887456037516,
+        0.8153434433541481,
+        0.39762611275964393,
+        0.16774193548387098,
+        0.49159663865546216,
+        0.2727272727272727,
+        0.5961538461538461,
+        0.06293706293706294
+      ],
+      "attacker": 4,
+      "attacker_weight": 0.035417909638227475
+    }
+  ]
+}
