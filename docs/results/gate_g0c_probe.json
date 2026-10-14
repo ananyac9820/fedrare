@@ -1,0 +1,235 @@
+{
+  "gate": "G0c",
+  "entry": "D17",
+  "fixed_in": "docs/DEVIATIONS.md D17, before any candidate was computed",
+  "not_a_rescoring_of": "G0a, which stays failed",
+  "bar": 0.7,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "round": 1,
+  "candidates": {
+    "P1 probe optimum": {
+      "mean": -0.509684054754539,
+      "sd": 0.021781754249037465,
+      "per_seed": [
+        -0.4968855886175185,
+        -0.5348341349124508,
+        -0.49733244073364785
+      ],
+      "vs_size_mean": -0.3642857142857143,
+      "size_proxy": false,
+      "clears_bar": false,
+      "per_class_mean": {
+        "Melanoma": 0.12380952380952381,
+        "Melanocytic nevus": 0.10476190476190476,
+        "Basal cell carcinoma": -0.6761904761904763,
+        "Actinic keratosis": -0.779210150589276,
+        "Benign keratosis": -0.6380952380952382,
+        "Dermatofibroma": -0.5047619047619049,
+        "Vascular lesion": -0.8476190476190477,
+        "Squamous cell carcinoma": -0.8601670493517982
+      }
+    },
+    "P2 margin": {
+      "mean": 0.049851049294623584,
+      "sd": 0.19800218023022695,
+      "per_seed": [
+        0.0388422505271909,
+        0.2531279648129052,
+        -0.1424170674562254
+      ],
+      "vs_size_mean": -0.07142857142857144,
+      "size_proxy": true,
+      "clears_bar": false,
+      "per_class_mean": {
+        "Melanoma": -0.2571428571428571,
+        "Melanocytic nevus": 0.4857142857142857,
+        "Basal cell carcinoma": 0.5238095238095238,
+        "Actinic keratosis": -0.111315735798468,
+        "Benign keratosis": -0.6571428571428571,
+        "Dermatofibroma": 0.21904761904761905,
+        "Vascular lesion": 0.10476190476190478,
+        "Squamous cell carcinoma": 0.09107651110783743
+      }
+    },
+    "P3 P1 per-client normalised": {
+      "mean": 0.01740012566819581,
+      "sd": 0.08237544710479143,
+      "per_seed": [
+        0.024542982811052938,
+        -0.06831416004608992,
+        0.09597155423962442
+      ],
+      "vs_size_mean": 0.059523809523809514,
+      "size_proxy": true,
+      "clears_bar": false,
+      "per_class_mean": {
+        "Melanoma": 0.8857142857142858,
+        "Melanocytic nevus": 0.37142857142857144,
+        "Basal cell carcinoma": -0.16190476190476188,
+        "Actinic keratosis": -0.6780140271361232,
+        "Benign keratosis": 0.7904761904761907,
+        "Dermatofibroma": 0.06666666666666667,
+        "Vascular lesion": -0.2952380952380953,
+        "Squamous cell carcinoma": -0.8399278246611676
+      }
+    },
+    "P4 P1 on the update": {
+      "mean": -0.4514985426740468,
+      "sd": 0.03708445436896382,
+      "per_seed": [
+        -0.41027759867097413,
+        -0.46206500713549137,
+        -0.4821530222156749
+      ],
+      "vs_size_mean": -0.30714285714285716,
+      "size_proxy": false,
+      "clears_bar": false,
+      "per_class_mean": {
+        "Melanoma": 0.10476190476190478,
+        "Melanocytic nevus": 0.08571428571428573,
+        "Basal cell carcinoma": -0.6,
+        "Actinic keratosis": -0.7184924765173842,
+        "Benign keratosis": -0.40952380952380957,
+        "Dermatofibroma": -0.5238095238095238,
+        "Vascular lesion": -0.7714285714285714,
+        "Squamous cell carcinoma": -0.779210150589276
+      }
+    },
+    "P5 gradient probe": {
+      "mean": -0.509684054754539,
+      "sd": 0.021781754249037465,
+      "per_seed": [
+        -0.4968855886175185,
+        -0.5348341349124508,
+        -0.49733244073364785
+      ],
+      "vs_size_mean": -0.3642857142857143,
+      "size_proxy": false,
+      "clears_bar": false,
+      "per_class_mean": {
+        "Melanoma": 0.12380952380952381,
+        "Melanocytic nevus": 0.10476190476190476,
+        "Basal cell carcinoma": -0.6761904761904763,
+        "Actinic keratosis": -0.779210150589276,
+        "Benign keratosis": -0.6380952380952382,
+        "Dermatofibroma": -0.5047619047619049,
+        "Vascular lesion": -0.8476190476190477,
+        "Squamous cell carcinoma": -0.8601670493517982
+      }
+    }
+  },
+  "spoofability": {
+    "P1 probe optimum": {
+      "attacker": 4,
+      "attacker_true_rare_counts": [
+        0,
+        0
+      ],
+      "ranks_per_rare_class": {
+        "Dermatofibroma": [
+          1,
+          1,
+          1
+        ],
+        "Vascular lesion": [
+          1,
+          1,
+          1
+        ]
+      },
+      "best_rank_achieved": 1,
+      "spoofable": true
+    },
+    "P2 margin": {
+      "attacker": 4,
+      "attacker_true_rare_counts": [
+        0,
+        0
+      ],
+      "ranks_per_rare_class": {
+        "Dermatofibroma": [
+          1,
+          2,
+          1
+        ],
+        "Vascular lesion": [
+          1,
+          6,
+          4
+        ]
+      },
+      "best_rank_achieved": 1,
+      "spoofable": true
+    },
+    "P3 P1 per-client normalised": {
+      "attacker": 4,
+      "attacker_true_rare_counts": [
+        0,
+        0
+      ],
+      "ranks_per_rare_class": {
+        "Dermatofibroma": [
+          1,
+          1,
+          1
+        ],
+        "Vascular lesion": [
+          1,
+          1,
+          1
+        ]
+      },
+      "best_rank_achieved": 1,
+      "spoofable": true
+    },
+    "P4 P1 on the update": {
+      "attacker": 4,
+      "attacker_true_rare_counts": [
+        0,
+        0
+      ],
+      "ranks_per_rare_class": {
+        "Dermatofibroma": [
+          1,
+          1,
+          1
+        ],
+        "Vascular lesion": [
+          1,
+          1,
+          1
+        ]
+      },
+      "best_rank_achieved": 1,
+      "spoofable": true
+    },
+    "P5 gradient probe": {
+      "attacker": 4,
+      "attacker_true_rare_counts": [
+        0,
+        0
+      ],
+      "ranks_per_rare_class": {
+        "Dermatofibroma": [
+          1,
+          1,
+          1
+        ],
+        "Vascular lesion": [
+          1,
+          1,
+          1
+        ]
+      },
+      "best_rank_achieved": 1,
+      "spoofable": true
+    }
+  },
+  "passing_candidates": [],
+  "passed": false,
+  "measured_utc": "2026-10-14T09:37:44+00:00"
+}

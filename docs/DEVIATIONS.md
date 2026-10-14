@@ -1161,3 +1161,48 @@ failure here is a confirmed prediction rather than a surprise.
 
 **Status.** Written before any candidate was computed. Script: `scripts/27_probe_evidence.py`.
 
+## R15 - Result: gate G0c not passed - the probe signal is inverted and trivially forgeable (14 Oct 2026)
+
+Run as D17 specified. `docs/results/gate_g0c_probe.json`, `scripts/27_probe_evidence.py`.
+**G0a's verdict is untouched by this entry; G0c is its own gate and it did not pass.**
+
+| candidate | mean +- sd | vs size | size proxy? | A1 attacker's best rank | verdict |
+| --- | --- | --- | --- | --- | --- |
+| P2 margin | +0.050 +- 0.198 | -0.071 | yes | **1 of 6** | under the bar |
+| P3 P1 per-client normalised | +0.017 +- 0.082 | +0.060 | yes | **1 of 6** | under the bar |
+| P4 P1 on the update | -0.451 +- 0.037 | -0.307 | no | **1 of 6** | under the bar |
+| P1 probe optimum | **-0.510 +- 0.022** | -0.364 | no | **1 of 6** | under the bar |
+| P5 gradient probe (CELM's literal procedure) | **-0.510 +- 0.022** | -0.364 | no | **1 of 6** | under the bar |
+
+**The implementation is not in question.** P1, the exact optimum of the probe on the unit ball, and
+P5, CELM's literal 200-step Adam probe optimised per class per client, agree to four decimal places
+(-0.5097 both). The closed form and the gradient procedure are the same computation here, so a
+failure cannot be blamed on a sloppy probe.
+
+**The signal is inverted, like G0a's.** At -0.510 it ranks the centres almost exactly backwards:
+centres holding *fewer* images of a class achieve *higher* maximal logits for it. The two candidates
+that are not inverted, P2 and P3, sit at +0.050 and +0.017 - indistinguishable from zero - and both
+trip the pre-registered size-proxy rule.
+
+**Every candidate is forgeable, and the prediction recorded in D17 was right.** The A1 attacker is
+centre 4, which holds **zero** images of either rare class. On all five candidates, across all three
+seeds, it ranks **first of six** on both rare classes. Its attack rewrites its rare rows to three
+times the largest honest row norm, and every candidate here is ultimately a function of row norms,
+so it hands the attacker the top of the ranking by construction. D17 predicted this before the run.
+
+**What this does and does not say about CELM.** It does **not** refute CELM, and the paper must not
+claim that. CELM probes *full* models, optimising in input space through a deep network, and reports
+balanced accuracy 70.18% against FedAvg's 61.25% on this dataset. Our Tier A head is a single linear
+layer on frozen features, and on a linear head the probe optimum collapses to ||w_c|| + b_c - a row
+norm. The honest finding is therefore about portability: **probe-based evidence does not survive
+being ported to a linear head; its information lives in the depth CELM probes through.** For anyone
+planning a cheap Tier A-style replication of that family, that is worth knowing.
+
+**Where the signal problem now stands.** Five channels tested and closed: update geometry (R9, R14),
+peer agreement at coverage 1 (structural), collateral damage on common classes (306 runs, no
+signal), self-history against a consistent liar (R8, D7), and now probe-based evidence on a linear
+head (this entry). What remains untested is probe-based evidence on a *full* model - which is
+Tier B-scale work - and the routes that import outside information: a server root dataset (FLTrust)
+or an attested declaration. The boundary result in `DESIGN_NOTE_attestation.md` is strengthened by
+one more closed channel, not weakened.
+
