@@ -39,3 +39,6 @@ venv/
 
 # Local editor/agent tooling
 .claude/
+
+# The live system (server/) keeps everything it writes here
+server/sandbox/

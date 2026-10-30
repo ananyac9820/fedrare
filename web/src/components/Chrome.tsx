@@ -26,6 +26,10 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  // The console is a different product with its own dark chrome; the research site's
+  // header and footer stay out of it entirely.
+  if (pathname.startsWith("/console")) return null;
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-6">
       <nav
@@ -121,6 +125,8 @@ export function Header() {
 }
 
 export function Footer({ syncedAt }: { syncedAt: string }) {
+  const pathname = usePathname();
+  if (pathname.startsWith("/console")) return null;
   return (
     <footer className="border-t border-line bg-sand/70">
       <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
